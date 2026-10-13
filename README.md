@@ -2,6 +2,33 @@
 
 Project 2 for Duke University AIPI-510 (Sourcing Data for Analytics), taken in Fall 2026.
 
+## To-Do's
+
+Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-help-or-hurt-learning), below).
+
+### By Friday (Oct 16), before class
+
+- [ ] **Sabrina:** Pick the video(s) for the study
+- [ ] **Sabrina:** Create the recruitment flyer to send to friends
+- [ ] **Haydn:** Build the HTML quiz form, leaving the questions blank so we can fill them in once the videos are picked
+
+### GitHub branches and PRs
+
+- [ ] **Sabrina:** `flyer` branch, with a PR to add the recruitment flyer to the repo (and document it in the README)
+- [ ] **Sabrina:** `videos` branch, with a PR to add the video links and quiz questions to the repo
+- [ ] **Haydn:** `quiz-form` branch, with a PR to add the HTML quiz form
+- [ ] Each of us reviews and approves the other's PRs before merging
+
+### Next week (Oct 19–23)
+
+- [ ] Run the power analysis to figure out how many participants we need
+- [ ] Send the flyer out to friends throughout the week to recruit participants
+- [ ] Decide on the final details of the experiment
+
+### Running the experiment
+
+- [ ] Thursday, Oct 22 and Friday, Oct 23
+
 ## Project Ideas Under Consideration
 
 We are weighing two candidate experiments. Both are within-subjects designs built around
@@ -74,33 +101,6 @@ and some studies suggest they may actually hurt learning.
 | Session length | Practice + 2 conditions + 5 min rest | 2 videos (5 min each) + 2 quizzes |
 | Statistical test | Paired t-test / Wilcoxon signed-rank | Paired t-test / Wilcoxon signed-rank |
 | Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | ~34 (d = 0.5, α = 0.05, power = 0.80) |
-
-## To-Do's
-
-Project plan for the fidget toy study (Idea 2).
-
-### By Friday (Oct 16), before class
-
-- [ ] **Sabrina:** Pick the video(s) for the study
-- [ ] **Sabrina:** Create the recruitment flyer to send to friends
-- [ ] **Haydn:** Build the HTML quiz form, leaving the questions blank so we can fill them in once the videos are picked
-
-### GitHub branches and PRs
-
-- [ ] **Sabrina:** `flyer` branch, with a PR to add the recruitment flyer to the repo (and document it in the README)
-- [ ] **Sabrina:** `videos` branch, with a PR to add the video links and quiz questions to the repo
-- [ ] **Haydn:** `quiz-form` branch, with a PR to add the HTML quiz form
-- [ ] Each of us reviews and approves the other's PRs before merging
-
-### Next week (Oct 19–23)
-
-- [ ] Run the power analysis to figure out how many participants we need
-- [ ] Send the flyer out to friends throughout the week to recruit participants
-- [ ] Decide on the final details of the experiment
-
-### Running the experiment
-
-- [ ] Thursday, Oct 22 and Friday, Oct 23
 
 ## Status
 
