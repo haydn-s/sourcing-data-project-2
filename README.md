@@ -10,6 +10,7 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 
 - [ ] **Sabrina:** Pick the video(s) for the study
 - [ ] **Sabrina:** Create the recruitment flyer to send to friends
+- [ ] **Sabrina:** Create the Google form for participant intake
 - [ ] **Haydn:** Build the HTML quiz form, leaving the questions blank so we can fill them in once the videos are picked
 
 ### GitHub branches and PRs
