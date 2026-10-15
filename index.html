@@ -29,21 +29,46 @@
           <div class="intro">
             <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> LEARNING &amp; ATTENTION STUDY</p>
             <h1 id="start-heading">Ready when<br>you are<span class="accent">.</span></h1>
-            <p class="intro-description">A little focus. One question at a time.<br>Enter your name to start your assessment.</p>
+            <p class="intro-description">A little focus. One question at a time.<br>One quiz for each video you watch.</p>
             <div class="study-facts" aria-label="Assessment format">
-              <div><span class="fact-number">25</span><span class="fact-label">questions</span></div>
+              <div><span class="fact-number" id="fact-video-count">02</span><span class="fact-label">videos</span></div>
+              <div><span class="fact-number" id="fact-question-count">10</span><span class="fact-label">questions each</span></div>
               <div><span class="fact-number">04</span><span class="fact-label">choices each</span></div>
-              <div><span class="fact-number">01</span><span class="fact-label">at a time</span></div>
             </div>
           </div>
           <div class="start-card card">
             <span class="card-step">BEFORE YOU BEGIN</span>
             <h2>Let’s get started.</h2>
-            <p class="card-description">Please enter your name below.</p>
+            <p class="card-description">Enter your name, then confirm the group and quiz with the researcher.</p>
             <form id="start-form">
               <label class="input-label" for="taker-name">Your name</label>
-              <input id="taker-name" name="taker-name" type="text" placeholder="First and last name" autocomplete="name" maxlength="120" required aria-describedby="name-error">
-              <p id="name-error" class="field-error" role="alert" hidden>Please enter your name to begin.</p>
+              <input id="taker-name" name="taker-name" type="text" placeholder="First and last name" autocomplete="name" maxlength="120" required aria-describedby="start-error">
+              <div class="start-fields">
+                <div>
+                  <label class="input-label" for="participant-group">Participant group</label>
+                  <select id="participant-group" name="participant-group" required aria-describedby="start-error">
+                    <option value="" selected>Select…</option>
+                    <option value="1">Group 1</option>
+                    <option value="2">Group 2</option>
+                    <option value="3">Group 3</option>
+                    <option value="4">Group 4</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="input-label" for="quiz-number">Which quiz</label>
+                  <select id="quiz-number" name="quiz-number" required aria-describedby="start-error">
+                    <option value="" selected>Select…</option>
+                    <option value="1">First</option>
+                    <option value="2">Second</option>
+                  </select>
+                </div>
+              </div>
+              <p id="start-error" class="field-error" role="alert" hidden></p>
+              <div class="assignment-preview" aria-live="polite">
+                <p class="assignment-note">The group and quiz set which video and condition get recorded.</p>
+                <div class="assignment-row"><span class="assignment-label">VIDEO</span><span class="assignment-value" id="assignment-video">—</span></div>
+                <div class="assignment-row"><span class="assignment-label">CONDITION</span><span class="assignment-value" id="assignment-condition">—</span></div>
+              </div>
               <button class="button button-primary begin-button" type="submit">Begin assessment <span aria-hidden="true">↗</span></button>
             </form>
             <div class="timing-note">
@@ -54,10 +79,10 @@
         </section>
 
         <section id="question-screen" class="question-layout" aria-labelledby="question-heading" hidden>
-          <div class="progress-heading"><span>YOUR PROGRESS</span><span id="progress-label">Question 1 of 25</span></div>
-          <div id="progress-bar" class="progress-track" role="progressbar" aria-label="Answered questions" aria-valuemin="0" aria-valuemax="25" aria-valuenow="0"><div id="progress-fill" class="progress-fill"></div></div>
+          <div class="progress-heading"><span>YOUR PROGRESS</span><span id="progress-label">Question 1 of 10</span></div>
+          <div id="progress-bar" class="progress-track" role="progressbar" aria-label="Answered questions" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><div id="progress-fill" class="progress-fill"></div></div>
           <form id="question-form" class="question-card card">
-            <div class="question-card-heading"><p class="eyebrow">ASSESSMENT</p><span id="question-count" class="question-count">01 / 25</span></div>
+            <div class="question-card-heading"><p class="eyebrow" id="question-context">ASSESSMENT</p><span id="question-count" class="question-count">01 / 10</span></div>
             <h1 id="question-heading" tabindex="-1">Question 01</h1>
             <p id="question-prompt" class="question-prompt"></p>
             <fieldset class="answer-fieldset">
@@ -66,7 +91,7 @@
             </fieldset>
             <div class="question-navigation">
               <button id="previous-button" class="button button-secondary" type="button"><span aria-hidden="true">←</span> Previous</button>
-              <span id="answered-count" class="answered-count" aria-live="polite">0 of 25 answered</span>
+              <span id="answered-count" class="answered-count" aria-live="polite">0 of 10 answered</span>
               <button id="next-button" class="button button-primary" type="submit" disabled><span id="next-label">Next question</span><span aria-hidden="true">→</span></button>
             </div>
           </form>
@@ -76,14 +101,15 @@
         <section id="complete-screen" class="complete-layout" aria-labelledby="complete-heading" hidden>
           <div class="completion-symbol" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 16 5 5L24 10"/></svg></div>
           <p class="eyebrow">ALL FINISHED</p>
-          <h1 id="complete-heading" tabindex="-1">Assessment complete<span class="accent">.</span></h1>
+          <h1 id="complete-heading" tabindex="-1">Quiz complete<span class="accent">.</span></h1>
           <p id="thank-you" class="complete-description"></p>
+          <p id="complete-context" class="complete-context"></p>
           <div class="completion-card card">
-            <div class="completion-stats"><div><span class="stat-label">QUESTIONS ANSWERED</span><strong>25 <span>/ 25</span></strong></div><div><span class="stat-label">TOTAL TIME</span><strong id="total-time"></strong></div></div>
+            <div class="completion-stats"><div><span class="stat-label">QUESTIONS ANSWERED</span><strong id="answered-stat"></strong></div><div><span class="stat-label">TOTAL TIME</span><strong id="total-time"></strong></div></div>
             <div class="download-details"><span class="file-icon" aria-hidden="true">CSV</span><div><strong id="csv-filename"></strong><p id="download-status" role="status">Your CSV download has started.</p></div></div>
             <button id="download-button" class="button button-primary" type="button">Download CSV again <span aria-hidden="true">↓</span></button>
           </div>
-          <button id="restart-button" class="text-button" type="button">Start a new assessment <span aria-hidden="true">↗</span></button>
+          <button id="restart-button" class="text-button" type="button"><span id="restart-label">Start the next quiz</span> <span aria-hidden="true">↗</span></button>
         </section>
 
         <section id="error-screen" class="error-card card" role="alert" hidden><h1>Unable to start the assessment.</h1><p id="configuration-error"></p></section>

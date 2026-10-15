@@ -53,7 +53,9 @@ before the videos.
 
 ## Quiz Questions
 
-To be added once the number of questions is decided. Guidelines:
+To be added once the number of questions is decided. The quiz form reads its questions from
+[`../questions.js`](../questions.js), which has one question set per video; keep that file and the
+tables below in step. Guidelines:
 
 - Only ask about facts that are stated in the video, not general knowledge.
 - Spread the questions across the whole video (beginning, middle and end).
