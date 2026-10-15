@@ -110,6 +110,7 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 - [ ] **Sabrina:** `flyer` branch, with a PR to add the recruitment flyer to the repo (and document it in the README)
 - [ ] **Sabrina:** `videos` branch, with a PR to add the video links and quiz questions to the repo
 - [x] **Haydn:** `question-form-template` branch, with [PR #2](https://github.com/haydn-s/sourcing-data-project-2/pull/2) to add the HTML quiz form
+- [x] **Haydn:** `html-form-updates` branch, with [PR #4](https://github.com/haydn-s/sourcing-data-project-2/pull/4) to add one question set per video and record each run's group, video and condition
 - [ ] Each of us reviews and approves the other's PRs before merging
 
 ### Next week (Oct 19–23)
