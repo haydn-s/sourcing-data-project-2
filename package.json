@@ -1,0 +1,10 @@
+{
+  "name": "aipi-510-assessment",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A reusable 25-question assessment with per-question timing and CSV export.",
+  "scripts": {
+    "start": "python3 -m http.server 8000 --bind 127.0.0.1",
+    "test": "node --test tests/*.test.cjs"
+  }
+}

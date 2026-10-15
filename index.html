@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7fb">
+    <title>Study Assessment · AIPI 510</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="questions.js" defer></script>
+    <script src="assessment.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="wordmark" href="./" aria-label="Study Assessment home" id="home-link">
+          <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M3 3h12v12H3zM17 17h12v12H17z" fill="currentColor"/>
+            <path d="M17 3h12v12H17zM3 17h12v12H3z" fill="currentColor" opacity=".35"/>
+          </svg>
+          <span>Study<span class="wordmark-light"> / Assessment</span></span>
+        </a>
+        <span class="header-caption">AIPI 510 <span aria-hidden="true">/</span> PROJECT 02</span>
+        <span id="participant-badge" class="participant-badge" hidden></span>
+      </header>
+
+      <main id="main-content">
+        <section id="start-screen" class="start-layout" aria-labelledby="start-heading">
+          <div class="intro">
+            <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> LEARNING &amp; ATTENTION STUDY</p>
+            <h1 id="start-heading">Ready when<br>you are<span class="accent">.</span></h1>
+            <p class="intro-description">A little focus. One question at a time.<br>Enter your name to start your assessment.</p>
+            <div class="study-facts" aria-label="Assessment format">
+              <div><span class="fact-number">25</span><span class="fact-label">questions</span></div>
+              <div><span class="fact-number">04</span><span class="fact-label">choices each</span></div>
+              <div><span class="fact-number">01</span><span class="fact-label">at a time</span></div>
+            </div>
+          </div>
+          <div class="start-card card">
+            <span class="card-step">BEFORE YOU BEGIN</span>
+            <h2>Let’s get started.</h2>
+            <p class="card-description">Please enter your name below.</p>
+            <form id="start-form">
+              <label class="input-label" for="taker-name">Your name</label>
+              <input id="taker-name" name="taker-name" type="text" placeholder="First and last name" autocomplete="name" maxlength="120" required aria-describedby="name-error">
+              <p id="name-error" class="field-error" role="alert" hidden>Please enter your name to begin.</p>
+              <button class="button button-primary begin-button" type="submit">Begin assessment <span aria-hidden="true">↗</span></button>
+            </form>
+            <div class="timing-note">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg>
+              <p>Timing starts when you press Begin.<br>Work at your own pace.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="question-screen" class="question-layout" aria-labelledby="question-heading" hidden>
+          <div class="progress-heading"><span>YOUR PROGRESS</span><span id="progress-label">Question 1 of 25</span></div>
+          <div id="progress-bar" class="progress-track" role="progressbar" aria-label="Answered questions" aria-valuemin="0" aria-valuemax="25" aria-valuenow="0"><div id="progress-fill" class="progress-fill"></div></div>
+          <form id="question-form" class="question-card card">
+            <div class="question-card-heading"><p class="eyebrow">ASSESSMENT</p><span id="question-count" class="question-count">01 / 25</span></div>
+            <h1 id="question-heading" tabindex="-1">Question 01</h1>
+            <p id="question-prompt" class="question-prompt"></p>
+            <fieldset class="answer-fieldset">
+              <legend>Select one answer.</legend>
+              <div id="answer-choices" class="answer-choices"></div>
+            </fieldset>
+            <div class="question-navigation">
+              <button id="previous-button" class="button button-secondary" type="button"><span aria-hidden="true">←</span> Previous</button>
+              <span id="answered-count" class="answered-count" aria-live="polite">0 of 25 answered</span>
+              <button id="next-button" class="button button-primary" type="submit" disabled><span id="next-label">Next question</span><span aria-hidden="true">→</span></button>
+            </div>
+          </form>
+          <p class="question-hint">You can go back to review or change an answer before submitting.</p>
+        </section>
+
+        <section id="complete-screen" class="complete-layout" aria-labelledby="complete-heading" hidden>
+          <div class="completion-symbol" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 16 5 5L24 10"/></svg></div>
+          <p class="eyebrow">ALL FINISHED</p>
+          <h1 id="complete-heading" tabindex="-1">Assessment complete<span class="accent">.</span></h1>
+          <p id="thank-you" class="complete-description"></p>
+          <div class="completion-card card">
+            <div class="completion-stats"><div><span class="stat-label">QUESTIONS ANSWERED</span><strong>25 <span>/ 25</span></strong></div><div><span class="stat-label">TOTAL TIME</span><strong id="total-time"></strong></div></div>
+            <div class="download-details"><span class="file-icon" aria-hidden="true">CSV</span><div><strong id="csv-filename"></strong><p id="download-status" role="status">Your CSV download has started.</p></div></div>
+            <button id="download-button" class="button button-primary" type="button">Download CSV again <span aria-hidden="true">↓</span></button>
+          </div>
+          <button id="restart-button" class="text-button" type="button">Start a new assessment <span aria-hidden="true">↗</span></button>
+        </section>
+
+        <section id="error-screen" class="error-card card" role="alert" hidden><h1>Unable to start the assessment.</h1><p id="configuration-error"></p></section>
+        <noscript><p class="card error-card">Please enable JavaScript to take this assessment and download your results.</p></noscript>
+      </main>
+
+      <footer class="site-footer"><span>Duke University <span class="footer-separator" aria-hidden="true">·</span> AIPI 510</span><span>Sourcing Data for Analytics</span></footer>
+    </div>
+  </body>
+</html>
