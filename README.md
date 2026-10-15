@@ -70,13 +70,13 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 ### By Friday (Oct 16), before class
 
 - [x] **Sabrina:** Pick the video(s) for the study (see [`videos/`](videos/))
-- [ ] **Sabrina:** Create the recruitment flyer to send to friends
+- [x] **Sabrina:** Create the recruitment flyer to send to friends
 - [ ] **Sabrina:** Create the Google form for participant intake
 - [x] **Haydn:** Build the HTML quiz form, leaving the questions blank so we can fill them in once the videos are picked
 
 ### GitHub branches and PRs
 
-- [ ] **Sabrina:** `flyer` branch, with a PR to add the recruitment flyer to the repo (and document it in the README)
+- [x] **Sabrina:** `flyer` branch, with a PR to add the recruitment flyer to the repo (and document it in the README)
 - [ ] **Sabrina:** `videos` branch, with a PR to add the video links and quiz questions to the repo
 - [x] **Haydn:** `question-form-template` branch, with [PR #2](https://github.com/haydn-s/sourcing-data-project-2/pull/2) to add the HTML quiz form
 - [ ] Each of us reviews and approves the other's PRs before merging
@@ -163,6 +163,22 @@ and some studies suggest they may actually hurt learning.
 | Session length | Practice + 2 conditions + 5 min rest | 2 videos (~4.5 min each) + 2 quizzes |
 | Statistical test | Paired t-test / Wilcoxon signed-rank | Paired t-test / Wilcoxon signed-rank |
 | Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | ~34 (d = 0.5, α = 0.05, power = 0.80) |
+
+## Recruitment Flyer
+
+The recruitment flyer was made in Canva and is in [`flyer/`](flyer/):
+
+- [`flyer.pdf`](flyer/flyer.pdf) is the printable letter-size version.
+- [`flyer.png`](flyer/flyer.png) is the image version for sending to friends by text or social media.
+
+![Recruitment flyer](flyer/flyer.png)
+
+The flyer advertises a 20-minute session on Thursday, Oct 22 (before 6:00 PM) and Friday, Oct 23
+(after 11:30 AM), with candy as a thank-you. Its QR code opens the Google Form where participants
+pick their available time slots. We then confirm each person's slot and the room on campus.
+
+**Note for the write-up:** the flyer shows squishy toys, so participants may guess that the study
+is about fidget toys. This could shape their expectations, so we should mention it as a limitation.
 
 ## Status
 
