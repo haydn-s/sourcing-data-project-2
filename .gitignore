@@ -1,0 +1,10 @@
+# Local participant data and downloads must stay out of source control.
+*_Assessment.csv
+
+# Local development artifacts.
+.DS_Store
+node_modules/
+__pycache__/
+.venv/
+playwright-report/
+test-results/
