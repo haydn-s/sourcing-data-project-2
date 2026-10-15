@@ -69,7 +69,7 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 
 ### By Friday (Oct 16), before class
 
-- [ ] **Sabrina:** Pick the video(s) for the study
+- [x] **Sabrina:** Pick the video(s) for the study (see [`videos/`](videos/))
 - [ ] **Sabrina:** Create the recruitment flyer to send to friends
 - [ ] **Sabrina:** Create the Google form for participant intake
 - [x] **Haydn:** Build the HTML quiz form, leaving the questions blank so we can fill them in once the videos are picked
@@ -140,12 +140,12 @@ and some studies suggest they may actually hurt learning.
 **Variables**
 
 - **Independent variable:** fidget toy vs. no fidget toy
-- **Dependent variable:** quiz score out of 10 after a 5-minute video
+- **Dependent variable:** quiz score after a ~4.5-minute video (number of questions to be decided)
 
 **How we'll test it**
 
 - Every participant does both conditions (within-subjects)
-- Two different videos with matching quizzes of similar difficulty
+- Two different videos with matching quizzes of similar difficulty (see [`videos/`](videos/))
 - Order of conditions and videos is randomized
 - Watch video → take quiz → short break → watch second video in other condition → take quiz
 
@@ -158,9 +158,9 @@ and some studies suggest they may actually hurt learning.
 | | Idea 1: Exercise & Attention | Idea 2: Fidget Toy & Learning |
 | --- | --- | --- |
 | Independent variable | Sitting vs. 2 min jumping jacks | No fidget toy vs. fidget toy |
-| Dependent variable | Stroop reaction time & accuracy | Quiz score (out of 10) |
+| Dependent variable | Stroop reaction time & accuracy | Quiz score |
 | Design | Within-subjects, randomized order | Within-subjects, randomized order |
-| Session length | Practice + 2 conditions + 5 min rest | 2 videos (5 min each) + 2 quizzes |
+| Session length | Practice + 2 conditions + 5 min rest | 2 videos (~4.5 min each) + 2 quizzes |
 | Statistical test | Paired t-test / Wilcoxon signed-rank | Paired t-test / Wilcoxon signed-rank |
 | Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | ~34 (d = 0.5, α = 0.05, power = 0.80) |
 
