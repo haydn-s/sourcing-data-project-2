@@ -101,13 +101,13 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 ### By Friday (Oct 16), before class
 
 - [x] **Sabrina:** Pick the video(s) for the study (see [`videos/`](videos/))
-- [ ] **Sabrina:** Create the recruitment flyer to send to friends
+- [x] **Sabrina:** Create the recruitment flyer to send to friends
 - [ ] **Sabrina:** Create the Google form for participant intake
 - [x] **Haydn:** Build the HTML quiz form, leaving the questions blank so we can fill them in once the videos are picked
 
 ### GitHub branches and PRs
 
-- [ ] **Sabrina:** `flyer` branch, with a PR to add the recruitment flyer to the repo (and document it in the README)
+- [x] **Sabrina:** `flyer` branch, with a PR to add the recruitment flyer to the repo (and document it in the README)
 - [ ] **Sabrina:** `videos` branch, with a PR to add the video links and quiz questions to the repo
 - [x] **Haydn:** `question-form-template` branch, with [PR #2](https://github.com/haydn-s/sourcing-data-project-2/pull/2) to add the HTML quiz form
 - [x] **Haydn:** `html-form-updates` branch, with [PR #4](https://github.com/haydn-s/sourcing-data-project-2/pull/4) to add one question set per video and record each run's group, video and condition
@@ -195,6 +195,26 @@ and some studies suggest they may actually hurt learning.
 | Session length | Practice + 2 conditions + 5 min rest | 2 videos (~4.5 min each) + 2 quizzes |
 | Statistical test | Paired t-test / Wilcoxon signed-rank | Paired t-test / Wilcoxon signed-rank |
 | Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | ~34 (d = 0.5, α = 0.05, power = 0.80) |
+
+## Recruitment Flyer
+
+The recruitment flyer is in [`flyer/`](flyer/):
+
+- [`flyer.pdf`](flyer/flyer.pdf) is the printable letter-size version.
+- [`flyer.png`](flyer/flyer.png) is the image version for sending to friends by text or social media.
+- [`flyer.html`](flyer/flyer.html) and [`qr.svg`](flyer/qr.svg) are the source files. Edit the HTML,
+  then re-export the PDF and PNG.
+
+![Recruitment flyer](flyer/flyer.png)
+
+The flyer advertises a 15-minute session on Thursday, Oct 22 (before 6:00 PM) and Friday, Oct 23
+(after 11:30 AM), with free candy as a thank-you. Its QR code opens the Google Form where
+participants pick their available time slots. We then confirm each person's slot and the room on
+campus.
+
+The flyer describes the study only as watching short videos and answering a few questions. It
+deliberately doesn't mention or show fidget toys, so participants don't know what is being tested
+and their expectations don't skew the results.
 
 ## Status
 
