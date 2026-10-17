@@ -166,19 +166,23 @@ and some studies suggest they may actually hurt learning.
 
 ## Recruitment Flyer
 
-The recruitment flyer was made in Canva and is in [`flyer/`](flyer/):
+The recruitment flyer is in [`flyer/`](flyer/):
 
 - [`flyer.pdf`](flyer/flyer.pdf) is the printable letter-size version.
 - [`flyer.png`](flyer/flyer.png) is the image version for sending to friends by text or social media.
+- [`flyer.html`](flyer/flyer.html) and [`qr.svg`](flyer/qr.svg) are the source files. Edit the HTML,
+  then re-export the PDF and PNG.
 
 ![Recruitment flyer](flyer/flyer.png)
 
-The flyer advertises a 20-minute session on Thursday, Oct 22 (before 6:00 PM) and Friday, Oct 23
-(after 11:30 AM), with candy as a thank-you. Its QR code opens the Google Form where participants
-pick their available time slots. We then confirm each person's slot and the room on campus.
+The flyer advertises a 15-minute session on Thursday, Oct 22 (before 6:00 PM) and Friday, Oct 23
+(after 11:30 AM), with free candy as a thank-you. Its QR code opens the Google Form where
+participants pick their available time slots. We then confirm each person's slot and the room on
+campus.
 
-**Note for the write-up:** the flyer shows squishy toys, so participants may guess that the study
-is about fidget toys. This could shape their expectations, so we should mention it as a limitation.
+The flyer describes the study only as watching short videos and answering a few questions. It
+deliberately doesn't mention or show fidget toys, so participants don't know what is being tested
+and their expectations don't skew the results.
 
 ## Status
 

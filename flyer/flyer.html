@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Study Recruitment Flyer · AIPI 510</title>
+<style>
+  @page { size: 8.5in 11in; margin: 0; }
+  :root {
+    --blue: #012169; --blue-mid: #00539b; --ink: #14213d; --muted: #4a5568;
+    --cream: #fff8ec; --peach: #ffe3cc; --line: #ecdcc4; --candy: #e8487a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 8.5in; height: 11in; margin: 0 auto; overflow: hidden;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--ink);
+    background: var(--cream); display: flex; flex-direction: column;
+  }
+  header { background: var(--blue); color: #fff; padding: 0.45in 0.6in 0.4in; text-align: center; flex: 0 0 auto; }
+  .eyebrow { font-size: 11pt; letter-spacing: 0.2em; font-weight: 700; text-transform: uppercase; opacity: 0.8; }
+  h1 { font-size: 40pt; line-height: 1.05; font-weight: 800; letter-spacing: -0.015em; margin-top: 0.14in; }
+  h1 .pink { color: #ff9cbc; }
+  .lede { font-size: 14pt; line-height: 1.4; margin: 0.16in auto 0; max-width: 6.2in; opacity: 0.93; }
+
+  .squishies { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3in; padding: 0.3in 1.1in 0.06in; flex: 0 0 auto; }
+  .sq { text-align: center; }
+  .sq svg { width: 100%; height: 1.25in; }
+  .sq span { display: block; font-size: 12pt; font-weight: 700; color: var(--blue); margin-top: 0.02in; }
+
+  main { padding: 0.12in 0.6in 0; flex: 1; display: flex; flex-direction: column; min-height: 0; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.16in; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 0.16in 0.16in 0.18in; text-align: center; }
+  .card .big { font-size: 21pt; font-weight: 800; color: var(--blue); }
+  .card .small { font-size: 10.5pt; color: var(--muted); margin-top: 0.04in; line-height: 1.35; }
+  .card.candy .big { color: var(--candy); }
+
+  h2 { font-size: 12.5pt; text-transform: uppercase; letter-spacing: 0.14em; color: var(--blue); margin: 0.26in 0 0.1in; text-align: center; }
+  .times { display: grid; grid-template-columns: 1fr 1fr; gap: 0.16in; }
+  .time { border: 2px solid var(--blue); border-radius: 14px; padding: 0.14in 0.2in; text-align: center; background: #fff; }
+  .time .day { font-size: 16pt; font-weight: 800; color: var(--blue); }
+  .time .when { font-size: 13pt; margin-top: 0.03in; }
+
+  .signup { margin-top: auto; margin-bottom: 0.24in; display: flex; gap: 0.3in; align-items: center;
+    background: var(--peach); border-radius: 14px; padding: 0.2in 0.28in; }
+  .qr { flex: 0 0 1.45in; height: 1.45in; border-radius: 10px; background: #fff; padding: 0.1in; }
+  .qr img { width: 100%; height: 100%; display: block; }
+  .signup h3 { font-size: 18pt; color: var(--blue); }
+  .signup p { font-size: 11.5pt; line-height: 1.45; color: var(--ink); margin-top: 0.05in; }
+  .signup .link { font-family: Menlo, Consolas, monospace; font-size: 10.5pt; color: var(--blue-mid); }
+
+  footer { border-top: 1px solid var(--line); padding: 0.14in 0.6in 0.2in; display: flex; justify-content: space-between;
+    font-size: 9pt; color: var(--muted); flex: 0 0 auto; white-space: nowrap; gap: 0.2in; }
+</style>
+</head>
+<body>
+  <header>
+    <p class="eyebrow">Help a classmate out · Duke campus</p>
+    <h1>Got 15 minutes?<br><span class="pink">Get free candy!</span></h1>
+    <p class="lede">Help us with our class project! Watch a couple of short, fun animated videos, answer a few easy questions, and grab some candy on your way out. No studying, no stress.</p>
+  </header>
+
+  <section class="squishies" aria-label="How it works">
+    <div class="sq">
+      <svg viewBox="0 0 160 140" aria-hidden="true">
+        <rect x="22" y="26" width="116" height="78" rx="12" fill="#012169"/>
+        <rect x="30" y="34" width="100" height="62" rx="6" fill="#dbe7ff"/>
+        <path d="M70 48 L96 65 L70 82 Z" fill="#012169"/>
+        <rect x="64" y="108" width="32" height="8" rx="4" fill="#012169"/>
+      </svg>
+      <span>Watch fun videos</span>
+    </div>
+    <div class="sq">
+      <svg viewBox="0 0 160 140" aria-hidden="true">
+        <rect x="44" y="18" width="72" height="100" rx="10" fill="#fff" stroke="#012169" stroke-width="5"/>
+        <g stroke="#012169" stroke-width="5" stroke-linecap="round" fill="none">
+          <path d="M56 46 l6 6 l11 -12"/><path d="M56 72 l6 6 l11 -12"/><path d="M56 98 l6 6 l11 -12"/>
+        </g>
+        <g fill="#9fb3d9"><rect x="82" y="44" width="24" height="7" rx="3.5"/><rect x="82" y="70" width="24" height="7" rx="3.5"/><rect x="82" y="96" width="24" height="7" rx="3.5"/></g>
+      </svg>
+      <span>Answer a few questions</span>
+    </div>
+    <div class="sq">
+      <svg viewBox="0 0 160 140" aria-hidden="true">
+        <path d="M40 70 L18 52 L22 88 Z" fill="#ff9cbc"/>
+        <path d="M120 70 L142 52 L138 88 Z" fill="#ff9cbc"/>
+        <ellipse cx="80" cy="70" rx="44" ry="30" fill="#e8487a"/>
+        <path d="M54 52 q14 36 0 38 M80 42 q14 36 0 56 M106 52 q14 36 0 38" stroke="#fff" stroke-width="6" fill="none" opacity=".55" stroke-linecap="round"/>
+      </svg>
+      <span>Enjoy your candy</span>
+    </div>
+  </section>
+
+  <main>
+    <div class="cards">
+      <div class="card"><div class="big">15 min</div><div class="small">In and out, super quick</div></div>
+      <div class="card"><div class="big">Easy</div><div class="small">No background knowledge needed</div></div>
+      <div class="card candy"><div class="big">Free candy</div><div class="small">Our sweet thank-you to you</div></div>
+    </div>
+
+    <h2>When</h2>
+    <div class="times">
+      <div class="time"><div class="day">Thursday, Oct 22</div><div class="when">Before 6:00 PM</div></div>
+      <div class="time"><div class="day">Friday, Oct 23</div><div class="when">After 11:30 AM</div></div>
+    </div>
+
+    <div class="signup">
+      <div class="qr"><img src="qr.svg" alt="QR code linking to the sign-up form"></div>
+      <div>
+        <h3>Grab a time slot!</h3>
+        <p>Scan the code and pick a time that works for you. We'll send you the room on campus. Open to anyone 18+, and you can stop at any time.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>Duke University · AIPI 510: Sourcing Data for Analytics · Fall 2026</span>
+    <span>Questions? Contact Sabrina Grewal or Haydn Stucker</span>
+  </footer>
+</body>
+</html>
