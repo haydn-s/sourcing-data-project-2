@@ -4,10 +4,11 @@ Project 2 for Duke University AIPI-510 (Sourcing Data for Analytics), taken in F
 
 ## Assessment prototype
 
-A shared assessment template for either project idea. It has a name-entry start page,
-25 questions shown one at a time, and four choices (A–D) per question. All question
-and answer text is intentionally blank. Participants must select an answer before
-continuing and can use **Previous** to review and change earlier answers.
+The quiz the participant takes after each video. It has a start page for the participant's
+name, group and quiz number, one question set per study video, and the questions shown one
+at a time with four choices (A–D) each. All question and answer text is intentionally blank
+until the quizzes are written. Participants must select an answer before continuing and can
+use **Previous** to review and change earlier answers.
 
 ### Run locally
 
@@ -19,32 +20,62 @@ python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
 Then visit <http://localhost:8000>. If Node.js is installed, `npm start` runs the same
-server and `npm test` checks the timing and CSV export logic (no dependencies to install).
+server and `npm test` checks the counterbalancing, timing, and CSV export logic (no
+dependencies to install).
 
-### Add questions and answers
+### One question set per video
 
-Edit `questions.js`. Each entry has a `prompt` and four `answers` in A–D order.
-Keep all 25 entries and their sequential `id` values. For example:
+Edit `questions.js`. It holds one entry per study video — `A` and `B`, matching the videos
+in [`videos/README.md`](videos/README.md) — and each entry has a `title` and its own list
+of questions. Each question has a `prompt` and four `answers` in A–D order:
 
 ```js
 { id: 1, prompt: "Your question here", answers: ["First choice", "Second choice", "Third choice", "Fourth choice"] },
 ```
 
+Both videos need the same number of questions, with sequential `id` values starting at 1,
+so the two conditions stay comparable. The template ships with 10 blank questions per video
+to match the quiz score out of 10 in the study design; add or remove entries in both sets
+together and the form picks up the new count. If the two sets get out of step, the form
+refuses to start and says what is wrong instead of collecting unusable data.
+
+### Group, video and condition
+
+The start page asks for the participant's group (1–4) and whether this is their first or
+second quiz. Those two answers fix the video and condition from the counterbalancing table
+in [`videos/README.md`](videos/README.md), so the recorded pair can never contradict the
+group assignment:
+
+| Group | First quiz | Second quiz |
+| --- | --- | --- |
+| 1 | Video A, fidget toy | Video B, no fidget toy |
+| 2 | Video A, no fidget toy | Video B, fidget toy |
+| 3 | Video B, fidget toy | Video A, no fidget toy |
+| 4 | Video B, no fidget toy | Video A, fidget toy |
+
+The assigned video and condition appear on the start page before beginning, in the quiz
+header while answering, and in every row of the CSV. After a first quiz, **Start the next
+quiz** keeps the participant's name and group and preselects the second quiz.
+
 ### Results and timing
 
-Pressing **Begin assessment** starts timing immediately. Pressing **Submit assessment**
-on question 25 stops timing and automatically downloads `{TAKER_NAME}_Assessment.csv`.
-The completion page also has a button to download the same results again and a button
-to start a fresh assessment. Filename characters that are invalid on common operating
-systems are replaced with underscores; the participant's entered name is preserved in
-the CSV. Repeated runs use the same requested filename; the browser may append a number
-or ask before replacing an existing download.
+Pressing **Begin assessment** starts timing immediately. Pressing **Submit quiz** on the
+last question stops timing and automatically downloads
+`{TAKER_NAME}_Video{A or B}_Assessment.csv`, so a participant's two quizzes land in separate
+files. The completion page also has a button to download the same results again and a button
+to start the next quiz. Filename characters that are invalid on common operating systems are
+replaced with underscores; the participant's entered name is preserved in the CSV. Repeated
+runs use the same requested filename; the browser may append a number or ask before replacing
+an existing download.
 
-Each CSV contains 25 data rows, one per question, with these columns:
+Each CSV contains one data row per question (10 by default), with these columns:
 
 | Columns | Content |
 | --- | --- |
 | `run_id`, `taker_name` | Unique identifier for the run and participant name |
+| `participant_group`, `quiz_number` | Assigned group 1–4, and whether this was the participant's first or second quiz |
+| `video_id`, `video_title` | Which video this quiz covers |
+| `condition` | Fidget toy or no fidget toy, from the group assignment |
 | `started_at`, `completed_at` | UTC timestamps in ISO 8601 format |
 | `total_time_seconds` | Elapsed time from Begin through final submission, repeated on each row |
 | `question_number`, `question_text` | Question number and configured text |
@@ -60,7 +91,7 @@ prefixed with an apostrophe so spreadsheets treat it as text.
 
 Results download to the browser's configured download location; there is no server-side
 storage or upload. An unfinished run is held in memory and is lost if the page is
-refreshed or closed; the browser warns before leaving an active assessment. Completed
+refreshed or closed; the browser warns before leaving an active quiz. Completed
 CSV downloads are ignored by Git to keep participant data out of the repository.
 
 ## To-Do's
@@ -79,6 +110,7 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 - [ ] **Sabrina:** `flyer` branch, with a PR to add the recruitment flyer to the repo (and document it in the README)
 - [ ] **Sabrina:** `videos` branch, with a PR to add the video links and quiz questions to the repo
 - [x] **Haydn:** `question-form-template` branch, with [PR #2](https://github.com/haydn-s/sourcing-data-project-2/pull/2) to add the HTML quiz form
+- [x] **Haydn:** `html-form-updates` branch, with [PR #4](https://github.com/haydn-s/sourcing-data-project-2/pull/4) to add one question set per video and record each run's group, video and condition
 - [ ] Each of us reviews and approves the other's PRs before merging
 
 ### Next week (Oct 19–23)
