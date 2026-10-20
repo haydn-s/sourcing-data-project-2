@@ -94,6 +94,38 @@ storage or upload. An unfinished run is held in memory and is lost if the page i
 refreshed or closed; the browser warns before leaving an active quiz. Completed
 CSV downloads are ignored by Git to keep participant data out of the repository.
 
+## Power analysis
+
+The planning target is **36 participants who complete both quizzes**, ideally **9 per
+counterbalancing group**. A two-sided paired t-test at α = 0.05 has **83.1% power** to
+detect an average difference of **1 question out of 10**, assuming the standard deviation
+of within-person differences is **2 questions** (paired effect d_z = 0.50). The numerical
+minimum is 34 complete pairs; 36 keeps the four groups balanced. Initially plan for
+**40 recruits** with an assumed 10% incomplete or unusable pairs; this is an expectation,
+not a guarantee. The variability and loss rate are planning assumptions, not pilot estimates.
+
+See the [full power analysis and suggested report wording](reports/power-analysis.md)
+for hypotheses, calculations, sensitivity tables, design limitations, and references.
+For example, if the difference-score SD is 2.5 questions, the target rises to 52 completers.
+The [generated results](results/power/) contain calculated planning values, with no
+participant data.
+
+To reproduce with Python 3.12 or newer, run from the repository root:
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python scripts/power_analysis.py
+.venv/bin/python -m unittest discover -s tests -p 'test_power_analysis.py' -v
+```
+
+Use `--help` to see adjustable assumptions. To explore another scenario without replacing
+the baseline outputs:
+
+```sh
+.venv/bin/python scripts/power_analysis.py --difference-sd 2.5 --output-dir /tmp/fidget-power-sd25
+```
+
 ## To-Do's
 
 Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-help-or-hurt-learning), below).
@@ -115,7 +147,7 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 
 ### Next week (Oct 19–23)
 
-- [ ] Run the power analysis to figure out how many participants we need
+- [x] Run the power analysis to figure out how many participants we need (see [Power analysis](#power-analysis))
 - [ ] Send the flyer out to friends throughout the week to recruit participants
 - [ ] Decide on the final details of the experiment
 
@@ -172,18 +204,23 @@ and some studies suggest they may actually hurt learning.
 **Variables**
 
 - **Independent variable:** fidget toy vs. no fidget toy
-- **Dependent variable:** quiz score after a ~4.5-minute video (number of questions to be decided)
+- **Dependent variable:** score on a 10-question quiz after a ~4.5-minute video
 
 **How we'll test it**
 
 - Every participant does both conditions (within-subjects)
 - Two different videos with matching quizzes of similar difficulty (see [`videos/`](videos/))
-- Order of conditions and videos is randomized
+- Four sequences counterbalance video and condition order; the current session protocol
+  rotates group assignments (see the [power analysis](reports/power-analysis.md) for the
+  recommendation to randomize within blocks of four)
 - Watch video → take quiz → short break → watch second video in other condition → take quiz
 
-**Statistical test:** Paired t-test (Wilcoxon signed-rank if data isn't normal)
+**Statistical test:** Two-sided paired t-test on within-person score differences;
+Wilcoxon signed-rank may be reported as a sensitivity analysis with its assumptions stated.
 
-**Sample size:** About 34 participants (d = 0.5, α = 0.05, power = 0.80)
+**Sample size:** Target 36 complete participant pairs, 9 per counterbalancing group
+(d_z = 0.50, α = 0.05, power ≈ 0.831). Initially plan for 40 recruits to allow for 10%
+incomplete or unusable pairs in expectation. See [Power analysis](#power-analysis).
 
 ### Side-by-Side Comparison
 
@@ -191,10 +228,10 @@ and some studies suggest they may actually hurt learning.
 | --- | --- | --- |
 | Independent variable | Sitting vs. 2 min jumping jacks | No fidget toy vs. fidget toy |
 | Dependent variable | Stroop reaction time & accuracy | Quiz score |
-| Design | Within-subjects, randomized order | Within-subjects, randomized order |
+| Design | Within-subjects, randomized order | Within-subjects, counterbalanced order |
 | Session length | Practice + 2 conditions + 5 min rest | 2 videos (~4.5 min each) + 2 quizzes |
 | Statistical test | Paired t-test / Wilcoxon signed-rank | Paired t-test / Wilcoxon signed-rank |
-| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | ~34 (d = 0.5, α = 0.05, power = 0.80) |
+| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | 36 complete pairs, initially recruit 40 (d_z = 0.5, α = 0.05, power ≈ 0.831) |
 
 ## Recruitment Flyer
 
@@ -218,5 +255,6 @@ and their expectations don't skew the results.
 
 ## Status
 
-Idea 2 (fidget toy and learning) is the study we are moving forward with. No data collection or
-analysis has started yet — see the [To-Do's](#to-dos) above for the current plan.
+Idea 2 (fidget toy and learning) is the study we are moving forward with. The prospective
+power analysis is complete. Participant data collection and outcome analysis have not
+started — see the [To-Do's](#to-dos) above for the current plan.

@@ -1,0 +1,7 @@
+mean_difference_questions,assumed_sd_of_paired_differences,effect_size_dz,minimum_complete_pairs,balanced_complete_pairs,complete_pairs_per_group,initial_recruitment_target,power_at_selected_n
+1.0,1.0,1.0,10,12,3,16,0.9999453803598236
+1.0,1.5,0.6666666666666666,20,20,5,24,0.9730759556231258
+1.0,2.0,0.5,34,36,9,40,0.8306656074128482
+1.0,2.5,0.4,52,52,13,60,0.6457331914173321
+1.0,3.0,0.3333333333333333,73,76,19,88,0.49407914718073764
+1.0,4.0,0.25,128,128,32,144,0.30849036901797894

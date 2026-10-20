@@ -1,0 +1,33 @@
+{
+  "analysis_type": "prospective planning; no observed participant data",
+  "test": "two-sided paired t-test",
+  "difference_definition": "quiz score with fidget minus quiz score without fidget",
+  "quiz_questions": 10,
+  "mean_difference_questions": 1.0,
+  "assumed_sd_of_paired_differences": 2.0,
+  "effect_size_dz": 0.5,
+  "alpha": 0.05,
+  "target_power": 0.8,
+  "continuous_sample_size_solution": 33.36713118431777,
+  "minimum_complete_pairs": 34,
+  "power_at_minimum": 0.8077775012792736,
+  "power_one_fewer_than_minimum": 0.795365841487504,
+  "balanced_complete_pairs": 36,
+  "complete_pairs_per_group": 9,
+  "power_at_balanced_target": 0.8306656074128482,
+  "assumed_loss_rate": 0.1,
+  "initial_recruitment_target": 40,
+  "expected_complete_pairs_at_initial_recruitment": 36.0,
+  "probability_of_reaching_target_note": "Recruitment inflation is an expectation, not a guarantee.",
+  "selected_complete_pairs": 36,
+  "power_at_selected_n": 0.8306656074128482,
+  "detectable_dz_at_selected_n": 0.4802418536738848,
+  "detectable_mean_difference_at_selected_n": 0.9604837073477696,
+  "software": {
+    "python": "3.12.14",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "statsmodels": "0.15.0",
+    "matplotlib": "3.11.2"
+  }
+}
