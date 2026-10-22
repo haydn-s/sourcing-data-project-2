@@ -2,49 +2,130 @@
 
 Project 2 for Duke University AIPI-510 (Sourcing Data for Analytics), taken in Fall 2026.
 
-## Assessment prototype
+## Streamlit assessment
 
-The quiz the participant takes after each video. It has a start page for the participant's
-name, group and quiz number, one question set per study video, and the questions shown one
-at a time with four choices (A–D) each. All question and answer text is intentionally blank
-until the quizzes are written. Participants must select an answer before continuing and can
-use **Previous** to review and change earlier answers.
+Deploy `streamlit_app.py` from the `streamlit-form` branch. Participants enter their ID,
+confirm their group and quiz, and answer one multiple-choice question at a time. They
+can go back and change an answer. Submitting the final question automatically saves a
+CSV in **`data/raw/`**, the repository's existing raw-data directory. A download button
+also provides a backup copy.
+
+The current study uses **Video A only**: select **Group 1, first quiz** for the fidget
+condition or **Group 2, first quiz** for no fidget toy. Video A's 10 questions are filled
+in. Video B is still a blank template; the Streamlit app prevents starting that quiz.
+See [`videos/README.md`](videos/README.md) for the session protocol and answer key.
 
 ### Run locally
 
-Open `index.html` directly in a modern browser. No install, internet connection, or
-backend is required. Alternatively, serve the folder:
+Use Python 3.12 and run these commands from the repository root:
 
 ```sh
-python3 -m http.server 8000 --bind 127.0.0.1
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+QUIZ_STORAGE=local streamlit run streamlit_app.py
 ```
 
-Then visit <http://localhost:8000>. If Node.js is installed, `npm start` runs the same
-server and `npm test` checks the counterbalancing, timing, and CSV export logic (no
-dependencies to install).
+Open the local address printed by Streamlit (normally <http://localhost:8501>).
+Local mode writes directly to this checkout's `data/raw/`, regardless of the working
+directory. It needs no GitHub token. Do not use local mode for Community Cloud data
+collection: its server filesystem is temporary and local writes do not update GitHub.
 
-### One question set per video
+### Deploy on Streamlit Community Cloud
 
-Edit `questions.js`. It holds one entry per study video — `A` and `B`, matching the videos
-in [`videos/README.md`](videos/README.md) — and each entry has a `title` and its own list
-of questions. Each question has a `prompt` and four `answers` in A–D order:
+1. Push the completed `streamlit-form` branch to GitHub.
+2. In Streamlit, create an app with repository **`haydn-s/sourcing-data-project-2`**,
+   branch **`streamlit-form`**, and main file **`streamlit_app.py`**. Choose Python 3.12
+   in Advanced settings. `requirements.txt` installs Streamlit automatically.
+3. Create a [fine-grained GitHub personal access token](https://github.com/settings/personal-access-tokens/new)
+   restricted to this repository with **Contents: Read and write**. The account issuing
+   the token must have write access. Set an expiration covering the collection session.
+4. In the app's **Advanced settings → Secrets**, paste the contents of
+   [`.streamlit/secrets.toml.example`](.streamlit/secrets.toml.example), replacing the
+   placeholder token:
 
-```js
-{ id: 1, prompt: "Your question here", answers: ["First choice", "Second choice", "Third choice", "Fourth choice"] },
+   ```toml
+   [storage]
+   backend = "github"
+
+   [github]
+   repository = "haydn-s/sourcing-data-project-2"
+   branch = "data-collection-scaffolding"
+   token = "YOUR_FINE_GRAINED_TOKEN"
+   ```
+
+5. Deploy. Complete a test quiz and verify that a CSV appears in `data/raw/` on the
+   **`data-collection-scaffolding` branch** before collecting real responses. Remove
+   that test file afterward.
+
+Each submission creates a commit containing one CSV on the configured output branch.
+That branch must already exist and allow the token to create commits. The existing
+`data-collection-scaffolding` branch is the recommended output branch. Keep it separate
+from the deployed `streamlit-form` branch so response commits do not cause Streamlit to
+reload the app while other participants are answering. If you deploy another branch
+later, keep the output branch separate from it too. Pull the output branch to retrieve
+the CSVs on your computer.
+
+The GitHub token stays on the server; participants do not need GitHub accounts. Never
+commit an actual `.streamlit/secrets.toml`; it is ignored by Git. For local testing of
+GitHub saving, copy the example to that ignored path, fill in the token, and run
+`streamlit run streamlit_app.py` without `QUIZ_STORAGE=local`. Without configured
+credentials, the app blocks new assessments instead of silently writing temporary files.
+
+For setup details, see [Streamlit's Secrets guide](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/secrets-management)
+and [GitHub's Contents API permissions](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents).
+
+### Results and recovery
+
+Files are named `{PARTICIPANT}_Video{A_or_B}_{RUN_UUID}_Assessment.csv`. Separate
+participants and repeated runs never share a filename. Repeated saving of the same run
+is idempotent, and existing data is never overwritten. The original participant entry
+is preserved in the CSV; unsafe filename characters are replaced with underscores.
+
+The completion page confirms success only after the local write or GitHub commit is
+confirmed. On failure, the answers and original timing stay in the session; the
+participant can **Try saving again** or **Download a copy of results** as a backup.
+Starting another assessment stays disabled until saving succeeds. Do not refresh or
+close the page before confirmation: unfinished and unsaved sessions are held in memory
+and can be lost on refresh, disconnection or an app restart.
+
+Use participant IDs (P01, P02, …), as described in the protocol. This repository is
+public, so committed CSV contents and filenames are publicly visible.
+
+Each CSV contains one data row per question and preserves the HTML quiz's 19 columns:
+
+| Columns | Content |
+| --- | --- |
+| `run_id`, `taker_name` | Unique run identifier and the entered participant ID or name |
+| `participant_group`, `quiz_number` | Group 1–4 and first or second quiz |
+| `video_id`, `video_title`, `condition` | Video and condition determined by the assignment |
+| `started_at`, `completed_at` | UTC timestamps in ISO 8601 format |
+| `total_time_seconds` | Time from Begin through final submission, repeated on each row |
+| `question_number`, `question_text` | Question number and configured prompt |
+| `option_a`, `option_b`, `option_c`, `option_d` | The four configured choices |
+| `answer_letter`, `answer_text` | Final selected choice and its text |
+| `question_time_seconds` | Time spent on that question, including repeat visits |
+
+Timing uses the server's monotonic clock, includes network and screen transitions,
+and is exported to three decimal places. Time spent saving is excluded. Question
+durations add up to the total apart from millisecond rounding. Formula-like text is
+prefixed with an apostrophe so spreadsheets treat it as text. CSVs use UTF-8 with a BOM.
+
+### Questions and assignments
+
+Edit **[`questions.json`](questions.json)**, the shared question bank for Streamlit
+and the original HTML quiz. Each video has an `id`, `title` and list of questions:
+
+```json
+{"id": 1, "prompt": "Your question here", "answers": ["First choice", "Second choice", "Third choice", "Fourth choice"]}
 ```
 
-Both videos need the same number of questions, with sequential `id` values starting at 1,
-so the two conditions stay comparable. The template ships with 10 blank questions per video
-to match the quiz score out of 10 in the study design; add or remove entries in both sets
-together and the form picks up the new count. If the two sets get out of step, the form
-refuses to start and says what is wrong instead of collecting unusable data.
+Each question needs four answers in A–D order and sequential IDs starting at 1. Both
+videos must have the same number of questions. An assigned video with any blank prompt
+or answer cannot start in Streamlit. The app does not expose correct answers or scores;
+[`videos/answer_key.csv`](videos/answer_key.csv) is available for later scoring.
 
-### Group, video and condition
-
-The start page asks for the participant's group (1–4) and whether this is their first or
-second quiz. Those two answers fix the video and condition from the counterbalancing table
-in [`videos/README.md`](videos/README.md), so the recorded pair can never contradict the
-group assignment:
+The original counterbalancing remains available if the two-video design is resumed:
 
 | Group | First quiz | Second quiz |
 | --- | --- | --- |
@@ -53,89 +134,38 @@ group assignment:
 | 3 | Video B, fidget toy | Video A, no fidget toy |
 | 4 | Video B, no fidget toy | Video A, fidget toy |
 
-The assigned video and condition appear on the start page before beginning, in the quiz
-header while answering, and in every row of the CSV. After a first quiz, **Start the next
-quiz** keeps the participant's name and group and preselects the second quiz.
+**Start the next quiz** appears only when its questions are filled in. It preserves
+the participant and group. **Start a new assessment** clears the participant details.
 
-### Results and timing
+### Verification
 
-Pressing **Begin assessment** starts timing immediately. Pressing **Submit quiz** on the
-last question stops timing and automatically downloads
-`{TAKER_NAME}_Video{A or B}_Assessment.csv`, so a participant's two quizzes land in separate
-files. The completion page also has a button to download the same results again and a button
-to start the next quiz. Filename characters that are invalid on common operating systems are
-replaced with underscores; the participant's entered name is preserved in the CSV. Repeated
-runs use the same requested filename; the browser may append a number or ask before replacing
-an existing download.
+```sh
+python -m unittest discover -s tests -p 'test_*.py' -v
+npm test
+```
 
-Each CSV contains one data row per question (10 by default), with these columns:
+The Python checks exercise a full Streamlit quiz, review and answer changes, separate
+participant sessions, automatic local storage, save failures and retries, CSV schema,
+timing, and mocked GitHub requests. GitHub tests do not create real commits. The Node
+checks cover the original HTML quiz logic and need no installed Node dependencies.
 
-| Columns | Content |
-| --- | --- |
-| `run_id`, `taker_name` | Unique identifier for the run and participant name |
-| `participant_group`, `quiz_number` | Assigned group 1–4, and whether this was the participant's first or second quiz |
-| `video_id`, `video_title` | Which video this quiz covers |
-| `condition` | Fidget toy or no fidget toy, from the group assignment |
-| `started_at`, `completed_at` | UTC timestamps in ISO 8601 format |
-| `total_time_seconds` | Elapsed time from Begin through final submission, repeated on each row |
-| `question_number`, `question_text` | Question number and configured text |
-| `option_a`, `option_b`, `option_c`, `option_d` | All four configured choices |
-| `answer_letter`, `answer_text` | Final selected choice and its configured text |
-| `question_time_seconds` | Total time spent on that question, including repeat visits |
+### Original HTML version
 
-Times are recorded to three decimal places using a monotonic browser clock. Timing
-continues while the tab is in the background. The per-question durations add up to the
-total (apart from rounding to milliseconds). Unanswered choices cannot be submitted.
-Blank answer text still produces an A–D selection in the CSV. Formula-like text is
-prefixed with an apostrophe so spreadsheets treat it as text.
-
-Results download to the browser's configured download location; there is no server-side
-storage or upload. An unfinished run is held in memory and is lost if the page is
-refreshed or closed; the browser warns before leaving an active quiz. Completed
-CSV downloads outside `data/raw/` and `data/processed/` are ignored by Git.
+The HTML version remains available for reference. Serve the repository over HTTP with
+`npm start` or `python3 -m http.server 8000 --bind 127.0.0.1`, then open
+<http://localhost:8000>. Opening `index.html` directly as a local file is no longer
+supported because both frontends now load `questions.json`. The HTML version downloads
+CSVs in the browser; automatic server-side saving is provided by Streamlit.
 
 ## Data collection
 
-Use the `data-collection-scaffolding` branch for the collection session:
+- [`data/raw/`](data/raw/): original response CSVs; keep unchanged during analysis.
+- [`data/processed/`](data/processed/): cleaned or combined outputs derived from raw data.
 
-- [`data/raw/`](data/raw/): original CSV files downloaded from the assessment; keep
-  these unchanged when cleaning or combining results.
-- [`data/processed/`](data/processed/): cleaned, combined, or analysis-ready outputs
-  derived from the raw files.
-
-The `.gitkeep` files make both empty directories available after cloning. Assessment
-CSVs in these directories can be committed normally, without forcing Git to add them.
-Both researchers should use this branch, commit their collected files, and pull each
-other's changes before pushing. Preserve separate files for separate runs, including
-repeat assessments; the CSV's `run_id` identifies each run.
-
-This repository is public, so committed filenames and CSV contents, including
-`taker_name`, will be publicly visible.
-
-### Save assessment downloads directly into data/raw
-
-The form already starts a CSV download when **Submit quiz** is pressed. For today's
-session, point the collection browser's download location at this checkout's
-`data/raw/` directory:
-
-1. In Chrome, open **Settings → Downloads**.
-2. Beside **Location**, select **Change** and choose the repository's `data/raw/` folder.
-3. Turn off **Ask where to save each file before downloading** for automatic saving.
-4. Complete a test quiz and confirm that its CSV appears in `data/raw/`; remove the
-   test file before committing collected results.
-
-Each collection computer needs its own checkout and browser setting. This setting
-affects all downloads in that browser profile; restore your usual location after the
-session. See [Chrome's download settings](https://support.google.com/chrome/answer/95759?hl=en).
-
-The current HTML form cannot choose an arbitrary local folder itself. An optional
-future enhancement could add a **Choose output folder** button using the
-[File System Access API](https://developer.chrome.com/docs/capabilities/web-apis/file-system-access):
-the researcher would choose `data/raw/` and grant write access, then the form could
-write each CSV there. This needs browser support, a secure context, permission checks,
-unique filenames to avoid overwrites, and the existing download as a fallback. See
-[`showDirectoryPicker()` requirements](https://developer.mozilla.org/en-US/docs/Web/API/Window/showDirectoryPicker).
-No folder-writing code or server upload is included in this scaffolding branch.
+The `.gitkeep` files preserve empty directories after cloning. Assessment CSVs in these
+directories can be committed normally; loose downloads elsewhere are ignored. Use the
+`data-collection-scaffolding` branch for collected responses and pull before pushing
+manual changes to it.
 
 ## To-Do's
 

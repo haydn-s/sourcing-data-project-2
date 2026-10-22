@@ -10,3 +10,5 @@ __pycache__/
 .venv/
 playwright-report/
 test-results/
+.streamlit/secrets.toml
+.pytest_cache/

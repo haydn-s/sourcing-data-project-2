@@ -33,7 +33,7 @@
 
   function validateVideos(videos) {
     if (!Array.isArray(videos) || videos.length !== VIDEO_IDS.length) {
-      throw new Error(`questions.js must contain one question set per video: ${VIDEO_IDS.join(" and ")}.`);
+      throw new Error(`questions.json must contain one question set per video: ${VIDEO_IDS.join(" and ")}.`);
     }
     videos.forEach((video, index) => {
       if (!video || video.id !== VIDEO_IDS[index]) {

@@ -24,8 +24,9 @@ We play the video from the link above. The video file is not stored in this repo
 | No fidget | No toy | **Group 2**, **first quiz** |
 
 The quiz form was built for an earlier design where everyone did both conditions with two videos.
-In that form, groups 1 and 2 both start with this video, with and without the fidget toy, so it
-records the correct video and condition without any code changes. Only the first quiz is used.
+Groups 1 and 2 both start with this video, with and without the fidget toy, so the Streamlit
+app preserves these assignments. Only the first quiz is used; the unfinished Video B quiz
+cannot be started.
 
 Assign participants to the two groups in random order, in shuffled pairs: for each pair of
 participants, flip a coin to decide who goes in which group. This keeps the groups the same size
@@ -36,14 +37,17 @@ and stops the condition from lining up with time of day.
 Total time is about 10 minutes per participant.
 
 1. Give the participant an ID (P01, P02, …) and note their group in the session log.
-2. Open `index.html` on the study laptop. Enter the participant ID (not their name) in the name
-   field, choose **Group 1** (fidget) or **Group 2** (no fidget) and **first quiz**, and check that
+2. Open the deployed Streamlit app on the study laptop (or run it locally as described in
+   [`../README.md`](../README.md)). Enter the participant ID, choose **Group 1** (fidget) or
+   **Group 2** (no fidget) and **first quiz**, and check that
    the start page shows "The surprising reasons animals play dead" and the right condition.
 3. Fidget group only: hand them the squishy and tell them they can squeeze it while watching.
 4. Play the video full screen at a fixed volume.
 5. Take the squishy back. The participant presses **Begin** and takes the quiz.
-6. The results CSV downloads automatically (for example `P01_VideoA_Assessment.csv`). Don't press
-   **Start the next quiz**.
+6. On **Submit quiz**, the results save automatically in `data/raw/` (for example
+   `P01_VideoA_{RUN_UUID}_Assessment.csv`). Wait for the saved confirmation. If saving fails,
+   keep the page open, retry, and download a backup. Use **Start a new assessment** for the
+   next participant.
 
 Use the same laptop, volume and setup for every session. Check beforehand that no ads play
 before the video.
@@ -51,7 +55,7 @@ before the video.
 ## Quiz Questions
 
 10 multiple-choice questions, written from the video's content and spread across the whole video.
-The quiz form reads them from [`../questions.js`](../questions.js) (video `A`); keep that file and
+The quiz form reads them from [`../questions.json`](../questions.json) (video `A`); keep that file and
 this table in step. The correct answers are also in [`answer_key.csv`](answer_key.csv) for scoring.
 
 | # | Question | A | B | C | D | Correct |
