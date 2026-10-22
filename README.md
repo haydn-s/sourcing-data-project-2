@@ -96,17 +96,24 @@ CSV downloads are ignored by Git to keep participant data out of the repository.
 
 ## Power analysis
 
-The planning target is **36 participants who complete both quizzes**, ideally **9 per
-counterbalancing group**. A two-sided paired t-test at α = 0.05 has **83.1% power** to
-detect an average difference of **1 question out of 10**, assuming the standard deviation
-of within-person differences is **2 questions** (paired effect d_z = 0.50). The numerical
-minimum is 34 complete pairs; 36 keeps the four groups balanced. Initially plan for
-**40 recruits** with an assumed 10% incomplete or unusable pairs; this is an expectation,
-not a guarantee. The variability and loss rate are planning assumptions, not pilot estimates.
+The power analysis follows the **one-video, two-independent-group design** in
+[PR #7](https://github.com/haydn-s/sourcing-data-project-2/pull/7). Each participant
+watches the same video and completes the same 10-question quiz once. With α = 0.05,
+80% desired power, and equal group sizes, the independent-samples t-test planning model gives:
+
+| Assumed effect | Completers per group | Total completers | Initial recruits at 10% assumed loss |
+| --- | --- | --- | --- |
+| d = 0.50: 1-question difference / within-group score SD of 2 | 64 | 128 | 144 total (72 per group) |
+| d = 0.80: 1.6-question difference / within-group score SD of 2 | 26 | 52 | 58 total (29 per group) |
+
+The default preserves the selected **one-question** threshold. The 52-total scenario
+assumes a larger effect; it has only 42.4% power for a one-question difference when
+the within-group score SD is 2. Variability and loss rate are planning assumptions,
+not pilot estimates. Recruitment inflation is an expectation, not a guarantee.
+The equal-variance planning model approximates power for the planned Welch analysis.
 
 See the [full power analysis and suggested report wording](reports/power-analysis.md)
 for hypotheses, calculations, sensitivity tables, design limitations, and references.
-For example, if the difference-score SD is 2.5 questions, the target rises to 52 completers.
 The [generated results](results/power/) contain calculated planning values, with no
 participant data.
 
@@ -123,8 +130,11 @@ Use `--help` to see adjustable assumptions. To explore another scenario without 
 the baseline outputs:
 
 ```sh
-.venv/bin/python scripts/power_analysis.py --difference-sd 2.5 --output-dir /tmp/fidget-power-sd25
+.venv/bin/python scripts/power_analysis.py --mean-difference 1.6 --participants 52 --output-dir /tmp/fidget-power-large-effect
 ```
+
+`--participants` is the **total** across both groups, split equally; `--score-sd` is the
+common within-group score SD. The former paired-design `--difference-sd` flag is removed.
 
 ## To-Do's
 
@@ -157,8 +167,8 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 
 ## Project Ideas Under Consideration
 
-We are weighing two candidate experiments. Both are within-subjects designs built around
-attention/learning measures that are cheap to collect in person.
+We considered two experiments built around attention and learning measures that are cheap
+to collect in person. The selected fidget-toy study now uses two independent groups.
 
 ### Idea 1: Does a Short Burst of Exercise Improve Attention?
 
@@ -208,19 +218,21 @@ and some studies suggest they may actually hurt learning.
 
 **How we'll test it**
 
-- Every participant does both conditions (within-subjects)
-- Two different videos with matching quizzes of similar difficulty (see [`videos/`](videos/))
-- Four sequences counterbalance video and condition order; the current session protocol
-  rotates group assignments (see the [power analysis](reports/power-analysis.md) for the
-  recommendation to randomize within blocks of four)
-- Watch video → take quiz → short break → watch second video in other condition → take quiz
+- Two independent groups: randomly assign each participant to fidget toy or no fidget toy
+- Everyone watches *The surprising reasons animals play dead* and takes the same
+  10-question quiz once; the updated protocol and questions are supplied by
+  [PR #7](https://github.com/haydn-s/sourcing-data-project-2/pull/7)
+- Fidget participants hold a squishy while watching; controls have no toy
+- Use Group 1 (fidget) or Group 2 (control), first quiz only, in the existing form
+- Watch video → take quiz; stop after that quiz (about 10 minutes per participant)
 
-**Statistical test:** Two-sided paired t-test on within-person score differences;
-Wilcoxon signed-rank may be reported as a sensitivity analysis with its assumptions stated.
+**Statistical test:** Two-sided Welch independent-samples t-test. Power planning uses
+an equal-variance independent-samples t-test approximation. Any Mann-Whitney U sensitivity
+analysis must state its assumptions and the different hypothesis it addresses.
 
-**Sample size:** Target 36 complete participant pairs, 9 per counterbalancing group
-(d_z = 0.50, α = 0.05, power ≈ 0.831). Initially plan for 40 recruits to allow for 10%
-incomplete or unusable pairs in expectation. See [Power analysis](#power-analysis).
+**Sample size:** For α = 0.05 and 80% power, d = 0.50 requires 64 per group (128 total);
+d = 0.80 requires 26 per group (52 total). See [Power analysis](#power-analysis) for
+the raw score assumptions, recruitment estimates, and sensitivity at smaller sample sizes.
 
 ### Side-by-Side Comparison
 
@@ -228,10 +240,10 @@ incomplete or unusable pairs in expectation. See [Power analysis](#power-analysi
 | --- | --- | --- |
 | Independent variable | Sitting vs. 2 min jumping jacks | No fidget toy vs. fidget toy |
 | Dependent variable | Stroop reaction time & accuracy | Quiz score |
-| Design | Within-subjects, randomized order | Within-subjects, counterbalanced order |
-| Session length | Practice + 2 conditions + 5 min rest | 2 videos (~4.5 min each) + 2 quizzes |
-| Statistical test | Paired t-test / Wilcoxon signed-rank | Paired t-test / Wilcoxon signed-rank |
-| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | 36 complete pairs, initially recruit 40 (d_z = 0.5, α = 0.05, power ≈ 0.831) |
+| Design | Within-subjects, randomized order | Between-subjects, two randomized groups |
+| Session length | Practice + 2 conditions + 5 min rest | 1 video (4.5 min) + 1 quiz |
+| Statistical test | Paired t-test / Wilcoxon signed-rank | Welch independent-samples t-test |
+| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | 128 total at d = 0.50; 52 total at d = 0.80 (α = 0.05, power ≥ 0.80) |
 
 ## Recruitment Flyer
 
