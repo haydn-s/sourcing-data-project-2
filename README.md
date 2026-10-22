@@ -4,15 +4,18 @@ Project 2 for Duke University AIPI-510 (Sourcing Data for Analytics), taken in F
 
 ## Streamlit assessment
 
-Deploy `streamlit_app.py` from the `streamlit-form` branch. Participants enter their ID,
-confirm their group and quiz, and answer one multiple-choice question at a time. They
+Deploy `streamlit_app.py` from the `main` branch. Participants enter their ID,
+select Group 1 or Group 2, watch the embedded study video, and answer one multiple-choice
+question at a time. They
 can go back and change an answer. Submitting the final question automatically saves a
 CSV in **`data/raw/`**, the repository's existing raw-data directory. A download button
 also provides a backup copy.
 
-The current study uses **Video A only**: select **Group 1, first quiz** for the fidget
-condition or **Group 2, first quiz** for no fidget toy. Video A's 10 questions are filled
-in. Video B is still a blank template; the Streamlit app prevents starting that quiz.
+The study uses **Quiz A only**, with the same 10 questions for both groups.
+**Group 1** uses a fidget toy while watching; **Group 2** uses no toy. There is no
+quiz-number selector or second video. The video plays inside the app, and the quiz
+timer starts only after the participant presses **Begin assessment** on the video page.
+The player is removed during the quiz so it cannot be replayed while answering.
 See [`videos/README.md`](videos/README.md) for the session protocol and answer key.
 
 ### Run locally
@@ -33,9 +36,9 @@ collection: its server filesystem is temporary and local writes do not update Gi
 
 ### Deploy on Streamlit Community Cloud
 
-1. Push the completed `streamlit-form` branch to GitHub.
+1. Merge the app changes into `main` on GitHub.
 2. In Streamlit, create an app with repository **`haydn-s/sourcing-data-project-2`**,
-   branch **`streamlit-form`**, and main file **`streamlit_app.py`**. Choose Python 3.12
+   branch **`main`**, and main file **`streamlit_app.py`**. Choose Python 3.12
    in Advanced settings. `requirements.txt` installs Streamlit automatically.
 3. Create a [fine-grained GitHub personal access token](https://github.com/settings/personal-access-tokens/new)
    restricted to this repository with **Contents: Read and write**. The account issuing
@@ -61,7 +64,7 @@ collection: its server filesystem is temporary and local writes do not update Gi
 Each submission creates a commit containing one CSV on the configured output branch.
 That branch must already exist and allow the token to create commits. The existing
 `data-collection-scaffolding` branch is the recommended output branch. Keep it separate
-from the deployed `streamlit-form` branch so response commits do not cause Streamlit to
+from the deployed `main` branch so response commits do not cause Streamlit to
 reload the app while other participants are answering. If you deploy another branch
 later, keep the output branch separate from it too. Pull the output branch to retrieve
 the CSVs on your computer.
@@ -74,6 +77,26 @@ credentials, the app blocks new assessments instead of silently writing temporar
 
 For setup details, see [Streamlit's Secrets guide](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/secrets-management)
 and [GitHub's Contents API permissions](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents).
+
+### If response storage is not configured
+
+The app needs its own GitHub write token in **Streamlit app settings → Secrets**;
+Streamlit's connection to the source repository does not supply this token to the app.
+Generate a fine-grained token with access to this repository and **Contents: Read and
+write**, then paste the **full generated value** (usually starting with `github_pat_`)
+into `github.token`. The token's display name is not a credential. GitHub only shows
+the generated value once; generate a replacement if you did not save it.
+
+Use the TOML example above, with `[storage]` and `[github]` sections. Click **Save**,
+then reload the app. The **Researcher setup details** expander identifies a missing
+setting or a placeholder token without displaying credentials. Token names or invalid,
+expired, or unauthorized values will still be rejected by GitHub when saving.
+
+The app's **deployment branch** is `main`. The **`github.branch` secret** is the
+separate output branch, `data-collection-scaffolding`; keep those roles distinct.
+A test submission should appear under `data/raw/` on that output branch. A failed
+save can indicate expired credentials, missing repository access, an absent output
+branch, or branch rules preventing commits; the server log records GitHub's HTTP status.
 
 ### Results and recovery
 
@@ -97,7 +120,7 @@ Each CSV contains one data row per question and preserves the HTML quiz's 19 col
 | Columns | Content |
 | --- | --- |
 | `run_id`, `taker_name` | Unique run identifier and the entered participant ID or name |
-| `participant_group`, `quiz_number` | Group 1–4 and first or second quiz |
+| `participant_group`, `quiz_number` | Group 1 or 2; `quiz_number` is always 1 for compatibility |
 | `video_id`, `video_title`, `condition` | Video and condition determined by the assignment |
 | `started_at`, `completed_at` | UTC timestamps in ISO 8601 format |
 | `total_time_seconds` | Time from Begin through final submission, repeated on each row |
@@ -120,22 +143,19 @@ and the original HTML quiz. Each video has an `id`, `title` and list of question
 {"id": 1, "prompt": "Your question here", "answers": ["First choice", "Second choice", "Third choice", "Fourth choice"]}
 ```
 
-Each question needs four answers in A–D order and sequential IDs starting at 1. Both
-videos must have the same number of questions. An assigned video with any blank prompt
-or answer cannot start in Streamlit. The app does not expose correct answers or scores;
+Each question needs four answers in A–D order and sequential IDs starting at 1.
+The question bank contains only Video A and its `embed_url`, the official TED player.
+The app does not expose correct answers or scores;
 [`videos/answer_key.csv`](videos/answer_key.csv) is available for later scoring.
 
-The original counterbalancing remains available if the two-video design is resumed:
-
-| Group | First quiz | Second quiz |
+| Group | Video and quiz | Condition while watching |
 | --- | --- | --- |
-| 1 | Video A, fidget toy | Video B, no fidget toy |
-| 2 | Video A, no fidget toy | Video B, fidget toy |
-| 3 | Video B, fidget toy | Video A, no fidget toy |
-| 4 | Video B, no fidget toy | Video A, fidget toy |
+| 1 | A | Fidget toy |
+| 2 | A | No fidget toy |
 
-**Start the next quiz** appears only when its questions are filled in. It preserves
-the participant and group. **Start a new assessment** clears the participant details.
+**Continue to video** confirms the participant and group before showing the player.
+**Begin assessment** hides the player and starts quiz timing. **Start a new assessment**
+clears the participant details after successful saving. There is no second quiz.
 
 ### Verification
 
@@ -146,7 +166,7 @@ npm test
 
 The Python checks exercise a full Streamlit quiz, review and answer changes, separate
 participant sessions, automatic local storage, save failures and retries, CSV schema,
-timing, and mocked GitHub requests. GitHub tests do not create real commits. The Node
+timing, the video-before-quiz flow, storage configuration, and mocked GitHub requests. GitHub tests do not create real commits. The Node
 checks cover the original HTML quiz logic and need no installed Node dependencies.
 
 ### Original HTML version

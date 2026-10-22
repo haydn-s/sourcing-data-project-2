@@ -14,10 +14,8 @@ from uuid import uuid4
 ROOT = Path(__file__).resolve().parent
 LETTERS = "ABCD"
 GROUPS = {
-    1: (("A", "Fidget toy"), ("B", "No fidget toy")),
-    2: (("A", "No fidget toy"), ("B", "Fidget toy")),
-    3: (("B", "Fidget toy"), ("A", "No fidget toy")),
-    4: (("B", "No fidget toy"), ("A", "Fidget toy")),
+    1: "Fidget toy",
+    2: "No fidget toy",
 }
 CSV_COLUMNS = (
     "run_id", "taker_name", "participant_group", "quiz_number", "video_id",
@@ -33,13 +31,15 @@ def utc_timestamp():
 
 def load_videos(path=ROOT / "questions.json"):
     videos = json.loads(Path(path).read_text(encoding="utf-8"))
-    if not isinstance(videos, list) or len(videos) != 2:
-        raise ValueError("The question bank must contain videos A and B.")
-    for video, video_id in zip(videos, ("A", "B")):
+    if not isinstance(videos, list) or len(videos) != 1:
+        raise ValueError("The question bank must contain only Quiz A.")
+    for video, video_id in zip(videos, ("A",)):
         if not isinstance(video, dict) or video.get("id") != video_id:
-            raise ValueError("The question bank must contain videos A and B in order.")
+            raise ValueError("The question bank must contain only Quiz A.")
         if not isinstance(video.get("title"), str) or not video["title"].strip():
             raise ValueError(f"Video {video_id} needs a title.")
+        if not isinstance(video.get("embed_url"), str) or not video["embed_url"].startswith("https://embed.ted.com/talks/"):
+            raise ValueError("Quiz A needs its TED video embed URL.")
         questions = video.get("questions")
         if not isinstance(questions, list) or not questions:
             raise ValueError(f"Video {video_id} needs at least one question.")
@@ -50,17 +50,13 @@ def load_videos(path=ROOT / "questions.json"):
                     or len(question["answers"]) != 4
                     or any(not isinstance(answer, str) for answer in question["answers"])):
                 raise ValueError(f"Video {video_id} question {number} needs its sequential id, prompt and four text answers.")
-    if len(videos[0]["questions"]) != len(videos[1]["questions"]):
-        raise ValueError("Both videos need the same number of questions.")
     return videos
 
 
-def assignment_for(group, part):
+def assignment_for(group):
     if type(group) is not int or group not in GROUPS:
-        raise ValueError("Choose a participant group from 1 through 4.")
-    if type(part) is not int or part not in (1, 2):
-        raise ValueError("Choose the first or second quiz.")
-    return GROUPS[group][part - 1]
+        raise ValueError("Choose participant group 1 or 2.")
+    return "A", GROUPS[group]
 
 
 def video_ready(video):
@@ -75,16 +71,17 @@ def csv_cell(value):
 
 
 class Session:
-    def __init__(self, name, group, part, videos, *, clock=time.perf_counter,
+    def __init__(self, name, group, videos, *, clock=time.perf_counter,
                  timestamp=utc_timestamp, run_id=None):
         self.name = name.strip()
         if not self.name or len(self.name) > 120:
             raise ValueError("Enter a participant ID or name of at most 120 characters.")
-        self.video_id, self.condition = assignment_for(group, part)
+        self.video_id, self.condition = assignment_for(group)
         video = next(v for v in videos if v["id"] == self.video_id)
         if not video_ready(video):
             raise ValueError(f"Video {self.video_id}'s quiz is not ready. Please check the assignment with the researcher.")
-        self.group, self.part = group, part
+        self.group = group
+        self.part = 1  # Retain quiz_number in the existing CSV schema.
         self.video_title = video["title"]
         self.questions = deepcopy(video["questions"])
         self.run_id = run_id or str(uuid4())

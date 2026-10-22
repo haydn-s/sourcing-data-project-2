@@ -181,3 +181,11 @@ select:invalid { color: #7d8799; }
   .completion-stats > div + div { padding-left: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
+/* Keep the study video inside the page at its natural widescreen ratio. */
+.study-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 12px;
+  margin-top: 24px;
+}

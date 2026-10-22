@@ -61,11 +61,13 @@ class LocalStorage:
 
 class GitHubStorage:
     def __init__(self, repository, branch, token):
-        if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository):
+        if not isinstance(repository, str) or not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository):
             raise StorageError("Set github.repository to owner/repository in Streamlit Secrets.")
-        if not branch.strip() or not token.strip() or token.startswith("REPLACE_"):
-            raise StorageError("Set github.branch and a GitHub token in Streamlit Secrets.")
-        self.repository, self.branch, self._token = repository, branch, token
+        if not isinstance(branch, str) or not branch.strip():
+            raise StorageError("Missing github.branch in Streamlit Secrets. Choose the existing response branch.")
+        if not isinstance(token, str) or not token.strip() or token.strip().startswith(("REPLACE_", "YOUR_", "PASTE_")):
+            raise StorageError("Missing github.token in Streamlit Secrets. Add a real GitHub token with Contents: Read and write for this repository.")
+        self.repository, self.branch, self._token = repository, branch.strip(), token.strip()
 
     def _request(self, method, url, body=None):
         request = Request(url, method=method, headers={
@@ -120,12 +122,17 @@ class GitHubStorage:
 
 def build_storage(secrets, *, root=ROOT):
     # Hosted apps require durable storage unless local mode is explicitly selected.
-    backend = os.environ.get("QUIZ_STORAGE", secrets.get("storage", {}).get("backend", "github"))
+    settings = secrets.get("storage", {})
+    if not isinstance(settings, dict):
+        raise StorageError("Use a [storage] section in Streamlit Secrets with backend = \"github\".")
+    backend = os.environ.get("QUIZ_STORAGE", settings.get("backend", "github"))
     if backend == "local":
         return LocalStorage(root)
     if backend != "github":
         raise StorageError("storage.backend must be github or local.")
     github = secrets.get("github", {})
+    if not isinstance(github, dict):
+        raise StorageError("Use a [github] section in Streamlit Secrets with repository, branch and token.")
     return GitHubStorage(
         github.get("repository", "haydn-s/sourcing-data-project-2"),
         github.get("branch", "data-collection-scaffolding"),

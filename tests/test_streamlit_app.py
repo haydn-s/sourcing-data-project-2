@@ -1,6 +1,5 @@
 import csv
 import io
-from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -20,14 +19,20 @@ class StreamlitAppTests(unittest.TestCase):
         self.patch.start()
         self.addCleanup(self.patch.stop)
 
-    def start(self, name="P01", group=1, part=1):
+    def watch(self, name="P01", group=1):
         app = AppTest.from_file(str(ROOT / "streamlit_app.py"), default_timeout=10).run()
         self.assertFalse(app.exception)
+        self.assertEqual(len(app.selectbox), 1)
+        self.assertEqual(app.selectbox(key="group").options, ["Group 1", "Group 2"])
         app.text_input(key="participant").set_value(name)
         app.selectbox(key="group").select(group)
-        app.selectbox(key="part").select(part).run()
-        if not app.button(key="begin").disabled:
-            app.button(key="begin").click().run()
+        app.button(key="continue").click().run()
+        self.assertFalse(app.exception)
+        return app
+
+    def start(self, name="P01", group=1):
+        app = self.watch(name, group)
+        app.button(key="begin").click().run()
         self.assertFalse(app.exception)
         return app
 
@@ -83,11 +88,21 @@ class StreamlitAppTests(unittest.TestCase):
         self.assertEqual(len(files), 1)
         self.assertEqual(files[0].read_bytes(), original_csv)
 
-    def test_blank_video_cannot_be_started(self):
-        app = self.start(group=3)
-        self.assertTrue(app.warning)
-        self.assertTrue(app.button(key="begin").disabled)
-        self.assertFalse(app.radio)
+    def test_embedded_video_precedes_quiz_and_is_not_timed(self):
+        app = self.watch()
+        self.assertEqual(app.title[0].value, "Watch the video.")
+        self.assertNotIn("assessment", app.session_state)
+        self.assertEqual(len(app.get("iframe")), 1)
+        self.assertIn("embed.ted.com/talks/tierney_thys", app.get("iframe")[0].proto.src)
+        app.button(key="edit_participant").click().run()
+        self.assertEqual(app.text_input(key="participant").value, "P01")
+        self.assertEqual(app.selectbox(key="group").value, 1)
+        app.button(key="continue").click().run()
+        app.button(key="begin").click().run()
+        self.assertFalse(app.exception)
+        self.assertFalse(app.get("iframe"))
+        self.assertEqual(app.session_state.assessment.video_id, "A")
+        self.assertEqual(app.session_state.assessment.part, 1)
 
     def test_participant_sessions_are_isolated(self):
         first = self.start("P01")
@@ -104,11 +119,10 @@ class StreamlitAppTests(unittest.TestCase):
     def test_unconfigured_storage_blocks_collection(self):
         with patch("response_storage.build_storage", side_effect=StorageError("missing token")):
             app = AppTest.from_file(str(ROOT / "streamlit_app.py")).run()
-            app.selectbox(key="group").select(1)
-            app.selectbox(key="part").select(1).run()
+            app.selectbox(key="group").select(1).run()
         self.assertFalse(app.exception)
         self.assertTrue(app.error)
-        self.assertTrue(app.button(key="begin").disabled)
+        self.assertTrue(app.button(key="continue").disabled)
 
 
 if __name__ == "__main__":

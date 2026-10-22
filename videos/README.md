@@ -14,19 +14,18 @@ so any difference in quiz scores between the groups comes from the fidget toy.
 | Topic | Why animals like possums, chickens and sharks freeze and fake their own death |
 | Link | [Watch on TED](https://www.ted.com/talks/tierney_thys_the_surprising_reasons_animals_play_dead) |
 
-We play the video from the link above. The video file is not stored in this repo.
+The app uses the official TED embedded player, so the video is playable inside the app
+window. An internet connection is required; the video file is not stored in this repo.
 
 ## Groups
 
 | Group | Condition | Quiz form setting |
 | --- | --- | --- |
-| Fidget | Squishy toy in hand while watching | **Group 1**, **first quiz** |
-| No fidget | No toy | **Group 2**, **first quiz** |
+| Fidget | Squishy toy in hand while watching | **Group 1** |
+| No fidget | No toy | **Group 2** |
 
-The quiz form was built for an earlier design where everyone did both conditions with two videos.
-Groups 1 and 2 both start with this video, with and without the fidget toy, so the Streamlit
-app preserves these assignments. Only the first quiz is used; the unfinished Video B quiz
-cannot be started.
+Both groups watch Video A in the app and take the same 10-question Quiz A. The form
+has only Groups 1 and 2; there is no second video or quiz selection.
 
 Assign participants to the two groups in random order, in shuffled pairs: for each pair of
 participants, flip a coin to decide who goes in which group. This keeps the groups the same size
@@ -39,11 +38,12 @@ Total time is about 10 minutes per participant.
 1. Give the participant an ID (P01, P02, …) and note their group in the session log.
 2. Open the deployed Streamlit app on the study laptop (or run it locally as described in
    [`../README.md`](../README.md)). Enter the participant ID, choose **Group 1** (fidget) or
-   **Group 2** (no fidget) and **first quiz**, and check that
-   the start page shows "The surprising reasons animals play dead" and the right condition.
+   **Group 2** (no fidget), then press **Continue to video**. Confirm the condition on screen.
 3. Fidget group only: hand them the squishy and tell them they can squeeze it while watching.
-4. Play the video full screen at a fixed volume.
-5. Take the squishy back. The participant presses **Begin** and takes the quiz.
+4. Play the video in the embedded player at a fixed volume. It stays inside the app window;
+   use its fullscreen control if desired. Watch the entire video before continuing.
+5. Take the squishy back. The participant presses **Begin assessment**, which removes the
+   player and starts quiz timing, and answers the quiz.
 6. On **Submit quiz**, the results save automatically in `data/raw/` (for example
    `P01_VideoA_{RUN_UUID}_Assessment.csv`). Wait for the saved confirmation. If saving fails,
    keep the page open, retry, and download a backup. Use **Start a new assessment** for the

@@ -3,7 +3,7 @@
 import logging
 
 import streamlit as st
-from streamlit.errors import StreamlitSecretNotFoundError
+from streamlit.errors import StreamlitAPIException, StreamlitSecretNotFoundError
 
 from assessment import LETTERS, Session, assignment_for, load_videos, video_ready
 from response_storage import StorageError, build_storage
@@ -12,14 +12,18 @@ from response_storage import StorageError, build_storage
 logger = logging.getLogger(__name__)
 
 
-def reset_assessment(*, next_quiz=False):
-    session = st.session_state.get("assessment")
+def reset_assessment():
     for key in list(st.session_state):
-        if key.startswith("answer_") or key in ("assessment", "save_path", "save_error"):
+        if key.startswith("answer_") or key in ("assessment", "participant_details", "save_path", "save_error"):
             del st.session_state[key]
-    st.session_state.participant = session.name if next_quiz else ""
-    st.session_state.group = session.group if next_quiz else None
-    st.session_state.part = 2 if next_quiz else None
+    st.session_state.participant = ""
+    st.session_state.group = None
+
+
+def edit_participant():
+    details = st.session_state.pop("participant_details")
+    st.session_state.participant = details["name"]
+    st.session_state.group = details["group"]
 
 
 def navigate(direction):
@@ -38,41 +42,54 @@ def navigate(direction):
 
 def start_screen(videos, storage_ready):
     st.title("Ready when you are.")
-    st.write("A little focus. One question at a time. Take the quiz for the video you watched.")
-    st.caption("Enter the participant ID and confirm the group and quiz with the researcher.")
-    name = st.text_input("Participant ID or name", max_chars=120, key="participant",
-                         placeholder="For example, P01")
-    left, right = st.columns(2)
-    group = left.selectbox("Participant group", (1, 2, 3, 4), index=None,
-                           format_func=lambda value: f"Group {value}", key="group")
-    part = right.selectbox("Which quiz", (1, 2), index=None,
-                          format_func=lambda value: "First" if value == 1 else "Second", key="part")
-    ready = False
-    if group is not None and part is not None:
-        video_id, condition = assignment_for(group, part)
-        video = next(v for v in videos if v["id"] == video_id)
-        with st.container(border=True):
-            st.write(f"**Video {video_id}** · {video['title']}")
-            st.write(f"**Condition:** {condition}")
-            st.caption(f"{len(video['questions'])} questions · 4 choices each")
-        ready = video_ready(video)
-        if not ready:
-            st.warning("This video's quiz is not ready. Please check your assignment with the researcher.")
-    st.caption("Timing starts when you press Begin. Work at your own pace. Keep this page open until your results are saved.")
-    if st.button("Begin assessment", type="primary", disabled=not (ready and storage_ready), key="begin"):
+    st.write("Watch one short video, then answer 10 questions at your own pace.")
+    st.caption("Enter the participant ID and confirm the group with the researcher.")
+    ready = video_ready(videos[0])
+    if not ready:
+        st.warning("The quiz is not ready. Please ask the researcher for help.")
+    with st.form("participant_setup"):
+        name = st.text_input("Participant ID or name", max_chars=120, key="participant",
+                             placeholder="For example, P01")
+        group = st.selectbox("Participant group", (1, 2), index=None,
+                             format_func=lambda value: f"Group {value}", key="group")
+        st.caption("Group 1: fidget toy while watching · Group 2: no fidget toy")
+        submitted = st.form_submit_button("Continue to video", type="primary",
+                                          disabled=not (ready and storage_ready), key="continue")
+    if submitted:
+        if not name.strip():
+            st.error("Enter a participant ID or name.")
+        elif group is None:
+            st.error("Choose participant group 1 or 2.")
+        else:
+            st.session_state.participant_details = {"name": name.strip(), "group": group}
+            st.rerun()
+
+
+def video_screen(videos, storage_ready):
+    video = videos[0]
+    details = st.session_state.participant_details
+    _, condition = assignment_for(details["group"])
+    st.title("Watch the video.")
+    st.caption(f"{details['name']} · Group {details['group']} · {condition}")
+    st.subheader(video["title"])
+    st.iframe(video["embed_url"], height=400, alt="Study video: The surprising reasons animals play dead")
+    st.write("Watch the entire video here. When it finishes, let the researcher know you're ready for the quiz.")
+    st.caption("Return the fidget toy before beginning the quiz if you were given one. Quiz timing starts only when you press Begin assessment.")
+    if st.button("Begin assessment", type="primary", disabled=not storage_ready, key="begin"):
         try:
-            st.session_state.assessment = Session(name, group, part, videos)
+            st.session_state.assessment = Session(details["name"], details["group"], videos)
         except ValueError as error:
             st.error(str(error))
         else:
             st.rerun()
+    st.button("Back to participant details", on_click=edit_participant, key="edit_participant")
 
 
 def question_screen(session):
     index = session.current_index
     question = session.questions[index]
     count = len(session.questions)
-    st.caption(f"{session.name} · Group {session.group} · Quiz {session.part} · Video {session.video_id} · {session.condition}")
+    st.caption(f"{session.name} · Group {session.group} · Quiz A · {session.condition}")
     st.progress(session.answered_count / count, text=f"{session.answered_count} of {count} answered")
     st.subheader(f"Question {index + 1} of {count}")
     st.write(question["prompt"])
@@ -93,7 +110,7 @@ def question_screen(session):
 def completion_screen(session, storage):
     st.title("Quiz complete.")
     st.write(f"Thank you, {session.name}. You've answered all {len(session.questions)} questions.")
-    st.caption(f"Group {session.group} · Quiz {session.part} · Video {session.video_id} · {session.condition}")
+    st.caption(f"Group {session.group} · Quiz A · {session.condition}")
     content = session.to_csv()
     if not st.session_state.get("save_path") and not st.session_state.get("save_error"):
         with st.spinner("Saving your results…"):
@@ -119,11 +136,6 @@ def completion_screen(session, storage):
     st.download_button("Download a copy of results", content, session.filename,
                        mime="text/csv", on_click="ignore")
     st.button("Start a new assessment", disabled=not saved, on_click=reset_assessment, key="restart")
-    if session.part == 1:
-        next_video_id, _ = assignment_for(session.group, 2)
-        if video_ready(next(v for v in load_videos() if v["id"] == next_video_id)):
-            st.button("Start the next quiz", disabled=not saved,
-                      on_click=reset_assessment, kwargs={"next_quiz": True}, key="next_quiz")
 
 
 def main():
@@ -139,15 +151,24 @@ def main():
         secrets = st.secrets.to_dict()
     except StreamlitSecretNotFoundError:
         secrets = {}
+    except StreamlitAPIException:
+        st.error("The app's Secrets settings contain invalid TOML. Please ask the researcher to correct them.")
+        st.stop()
     storage = None
     try:
         storage = build_storage(secrets)
     except StorageError as error:
         logger.warning("Response storage configuration: %s", error)
-        st.error("The assessment isn't ready yet. Please ask the researcher to finish setting up response storage.")
+        st.error("Response storage is not configured. Please ask the researcher to update the app's Secrets.")
+        with st.expander("Researcher setup details"):
+            st.write(str(error))
+            st.write("Open the deployed app's Settings → Secrets, add the [github] token, then save and reload.")
+            st.markdown("[Streamlit Secrets setup](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/secrets-management)")
     session = st.session_state.get("assessment")
-    if session is None:
+    if session is None and "participant_details" not in st.session_state:
         start_screen(videos, storage is not None)
+    elif session is None:
+        video_screen(videos, storage is not None)
     elif session.completed_at:
         completion_screen(session, storage)
     else:
