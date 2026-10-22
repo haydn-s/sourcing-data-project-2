@@ -29,20 +29,22 @@
           <div class="intro">
             <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> LEARNING &amp; ATTENTION STUDY</p>
             <h1 id="start-heading">Ready when<br>you are<span class="accent">.</span></h1>
-            <p class="intro-description">A little focus. One question at a time.<br>One quiz for each video you watch.</p>
+            <p class="intro-description">A little focus. One question at a time.<br>Watch the video, then take Quiz A.</p>
             <div class="study-facts" aria-label="Assessment format">
-              <div><span class="fact-number" id="fact-video-count">02</span><span class="fact-label">videos</span></div>
-              <div><span class="fact-number" id="fact-question-count">10</span><span class="fact-label">questions each</span></div>
+              <div><span class="fact-number" id="fact-video-count">01</span><span class="fact-label">video</span></div>
+              <div><span class="fact-number" id="fact-question-count">10</span><span class="fact-label">questions</span></div>
               <div><span class="fact-number">04</span><span class="fact-label">choices each</span></div>
             </div>
+            <iframe id="study-video" class="study-video" title="Study video: The surprising reasons animals play dead" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            <p>Watch the entire video above, then begin the assessment.</p>
           </div>
           <div class="start-card card">
             <span class="card-step">BEFORE YOU BEGIN</span>
             <h2>Let’s get started.</h2>
-            <p class="card-description">Enter your name, then confirm the group and quiz with the researcher.</p>
+            <p class="card-description">Enter your participant ID, then confirm your group with the researcher.</p>
             <form id="start-form">
-              <label class="input-label" for="taker-name">Your name</label>
-              <input id="taker-name" name="taker-name" type="text" placeholder="First and last name" autocomplete="name" maxlength="120" required aria-describedby="start-error">
+              <label class="input-label" for="taker-name">Participant ID or name</label>
+              <input id="taker-name" name="taker-name" type="text" placeholder="For example, P01" maxlength="120" required aria-describedby="start-error">
               <div class="start-fields">
                 <div>
                   <label class="input-label" for="participant-group">Participant group</label>
@@ -50,22 +52,12 @@
                     <option value="" selected>Select…</option>
                     <option value="1">Group 1</option>
                     <option value="2">Group 2</option>
-                    <option value="3">Group 3</option>
-                    <option value="4">Group 4</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="input-label" for="quiz-number">Which quiz</label>
-                  <select id="quiz-number" name="quiz-number" required aria-describedby="start-error">
-                    <option value="" selected>Select…</option>
-                    <option value="1">First</option>
-                    <option value="2">Second</option>
                   </select>
                 </div>
               </div>
               <p id="start-error" class="field-error" role="alert" hidden></p>
               <div class="assignment-preview" aria-live="polite">
-                <p class="assignment-note">The group and quiz set which video and condition get recorded.</p>
+                <p class="assignment-note">Both groups watch Video A. Group 1 uses a fidget toy; Group 2 uses no toy.</p>
                 <div class="assignment-row"><span class="assignment-label">VIDEO</span><span class="assignment-value" id="assignment-video">—</span></div>
                 <div class="assignment-row"><span class="assignment-label">CONDITION</span><span class="assignment-value" id="assignment-condition">—</span></div>
               </div>
@@ -109,7 +101,7 @@
             <div class="download-details"><span class="file-icon" aria-hidden="true">CSV</span><div><strong id="csv-filename"></strong><p id="download-status" role="status">Your CSV download has started.</p></div></div>
             <button id="download-button" class="button button-primary" type="button">Download CSV again <span aria-hidden="true">↓</span></button>
           </div>
-          <button id="restart-button" class="text-button" type="button"><span id="restart-label">Start the next quiz</span> <span aria-hidden="true">↗</span></button>
+          <button id="restart-button" class="text-button" type="button"><span id="restart-label">Start a new assessment</span> <span aria-hidden="true">↗</span></button>
         </section>
 
         <section id="error-screen" class="error-card card" role="alert" hidden><h1>Unable to start the assessment.</h1><p id="configuration-error"></p></section>

@@ -8,9 +8,9 @@ from assessment import CSV_COLUMNS, Session, assignment_for, load_videos
 
 
 class AssessmentTests(unittest.TestCase):
-    def session(self, name="P01", group=1, part=1, videos=None):
+    def session(self, name="P01", group=1, videos=None):
         self.tick = 10.0
-        return Session(name, group, part, videos or load_videos(),
+        return Session(name, group, videos or load_videos(),
                        clock=lambda: self.tick, timestamp=lambda: "2026-10-22T14:00:00.000Z")
 
     def complete(self, session):
@@ -21,18 +21,13 @@ class AssessmentTests(unittest.TestCase):
                 session.go_to(index + 1)
         session.finish()
 
-    def test_assignments_match_existing_counterbalancing(self):
-        expected = {
-            1: (("A", "Fidget toy"), ("B", "No fidget toy")),
-            2: (("A", "No fidget toy"), ("B", "Fidget toy")),
-            3: (("B", "Fidget toy"), ("A", "No fidget toy")),
-            4: (("B", "No fidget toy"), ("A", "Fidget toy")),
-        }
-        for group, assignments in expected.items():
-            self.assertEqual(tuple(assignment_for(group, part) for part in (1, 2)), assignments)
-        for group, part in ((0, 1), (1, 3), (True, 1), (1, None)):
+    def test_only_two_groups_use_quiz_a(self):
+        self.assertEqual(assignment_for(1), ("A", "Fidget toy"))
+        self.assertEqual(assignment_for(2), ("A", "No fidget toy"))
+        self.assertEqual([video["id"] for video in load_videos()], ["A"])
+        for group in (0, 3, 4, True, None):
             with self.assertRaises(ValueError):
-                assignment_for(group, part)
+                assignment_for(group)
 
     def test_timing_accumulates_reviews_and_freezes_on_submit(self):
         session = self.session()
@@ -88,8 +83,10 @@ class AssessmentTests(unittest.TestCase):
         for answer in (4, -1, 1.5, True):
             with self.assertRaises(ValueError):
                 session.select(answer)
+        videos = load_videos()
+        videos[0]["questions"][0]["prompt"] = ""
         with self.assertRaisesRegex(ValueError, "not ready"):
-            self.session(group=3)
+            self.session(videos=videos)
         with self.assertRaises(ValueError):
             self.session(name="  ")
 

@@ -85,9 +85,17 @@ class StorageTests(unittest.TestCase):
 
     def test_hosting_requires_credentials_instead_of_silently_saving_locally(self):
         with patch.dict(os.environ, {}, clear=True):
-            with self.assertRaises(StorageError):
+            with self.assertRaisesRegex(StorageError, "Missing github.token"):
                 build_storage({})
             self.assertIsInstance(build_storage({"storage": {"backend": "local"}}), LocalStorage)
+
+    def test_placeholder_tokens_and_malformed_sections_have_specific_errors(self):
+        for token in ("", "REPLACE_WITH_A_FINE_GRAINED_TOKEN", "YOUR_FINE_GRAINED_TOKEN", "PASTE_YOUR_TOKEN_HERE", None):
+            with self.subTest(token=token), self.assertRaisesRegex(StorageError, "Missing github.token"):
+                GitHubStorage("owner/repo", "responses", token)
+        for section in ("storage", "github"):
+            with self.subTest(section=section), self.assertRaisesRegex(StorageError, rf"\[{section}\] section"):
+                build_storage({section: "wrong format"})
 
 
 if __name__ == "__main__":
