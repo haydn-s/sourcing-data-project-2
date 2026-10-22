@@ -92,7 +92,50 @@ prefixed with an apostrophe so spreadsheets treat it as text.
 Results download to the browser's configured download location; there is no server-side
 storage or upload. An unfinished run is held in memory and is lost if the page is
 refreshed or closed; the browser warns before leaving an active quiz. Completed
-CSV downloads are ignored by Git to keep participant data out of the repository.
+CSV downloads outside `data/raw/` and `data/processed/` are ignored by Git.
+
+## Data collection
+
+Use the `data-collection-scaffolding` branch for the collection session:
+
+- [`data/raw/`](data/raw/): original CSV files downloaded from the assessment; keep
+  these unchanged when cleaning or combining results.
+- [`data/processed/`](data/processed/): cleaned, combined, or analysis-ready outputs
+  derived from the raw files.
+
+The `.gitkeep` files make both empty directories available after cloning. Assessment
+CSVs in these directories can be committed normally, without forcing Git to add them.
+Both researchers should use this branch, commit their collected files, and pull each
+other's changes before pushing. Preserve separate files for separate runs, including
+repeat assessments; the CSV's `run_id` identifies each run.
+
+This repository is public, so committed filenames and CSV contents, including
+`taker_name`, will be publicly visible.
+
+### Save assessment downloads directly into data/raw
+
+The form already starts a CSV download when **Submit quiz** is pressed. For today's
+session, point the collection browser's download location at this checkout's
+`data/raw/` directory:
+
+1. In Chrome, open **Settings → Downloads**.
+2. Beside **Location**, select **Change** and choose the repository's `data/raw/` folder.
+3. Turn off **Ask where to save each file before downloading** for automatic saving.
+4. Complete a test quiz and confirm that its CSV appears in `data/raw/`; remove the
+   test file before committing collected results.
+
+Each collection computer needs its own checkout and browser setting. This setting
+affects all downloads in that browser profile; restore your usual location after the
+session. See [Chrome's download settings](https://support.google.com/chrome/answer/95759?hl=en).
+
+The current HTML form cannot choose an arbitrary local folder itself. An optional
+future enhancement could add a **Choose output folder** button using the
+[File System Access API](https://developer.chrome.com/docs/capabilities/web-apis/file-system-access):
+the researcher would choose `data/raw/` and grant write access, then the form could
+write each CSV there. This needs browser support, a secure context, permission checks,
+unique filenames to avoid overwrites, and the existing download as a fallback. See
+[`showDirectoryPicker()` requirements](https://developer.mozilla.org/en-US/docs/Web/API/Window/showDirectoryPicker).
+No folder-writing code or server upload is included in this scaffolding branch.
 
 ## To-Do's
 
