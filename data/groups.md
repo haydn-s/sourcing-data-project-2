@@ -6,4 +6,4 @@
 | Burak | Colby |
 | Sabrina | Haydn |
 | Michelle | Kuba |
-| Jothi | — |
+| Jothi | Daniel |
