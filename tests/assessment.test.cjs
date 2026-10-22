@@ -50,17 +50,18 @@ function parseCsv(csv) {
   return rows;
 }
 
-test("the editable template has one blank, equally sized question set per video", () => {
+test("questions.js has a filled-in quiz for Video A and an equally sized set for Video B", () => {
   const videos = blankVideos();
   validateVideos(videos);
   assert.deepEqual(videos.map((video) => video.id), ["A", "B"]);
   assert.equal(videos[0].questions.length, videos[1].questions.length);
   for (const video of videos) {
     assert.ok(video.title.trim(), "each video needs a title for the CSV");
-    for (const question of video.questions) {
-      assert.equal(question.prompt, "");
-      assert.deepEqual(question.answers, ["", "", "", ""]);
-    }
+  }
+  // Video A is the study video in the one-video design: every question needs real text.
+  for (const question of videos[0].questions) {
+    assert.ok(question.prompt.trim(), `Video A question ${question.id} needs a prompt`);
+    assert.ok(question.answers.every((answer) => answer.trim()), `Video A question ${question.id} needs four answers`);
   }
   assert.throws(() => validateVideos(videos.slice(1)), /one question set per video/);
   const uneven = blankVideos();

@@ -108,7 +108,7 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 ### GitHub branches and PRs
 
 - [x] **Sabrina:** `flyer` branch, with a PR to add the recruitment flyer to the repo (and document it in the README)
-- [ ] **Sabrina:** `videos` branch, with a PR to add the video links and quiz questions to the repo
+- [x] **Sabrina:** `videos` branch, with a PR to add the video links and quiz questions to the repo
 - [x] **Haydn:** `question-form-template` branch, with [PR #2](https://github.com/haydn-s/sourcing-data-project-2/pull/2) to add the HTML quiz form
 - [x] **Haydn:** `html-form-updates` branch, with [PR #4](https://github.com/haydn-s/sourcing-data-project-2/pull/4) to add one question set per video and record each run's group, video and condition
 - [ ] Each of us reviews and approves the other's PRs before merging
@@ -172,18 +172,22 @@ and some studies suggest they may actually hurt learning.
 **Variables**
 
 - **Independent variable:** fidget toy vs. no fidget toy
-- **Dependent variable:** quiz score after a ~4.5-minute video (number of questions to be decided)
+- **Dependent variable:** quiz score out of 10 after a 4.5-minute video
 
 **How we'll test it**
 
-- Every participant does both conditions (within-subjects)
-- Two different videos with matching quizzes of similar difficulty (see [`videos/`](videos/))
-- Order of conditions and videos is randomized
-- Watch video → take quiz → short break → watch second video in other condition → take quiz
+- Two independent groups (between-subjects): each participant is randomly assigned to the fidget
+  toy group or the no-fidget-toy group
+- Everyone watches the same video and takes the same 10-question quiz (see [`videos/`](videos/))
+- Fidget group holds a squishy toy while watching; the no-fidget group doesn't
+- Watch video → take quiz (about 10 minutes per participant)
 
-**Statistical test:** Paired t-test (Wilcoxon signed-rank if data isn't normal)
+**Statistical test:** Independent-samples t-test, using Welch's version if the group variances
+differ (Mann-Whitney U if the data isn't normal)
 
-**Sample size:** About 34 participants (d = 0.5, α = 0.05, power = 0.80)
+**Sample size:** With two independent groups, a two-sided test at α = 0.05 and 80% power needs
+about 26 per group (52 total) to detect a large effect (d = 0.8), or about 64 per group (128 total)
+for a medium effect (d = 0.5). The power analysis needs to be updated for this design.
 
 ### Side-by-Side Comparison
 
@@ -191,10 +195,10 @@ and some studies suggest they may actually hurt learning.
 | --- | --- | --- |
 | Independent variable | Sitting vs. 2 min jumping jacks | No fidget toy vs. fidget toy |
 | Dependent variable | Stroop reaction time & accuracy | Quiz score |
-| Design | Within-subjects, randomized order | Within-subjects, randomized order |
-| Session length | Practice + 2 conditions + 5 min rest | 2 videos (~4.5 min each) + 2 quizzes |
-| Statistical test | Paired t-test / Wilcoxon signed-rank | Paired t-test / Wilcoxon signed-rank |
-| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | ~34 (d = 0.5, α = 0.05, power = 0.80) |
+| Design | Within-subjects, randomized order | Between-subjects, two randomized groups |
+| Session length | Practice + 2 conditions + 5 min rest | 1 video (4.5 min) + 1 quiz |
+| Statistical test | Paired t-test / Wilcoxon signed-rank | Independent-samples t-test / Mann-Whitney U |
+| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | ~52 (d = 0.8) to ~128 (d = 0.5), α = 0.05, power = 0.80 |
 
 ## Recruitment Flyer
 
