@@ -1,13 +1,10 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
-const vm = require("node:vm");
 const { Session, validateQuestions, validateVideos, assignmentFor, filenameFor } = require("../assessment.js");
 
 function blankVideos() {
-  const context = { window: {} };
-  vm.runInNewContext(fs.readFileSync(require.resolve("../questions.js"), "utf8"), context);
-  return JSON.parse(JSON.stringify(context.window.ASSESSMENT_VIDEOS));
+  return JSON.parse(fs.readFileSync(require.resolve("../questions.json"), "utf8"));
 }
 
 function setup({ name = "Test Participant", group = 1, part = 1 } = {}, videos = blankVideos()) {
@@ -50,7 +47,7 @@ function parseCsv(csv) {
   return rows;
 }
 
-test("questions.js has a filled-in quiz for Video A and an equally sized set for Video B", () => {
+test("questions.json has a filled-in quiz for Video A and an equally sized set for Video B", () => {
   const videos = blankVideos();
   validateVideos(videos);
   assert.deepEqual(videos.map((video) => video.id), ["A", "B"]);

@@ -1,6 +1,6 @@
 "use strict";
 
-(() => {
+(async () => {
   const $ = (id) => document.getElementById(id);
   const screens = ["start-screen", "question-screen", "complete-screen", "error-screen"];
   const letters = ["A", "B", "C", "D"];
@@ -11,6 +11,14 @@
 
   function showScreen(id) {
     screens.forEach((screen) => { $(screen).hidden = screen !== id; });
+  }
+
+  try {
+    window.ASSESSMENT_VIDEOS = await window.assessmentVideosReady;
+  } catch (error) {
+    $("configuration-error").textContent = error.message;
+    showScreen("error-screen");
+    return;
   }
 
   function videoTitle(videoId) {
