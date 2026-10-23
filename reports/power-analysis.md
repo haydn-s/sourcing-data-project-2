@@ -1,7 +1,7 @@
 # Power analysis for the fidget toy learning study
 
 The study uses **one video and two independent groups**, as described in
-[PR 7](https://github.com/haydn-s/sourcing-data-project-2/pull/7). Each participant is
+the [study protocol](../videos/README.md). Each participant is
 randomly assigned to use a squishy toy or no toy while watching the same video, then
 completes the same 10-question quiz once.
 
@@ -126,11 +126,12 @@ larger effect after seeing results. The following totals are divided equally:
 ## Design considerations and limits
 
 Use the same video, 10-question quiz, laptop, volume, and session instructions for both
-groups. Randomize allocation in shuffled blocks of two, as specified in PR 7. These
-allocation blocks do not make the outcome observations paired: each participant belongs
-to one independent group. In the existing quiz form, use Group 1 and first quiz for
-fidget participants, Group 2 and first quiz for controls, and stop after that quiz.
-PR 7 supplies the updated session protocol and quiz questions.
+groups. Randomize allocation in shuffled blocks of two, as specified in the
+[study protocol](../videos/README.md#groups). These allocation blocks do not make the
+outcome observations paired: each participant belongs
+to one independent group. In the Streamlit app, select Group 1 for fidget participants
+and Group 2 for controls. Both groups watch the embedded Video A and complete Quiz A
+once, following the [session protocol](../videos/README.md#running-a-session).
 
 The noncentral t calculation is exact for the equal-variance Student t-test under
 independent normal scores. Bounded integer quiz scores are not exactly normal. The

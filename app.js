@@ -1,16 +1,24 @@
 "use strict";
 
-(() => {
+(async () => {
   const $ = (id) => document.getElementById(id);
   const screens = ["start-screen", "question-screen", "complete-screen", "error-screen"];
   const letters = ["A", "B", "C", "D"];
-  const startFields = ["taker-name", "participant-group", "quiz-number"];
+  const startFields = ["taker-name", "participant-group"];
   let session = null;
   let resultCsv = null;
   let total = 0;
 
   function showScreen(id) {
     screens.forEach((screen) => { $(screen).hidden = screen !== id; });
+  }
+
+  try {
+    window.ASSESSMENT_VIDEOS = await window.assessmentVideosReady;
+  } catch (error) {
+    $("configuration-error").textContent = error.message;
+    showScreen("error-screen");
+    return;
   }
 
   function videoTitle(videoId) {
@@ -30,14 +38,13 @@
     $(id).focus();
   }
 
-  // Group and quiz number decide the video and condition, so the two always agree.
+  // The group fixes the condition; everyone takes Quiz A.
   function updateAssignment() {
     const group = $("participant-group").value;
-    const quiz = $("quiz-number").value;
     let video = "—";
     let condition = "—";
-    if (group && quiz) {
-      const assignment = Assessment.assignmentFor(group, quiz);
+    if (group) {
+      const assignment = Assessment.assignmentFor(group);
       video = `Video ${assignment.video} · ${videoTitle(assignment.video)}`;
       condition = assignment.conditionLabel;
     }
@@ -110,12 +117,11 @@
     event.preventDefault();
     const name = $("taker-name").value.trim();
     const group = $("participant-group").value;
-    const quiz = $("quiz-number").value;
     if (!name) return showStartError("taker-name", "Please enter your name to begin.");
     if (!group) return showStartError("participant-group", "Please choose the participant's group.");
-    if (!quiz) return showStartError("quiz-number", "Please choose whether this is the first or second quiz.");
     clearStartError();
-    session = new Assessment.Session({ name, group, part: quiz }, window.ASSESSMENT_VIDEOS);
+    session = new Assessment.Session({ name, group }, window.ASSESSMENT_VIDEOS);
+    $("study-video").src = "";
     total = session.questions.length;
     $("progress-bar").setAttribute("aria-valuemax", String(total));
     $("participant-badge").textContent = `${session.name} · Group ${session.group}`;
@@ -128,7 +134,6 @@
 
   $("taker-name").addEventListener("input", clearStartError);
   $("participant-group").addEventListener("change", () => { clearStartError(); updateAssignment(); });
-  $("quiz-number").addEventListener("change", () => { clearStartError(); updateAssignment(); });
 
   $("previous-button").addEventListener("click", () => {
     if (session.currentIndex > 0) {
@@ -153,9 +158,9 @@
     $("answered-stat").replaceChildren(document.createTextNode(`${total} `), answeredTotal);
     $("total-time").textContent = `${Math.floor(seconds / 60)}m ${String(seconds % 60).padStart(2, "0")}s`;
     $("thank-you").textContent = `Thank you, ${session.name}. You’ve answered all ${total} questions for this video.`;
-    $("complete-context").textContent = `Group ${session.group} · Quiz ${session.part} of 2 · Video ${session.videoId} · ${session.conditionLabel}`;
+    $("complete-context").textContent = `Group ${session.group} · Quiz A · ${session.conditionLabel}`;
     $("csv-filename").textContent = session.filename;
-    $("restart-label").textContent = session.part === 1 ? "Start the next quiz" : "Start a new assessment";
+    $("restart-label").textContent = "Start a new assessment";
     showScreen("complete-screen");
     $("complete-heading").focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -164,18 +169,12 @@
 
   $("download-button").addEventListener("click", downloadCsv);
 
-  // Keep the participant's name and group for their second quiz, so both runs match.
   $("restart-button").addEventListener("click", () => {
-    const { name, group, part } = session;
     session = null;
     resultCsv = null;
     $("start-form").reset();
     clearStartError();
-    if (part === 1) {
-      $("taker-name").value = name;
-      $("participant-group").value = String(group);
-      $("quiz-number").value = "2";
-    }
+    $("study-video").src = window.ASSESSMENT_VIDEOS[0].embed_url;
     updateAssignment();
     $("participant-badge").hidden = true;
     document.body.classList.remove("assessment-active");
@@ -196,6 +195,7 @@
 
   try {
     const videos = Assessment.validateVideos(window.ASSESSMENT_VIDEOS);
+    $("study-video").src = videos[0].embed_url;
     $("fact-video-count").textContent = String(videos.length).padStart(2, "0");
     $("fact-question-count").textContent = String(videos[0].questions.length).padStart(2, "0");
     updateAssignment();

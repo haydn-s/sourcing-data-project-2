@@ -1,0 +1,109 @@
+[
+  {
+    "id": "A",
+    "title": "The surprising reasons animals play dead",
+    "questions": [
+      {
+        "id": 1,
+        "prompt": "After a possum plays dead during an attack, about how long does it stay still before getting up and walking away?",
+        "answers": [
+          "About 1 minute",
+          "About 10 minutes",
+          "About 1 hour",
+          "About a whole day"
+        ]
+      },
+      {
+        "id": 2,
+        "prompt": "Playing dead is also called \"thanatosis.\" Where does that name come from?",
+        "answers": [
+          "The ancient Greek god of death",
+          "A Roman emperor who faked his death",
+          "The scientist who first described it",
+          "An ancient Egyptian god of sleep"
+        ]
+      },
+      {
+        "id": 3,
+        "prompt": "Which baby animals improve their chances of surviving a cat by freezing while their siblings run around?",
+        "answers": [
+          "Ducklings",
+          "Baby rabbits",
+          "Quail chicks",
+          "Young lizards"
+        ]
+      },
+      {
+        "id": 4,
+        "prompt": "What is \"clipnosis\"?",
+        "answers": [
+          "A way researchers calm sharks before tagging them",
+          "A beetle's reaction to low dopamine",
+          "A possum's foul-smelling defense",
+          "A calm state mother cats cause by pinching a kitten's neck"
+        ]
+      },
+      {
+        "id": 5,
+        "prompt": "Most of the body processes behind playing dead come from the part of the nervous system that controls what?",
+        "answers": [
+          "Fight or flight",
+          "Resting and digesting",
+          "Vision and hearing",
+          "Memory and learning"
+        ]
+      },
+      {
+        "id": 6,
+        "prompt": "Which flour beetles play dead more often?",
+        "answers": [
+          "Beetles with low dopamine levels",
+          "Beetles with high dopamine levels",
+          "The oldest beetles",
+          "The largest beetles"
+        ]
+      },
+      {
+        "id": 7,
+        "prompt": "In an experiment with a stuffed hawk, when did chickens come out of their frozen state more quickly?",
+        "answers": [
+          "When the hawk was moved closer",
+          "When the lights were turned off",
+          "When other chickens were nearby",
+          "When the hawk's eyes were looking away"
+        ]
+      },
+      {
+        "id": 8,
+        "prompt": "How does the sleeper cichlid fish use playing dead?",
+        "answers": [
+          "To hide from larger fish that hunt it",
+          "To attract a mate during breeding season",
+          "To ambush prey by looking like a rotting carcass",
+          "To rest safely on the lake floor at night"
+        ]
+      },
+      {
+        "id": 9,
+        "prompt": "Why do male nursery spiders play dead?",
+        "answers": [
+          "To hide from birds that eat spiders",
+          "To avoid being eaten by the female",
+          "To trick insects into their web",
+          "To save energy during winter"
+        ]
+      },
+      {
+        "id": 10,
+        "prompt": "By flipping a shark over and stroking its snout, about how long can researchers keep it still?",
+        "answers": [
+          "About 30 seconds",
+          "About 2 minutes",
+          "Up to 15 minutes",
+          "Up to 2 hours"
+        ]
+      }
+    ],
+    "embed_url": "https://embed.ted.com/talks/tierney_thys_the_surprising_reasons_animals_play_dead"
+  }
+]

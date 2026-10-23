@@ -1,5 +1,7 @@
-# Local participant data and downloads must stay out of source control.
+# Ignore loose assessment downloads; allow intentional collection in data/.
 *_Assessment.csv
+!/data/raw/**/*_Assessment.csv
+!/data/processed/**/*_Assessment.csv
 
 # Local development artifacts.
 .DS_Store
@@ -8,3 +10,5 @@ __pycache__/
 .venv/
 playwright-report/
 test-results/
+.streamlit/secrets.toml
+.pytest_cache/

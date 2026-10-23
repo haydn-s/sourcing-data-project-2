@@ -2,102 +2,196 @@
 
 Project 2 for Duke University AIPI-510 (Sourcing Data for Analytics), taken in Fall 2026.
 
-## Assessment prototype
+## Streamlit assessment
 
-The quiz the participant takes after each video. It has a start page for the participant's
-name, group and quiz number, one question set per study video, and the questions shown one
-at a time with four choices (A–D) each. All question and answer text is intentionally blank
-until the quizzes are written. Participants must select an answer before continuing and can
-use **Previous** to review and change earlier answers.
+Deploy `streamlit_app.py` from the `main` branch. Participants enter their ID,
+select Group 1 or Group 2, watch the embedded study video, and answer one multiple-choice
+question at a time. They
+can go back and change an answer. Submitting the final question automatically saves a
+CSV in **`data/raw/`**, the repository's existing raw-data directory. A download button
+also provides a backup copy.
+
+The study uses **Quiz A only**, with the same 10 questions for both groups.
+**Group 1** uses a fidget toy while watching; **Group 2** uses no toy. There is no
+quiz-number selector or second video. The video plays inside the app, and the quiz
+timer starts only after the participant presses **Begin assessment** on the video page.
+The player is removed during the quiz so it cannot be replayed while answering.
+See [`videos/README.md`](videos/README.md) for the session protocol and answer key.
 
 ### Run locally
 
-Open `index.html` directly in a modern browser. No install, internet connection, or
-backend is required. Alternatively, serve the folder:
+Use Python 3.12 and run these commands from the repository root:
 
 ```sh
-python3 -m http.server 8000 --bind 127.0.0.1
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+QUIZ_STORAGE=local streamlit run streamlit_app.py
 ```
 
-Then visit <http://localhost:8000>. If Node.js is installed, `npm start` runs the same
-server and `npm test` checks the counterbalancing, timing, and CSV export logic (no
-dependencies to install).
+Open the local address printed by Streamlit (normally <http://localhost:8501>).
+Local mode writes directly to this checkout's `data/raw/`, regardless of the working
+directory. It needs no GitHub token. Do not use local mode for Community Cloud data
+collection: its server filesystem is temporary and local writes do not update GitHub.
 
-### One question set per video
+### Deploy on Streamlit Community Cloud
 
-Edit `questions.js`. It holds one entry per study video — `A` and `B`, matching the videos
-in [`videos/README.md`](videos/README.md) — and each entry has a `title` and its own list
-of questions. Each question has a `prompt` and four `answers` in A–D order:
+1. Merge the app changes into `main` on GitHub.
+2. In Streamlit, create an app with repository **`haydn-s/sourcing-data-project-2`**,
+   branch **`main`**, and main file **`streamlit_app.py`**. Choose Python 3.12
+   in Advanced settings. `requirements.txt` installs Streamlit automatically.
+3. Create a [fine-grained GitHub personal access token](https://github.com/settings/personal-access-tokens/new)
+   restricted to this repository with **Contents: Read and write**. The account issuing
+   the token must have write access. Set an expiration covering the collection session.
+4. In the app's **Advanced settings → Secrets**, paste the contents of
+   [`.streamlit/secrets.toml.example`](.streamlit/secrets.toml.example), replacing the
+   placeholder token:
 
-```js
-{ id: 1, prompt: "Your question here", answers: ["First choice", "Second choice", "Third choice", "Fourth choice"] },
-```
+   ```toml
+   [storage]
+   backend = "github"
 
-Both videos need the same number of questions, with sequential `id` values starting at 1,
-so the two conditions stay comparable. The template ships with 10 blank questions per video
-to match the quiz score out of 10 in the study design; add or remove entries in both sets
-together and the form picks up the new count. If the two sets get out of step, the form
-refuses to start and says what is wrong instead of collecting unusable data.
+   [github]
+   repository = "haydn-s/sourcing-data-project-2"
+   branch = "data-collection-scaffolding"
+   token = "YOUR_FINE_GRAINED_TOKEN"
+   ```
 
-### Group, video and condition
+5. Deploy. Complete a test quiz and verify that a CSV appears in `data/raw/` on the
+   **`data-collection-scaffolding` branch** before collecting real responses. Remove
+   that test file afterward.
 
-The start page asks for the participant's group (1–4) and whether this is their first or
-second quiz. Those two answers fix the video and condition from the counterbalancing table
-in [`videos/README.md`](videos/README.md), so the recorded pair can never contradict the
-group assignment:
+Each submission creates a commit containing one CSV on the configured output branch.
+That branch must already exist and allow the token to create commits. The existing
+`data-collection-scaffolding` branch is the recommended output branch. Keep it separate
+from the deployed `main` branch so response commits do not cause Streamlit to
+reload the app while other participants are answering. If you deploy another branch
+later, keep the output branch separate from it too. Pull the output branch to retrieve
+the CSVs on your computer.
 
-| Group | First quiz | Second quiz |
-| --- | --- | --- |
-| 1 | Video A, fidget toy | Video B, no fidget toy |
-| 2 | Video A, no fidget toy | Video B, fidget toy |
-| 3 | Video B, fidget toy | Video A, no fidget toy |
-| 4 | Video B, no fidget toy | Video A, fidget toy |
+The GitHub token stays on the server; participants do not need GitHub accounts. Never
+commit an actual `.streamlit/secrets.toml`; it is ignored by Git. For local testing of
+GitHub saving, copy the example to that ignored path, fill in the token, and run
+`streamlit run streamlit_app.py` without `QUIZ_STORAGE=local`. Without configured
+credentials, the app blocks new assessments instead of silently writing temporary files.
 
-The assigned video and condition appear on the start page before beginning, in the quiz
-header while answering, and in every row of the CSV. After a first quiz, **Start the next
-quiz** keeps the participant's name and group and preselects the second quiz.
+For setup details, see [Streamlit's Secrets guide](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/secrets-management)
+and [GitHub's Contents API permissions](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents).
 
-### Results and timing
+### If response storage is not configured
 
-Pressing **Begin assessment** starts timing immediately. Pressing **Submit quiz** on the
-last question stops timing and automatically downloads
-`{TAKER_NAME}_Video{A or B}_Assessment.csv`, so a participant's two quizzes land in separate
-files. The completion page also has a button to download the same results again and a button
-to start the next quiz. Filename characters that are invalid on common operating systems are
-replaced with underscores; the participant's entered name is preserved in the CSV. Repeated
-runs use the same requested filename; the browser may append a number or ask before replacing
-an existing download.
+The app needs its own GitHub write token in **Streamlit app settings → Secrets**;
+Streamlit's connection to the source repository does not supply this token to the app.
+Generate a fine-grained token with access to this repository and **Contents: Read and
+write**, then paste the **full generated value** (usually starting with `github_pat_`)
+into `github.token`. The token's display name is not a credential. GitHub only shows
+the generated value once; generate a replacement if you did not save it.
 
-Each CSV contains one data row per question (10 by default), with these columns:
+Use the TOML example above, with `[storage]` and `[github]` sections. Click **Save**,
+then reload the app. The **Researcher setup details** expander identifies a missing
+setting or a placeholder token without displaying credentials. Token names or invalid,
+expired, or unauthorized values will still be rejected by GitHub when saving.
+
+The app's **deployment branch** is `main`. The **`github.branch` secret** is the
+separate output branch, `data-collection-scaffolding`; keep those roles distinct.
+A test submission should appear under `data/raw/` on that output branch. A failed
+save can indicate expired credentials, missing repository access, an absent output
+branch, or branch rules preventing commits; the server log records GitHub's HTTP status.
+
+### Results and recovery
+
+Files are named `{PARTICIPANT}_Video{A_or_B}_{RUN_UUID}_Assessment.csv`. Separate
+participants and repeated runs never share a filename. Repeated saving of the same run
+is idempotent, and existing data is never overwritten. The original participant entry
+is preserved in the CSV; unsafe filename characters are replaced with underscores.
+
+The completion page confirms success only after the local write or GitHub commit is
+confirmed. On failure, the answers and original timing stay in the session; the
+participant can **Try saving again** or **Download a copy of results** as a backup.
+Starting another assessment stays disabled until saving succeeds. Do not refresh or
+close the page before confirmation: unfinished and unsaved sessions are held in memory
+and can be lost on refresh, disconnection or an app restart.
+
+Use participant IDs (P01, P02, …), as described in the protocol. This repository is
+public, so committed CSV contents and filenames are publicly visible.
+
+Each CSV contains one data row per question and preserves the HTML quiz's 19 columns:
 
 | Columns | Content |
 | --- | --- |
-| `run_id`, `taker_name` | Unique identifier for the run and participant name |
-| `participant_group`, `quiz_number` | Assigned group 1–4, and whether this was the participant's first or second quiz |
-| `video_id`, `video_title` | Which video this quiz covers |
-| `condition` | Fidget toy or no fidget toy, from the group assignment |
+| `run_id`, `taker_name` | Unique run identifier and the entered participant ID or name |
+| `participant_group`, `quiz_number` | Group 1 or 2; `quiz_number` is always 1 for compatibility |
+| `video_id`, `video_title`, `condition` | Video and condition determined by the assignment |
 | `started_at`, `completed_at` | UTC timestamps in ISO 8601 format |
-| `total_time_seconds` | Elapsed time from Begin through final submission, repeated on each row |
-| `question_number`, `question_text` | Question number and configured text |
-| `option_a`, `option_b`, `option_c`, `option_d` | All four configured choices |
-| `answer_letter`, `answer_text` | Final selected choice and its configured text |
-| `question_time_seconds` | Total time spent on that question, including repeat visits |
+| `total_time_seconds` | Time from Begin through final submission, repeated on each row |
+| `question_number`, `question_text` | Question number and configured prompt |
+| `option_a`, `option_b`, `option_c`, `option_d` | The four configured choices |
+| `answer_letter`, `answer_text` | Final selected choice and its text |
+| `question_time_seconds` | Time spent on that question, including repeat visits |
 
-Times are recorded to three decimal places using a monotonic browser clock. Timing
-continues while the tab is in the background. The per-question durations add up to the
-total (apart from rounding to milliseconds). Unanswered choices cannot be submitted.
-Blank answer text still produces an A–D selection in the CSV. Formula-like text is
-prefixed with an apostrophe so spreadsheets treat it as text.
+Timing uses the server's monotonic clock, includes network and screen transitions,
+and is exported to three decimal places. Time spent saving is excluded. Question
+durations add up to the total apart from millisecond rounding. Formula-like text is
+prefixed with an apostrophe so spreadsheets treat it as text. CSVs use UTF-8 with a BOM.
 
-Results download to the browser's configured download location; there is no server-side
-storage or upload. An unfinished run is held in memory and is lost if the page is
-refreshed or closed; the browser warns before leaving an active quiz. Completed
-CSV downloads are ignored by Git to keep participant data out of the repository.
+### Questions and assignments
+
+Edit **[`questions.json`](questions.json)**, the shared question bank for Streamlit
+and the original HTML quiz. Each video has an `id`, `title` and list of questions:
+
+```json
+{"id": 1, "prompt": "Your question here", "answers": ["First choice", "Second choice", "Third choice", "Fourth choice"]}
+```
+
+Each question needs four answers in A–D order and sequential IDs starting at 1.
+The question bank contains only Video A and its `embed_url`, the official TED player.
+The app does not expose correct answers or scores;
+[`videos/answer_key.csv`](videos/answer_key.csv) is available for later scoring.
+
+| Group | Video and quiz | Condition while watching |
+| --- | --- | --- |
+| 1 | A | Fidget toy |
+| 2 | A | No fidget toy |
+
+**Continue to video** confirms the participant and group before showing the player.
+**Begin assessment** hides the player and starts quiz timing. **Start a new assessment**
+clears the participant details after successful saving. There is no second quiz.
+
+### Verification
+
+```sh
+python -m unittest discover -s tests -p 'test_*.py' -v
+npm test
+```
+
+The Python checks exercise a full Streamlit quiz, review and answer changes, separate
+participant sessions, automatic local storage, save failures and retries, CSV schema,
+timing, the video-before-quiz flow, storage configuration, mocked GitHub requests,
+and independent-group power calculations. GitHub tests do not create real commits.
+The Node checks cover the original HTML quiz logic and need no installed Node dependencies.
+
+### Original HTML version
+
+The HTML version remains available for reference. Serve the repository over HTTP with
+`npm start` or `python3 -m http.server 8000 --bind 127.0.0.1`, then open
+<http://localhost:8000>. Opening `index.html` directly as a local file is no longer
+supported because both frontends now load `questions.json`. The HTML version downloads
+CSVs in the browser; automatic server-side saving is provided by Streamlit.
+
+## Data collection
+
+- [`data/raw/`](data/raw/): original response CSVs; keep unchanged during analysis.
+- [`data/processed/`](data/processed/): cleaned or combined outputs derived from raw data.
+
+The `.gitkeep` files preserve empty directories after cloning. Assessment CSVs in these
+directories can be committed normally; loose downloads elsewhere are ignored. Use the
+`data-collection-scaffolding` branch for collected responses and pull before pushing
+manual changes to it.
 
 ## Power analysis
 
 The power analysis follows the **one-video, two-independent-group design** in
-[PR #7](https://github.com/haydn-s/sourcing-data-project-2/pull/7). Each participant
+the [study protocol](videos/README.md). Each participant
 watches the same video and completes the same 10-question quiz once. With α = 0.05,
 80% desired power, and equal group sizes, the independent-samples t-test planning model gives:
 
@@ -150,7 +244,7 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 ### GitHub branches and PRs
 
 - [x] **Sabrina:** `flyer` branch, with a PR to add the recruitment flyer to the repo (and document it in the README)
-- [ ] **Sabrina:** `videos` branch, with a PR to add the video links and quiz questions to the repo
+- [x] **Sabrina:** `videos` branch, with a PR to add the video links and quiz questions to the repo
 - [x] **Haydn:** `question-form-template` branch, with [PR #2](https://github.com/haydn-s/sourcing-data-project-2/pull/2) to add the HTML quiz form
 - [x] **Haydn:** `html-form-updates` branch, with [PR #4](https://github.com/haydn-s/sourcing-data-project-2/pull/4) to add one question set per video and record each run's group, video and condition
 - [ ] Each of us reviews and approves the other's PRs before merging
@@ -220,10 +314,9 @@ and some studies suggest they may actually hurt learning.
 
 - Two independent groups: randomly assign each participant to fidget toy or no fidget toy
 - Everyone watches *The surprising reasons animals play dead* and takes the same
-  10-question quiz once; the updated protocol and questions are supplied by
-  [PR #7](https://github.com/haydn-s/sourcing-data-project-2/pull/7)
+  10-question quiz once; see the [study protocol and questions](videos/README.md)
 - Fidget participants hold a squishy while watching; controls have no toy
-- Use Group 1 (fidget) or Group 2 (control), first quiz only, in the existing form
+- Select Group 1 (fidget) or Group 2 (control) in the Streamlit app
 - Watch video → take quiz; stop after that quiz (about 10 minutes per participant)
 
 **Statistical test:** Two-sided Welch independent-samples t-test. Power planning uses
