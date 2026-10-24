@@ -166,8 +166,9 @@ npm test
 
 The Python checks exercise a full Streamlit quiz, review and answer changes, separate
 participant sessions, automatic local storage, save failures and retries, CSV schema,
-timing, the video-before-quiz flow, storage configuration, and mocked GitHub requests. GitHub tests do not create real commits. The Node
-checks cover the original HTML quiz logic and need no installed Node dependencies.
+timing, the video-before-quiz flow, storage configuration, mocked GitHub requests,
+and independent-group power calculations. GitHub tests do not create real commits.
+The Node checks cover the original HTML quiz logic and need no installed Node dependencies.
 
 ### Original HTML version
 
@@ -186,6 +187,48 @@ The `.gitkeep` files preserve empty directories after cloning. Assessment CSVs i
 directories can be committed normally; loose downloads elsewhere are ignored. Use the
 `data-collection-scaffolding` branch for collected responses and pull before pushing
 manual changes to it.
+
+## Power analysis
+
+The power analysis follows the **one-video, two-independent-group design** in
+the [study protocol](videos/README.md). Each participant
+watches the same video and completes the same 10-question quiz once. With α = 0.05,
+80% desired power, and equal group sizes, the independent-samples t-test planning model gives:
+
+| Assumed effect | Completers per group | Total completers | Initial recruits at 10% assumed loss |
+| --- | --- | --- | --- |
+| d = 0.50: 1-question difference / within-group score SD of 2 | 64 | 128 | 144 total (72 per group) |
+| d = 0.80: 1.6-question difference / within-group score SD of 2 | 26 | 52 | 58 total (29 per group) |
+
+The default preserves the selected **one-question** threshold. The 52-total scenario
+assumes a larger effect; it has only 42.4% power for a one-question difference when
+the within-group score SD is 2. Variability and loss rate are planning assumptions,
+not pilot estimates. Recruitment inflation is an expectation, not a guarantee.
+The equal-variance planning model approximates power for the planned Welch analysis.
+
+See the [full power analysis and suggested report wording](reports/power-analysis.md)
+for hypotheses, calculations, sensitivity tables, design limitations, and references.
+The [generated results](results/power/) contain calculated planning values, with no
+participant data.
+
+To reproduce with Python 3.12 or newer, run from the repository root:
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python scripts/power_analysis.py
+.venv/bin/python -m unittest discover -s tests -p 'test_power_analysis.py' -v
+```
+
+Use `--help` to see adjustable assumptions. To explore another scenario without replacing
+the baseline outputs:
+
+```sh
+.venv/bin/python scripts/power_analysis.py --mean-difference 1.6 --participants 52 --output-dir /tmp/fidget-power-large-effect
+```
+
+`--participants` is the **total** across both groups, split equally; `--score-sd` is the
+common within-group score SD. The former paired-design `--difference-sd` flag is removed.
 
 ## To-Do's
 
@@ -208,7 +251,7 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 
 ### Next week (Oct 19–23)
 
-- [ ] Run the power analysis to figure out how many participants we need
+- [x] Run the power analysis to figure out how many participants we need (see [Power analysis](#power-analysis))
 - [ ] Send the flyer out to friends throughout the week to recruit participants
 - [ ] Decide on the final details of the experiment
 
@@ -218,8 +261,8 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 
 ## Project Ideas Under Consideration
 
-We are weighing two candidate experiments. Both are within-subjects designs built around
-attention/learning measures that are cheap to collect in person.
+We considered two experiments built around attention and learning measures that are cheap
+to collect in person. The selected fidget-toy study now uses two independent groups.
 
 ### Idea 1: Does a Short Burst of Exercise Improve Attention?
 
@@ -265,22 +308,24 @@ and some studies suggest they may actually hurt learning.
 **Variables**
 
 - **Independent variable:** fidget toy vs. no fidget toy
-- **Dependent variable:** quiz score out of 10 after a 4.5-minute video
+- **Dependent variable:** score on a 10-question quiz after a ~4.5-minute video
 
 **How we'll test it**
 
-- Two independent groups (between-subjects): each participant is randomly assigned to the fidget
-  toy group or the no-fidget-toy group
-- Everyone watches the same video and takes the same 10-question quiz (see [`videos/`](videos/))
-- Fidget group holds a squishy toy while watching; the no-fidget group doesn't
-- Watch video → take quiz (about 10 minutes per participant)
+- Two independent groups: randomly assign each participant to fidget toy or no fidget toy
+- Everyone watches *The surprising reasons animals play dead* and takes the same
+  10-question quiz once; see the [study protocol and questions](videos/README.md)
+- Fidget participants hold a squishy while watching; controls have no toy
+- Select Group 1 (fidget) or Group 2 (control) in the Streamlit app
+- Watch video → take quiz; stop after that quiz (about 10 minutes per participant)
 
-**Statistical test:** Independent-samples t-test, using Welch's version if the group variances
-differ (Mann-Whitney U if the data isn't normal)
+**Statistical test:** Two-sided Welch independent-samples t-test. Power planning uses
+an equal-variance independent-samples t-test approximation. Any Mann-Whitney U sensitivity
+analysis must state its assumptions and the different hypothesis it addresses.
 
-**Sample size:** With two independent groups, a two-sided test at α = 0.05 and 80% power needs
-about 26 per group (52 total) to detect a large effect (d = 0.8), or about 64 per group (128 total)
-for a medium effect (d = 0.5). The power analysis needs to be updated for this design.
+**Sample size:** For α = 0.05 and 80% power, d = 0.50 requires 64 per group (128 total);
+d = 0.80 requires 26 per group (52 total). See [Power analysis](#power-analysis) for
+the raw score assumptions, recruitment estimates, and sensitivity at smaller sample sizes.
 
 ### Side-by-Side Comparison
 
@@ -290,8 +335,8 @@ for a medium effect (d = 0.5). The power analysis needs to be updated for this d
 | Dependent variable | Stroop reaction time & accuracy | Quiz score |
 | Design | Within-subjects, randomized order | Between-subjects, two randomized groups |
 | Session length | Practice + 2 conditions + 5 min rest | 1 video (4.5 min) + 1 quiz |
-| Statistical test | Paired t-test / Wilcoxon signed-rank | Independent-samples t-test / Mann-Whitney U |
-| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | ~52 (d = 0.8) to ~128 (d = 0.5), α = 0.05, power = 0.80 |
+| Statistical test | Paired t-test / Wilcoxon signed-rank | Welch independent-samples t-test |
+| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | 128 total at d = 0.50; 52 total at d = 0.80 (α = 0.05, power ≥ 0.80) |
 
 ## Recruitment Flyer
 
@@ -315,5 +360,6 @@ and their expectations don't skew the results.
 
 ## Status
 
-Idea 2 (fidget toy and learning) is the study we are moving forward with. No data collection or
-analysis has started yet — see the [To-Do's](#to-dos) above for the current plan.
+Idea 2 (fidget toy and learning) is the study we are moving forward with. The prospective
+power analysis is complete. Participant data collection and outcome analysis have not
+started — see the [To-Do's](#to-dos) above for the current plan.
