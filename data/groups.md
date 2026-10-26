@@ -5,5 +5,5 @@
 | George | Alberto |
 | Burak | Colby |
 | Sabrina | Haydn |
-| Michelle | Kuba |
+| Rahul | Kuba |
 | Jothi | Daniel |
