@@ -1,0 +1,10 @@
+participant_id,session_date_utc,participant_group,condition,research_team,score,total_time_seconds,q01_correct,q02_correct,q03_correct,q04_correct,q05_correct,q06_correct,q07_correct,q08_correct,q09_correct,q10_correct
+P01,2026-10-22,1,Fidget toy,0,8,136.278,1,1,1,1,1,0,0,1,1,1
+P02,2026-10-22,1,Fidget toy,0,6,102.762,1,1,0,1,0,1,0,0,1,1
+P03,2026-10-22,2,No fidget toy,0,8,236.473,1,1,1,0,0,1,1,1,1,1
+P04,2026-10-22,2,No fidget toy,0,8,110.657,0,1,1,1,0,1,1,1,1,1
+P05,2026-10-22,1,Fidget toy,1,8,195.837,1,1,0,1,1,0,1,1,1,1
+P06,2026-10-22,2,No fidget toy,1,8,56.791,0,1,1,1,0,1,1,1,1,1
+P07,2026-10-22,2,No fidget toy,0,7,166.448,0,1,0,1,1,0,1,1,1,1
+P08,2026-10-26,1,Fidget toy,0,6,61.256,1,1,0,0,0,1,1,0,1,1
+P09,2026-10-26,2,No fidget toy,0,9,124.05,1,1,1,1,0,1,1,1,1,1

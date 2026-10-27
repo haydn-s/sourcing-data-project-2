@@ -36,6 +36,10 @@ collection: its server filesystem is temporary and local writes do not update Gi
 
 ### Deploy on Streamlit Community Cloud
 
+> **Data collection is closed.** The `data-collection-scaffolding` output branch named
+> below was merged into `main` and deleted. To collect again, create a new output branch
+> and use its name for `github.branch` in the app's secrets.
+
 1. Merge the app changes into `main` on GitHub.
 2. In Streamlit, create an app with repository **`haydn-s/sourcing-data-project-2`**,
    branch **`main`**, and main file **`streamlit_app.py`**. Choose Python 3.12
@@ -167,7 +171,8 @@ npm test
 The Python checks exercise a full Streamlit quiz, review and answer changes, separate
 participant sessions, automatic local storage, save failures and retries, CSV schema,
 timing, the video-before-quiz flow, storage configuration, mocked GitHub requests,
-and independent-group power calculations. GitHub tests do not create real commits.
+independent-group power calculations, and results scoring and analysis. GitHub tests
+do not create real commits.
 The Node checks cover the original HTML quiz logic and need no installed Node dependencies.
 
 ### Original HTML version
@@ -182,11 +187,12 @@ CSVs in the browser; automatic server-side saving is provided by Streamlit.
 
 - [`data/raw/`](data/raw/): original response CSVs; keep unchanged during analysis.
 - [`data/processed/`](data/processed/): cleaned or combined outputs derived from raw data.
+- [`data/groups.md`](data/groups.md): participant group assignments.
 
-The `.gitkeep` files preserve empty directories after cloning. Assessment CSVs in these
-directories can be committed normally; loose downloads elsewhere are ignored. Use the
-`data-collection-scaffolding` branch for collected responses and pull before pushing
-manual changes to it.
+Collection closed with 9 completed quizzes, all now on `main`. The `.gitkeep` files
+preserve empty directories after cloning. Assessment CSVs in these directories can be
+committed normally; loose downloads elsewhere are ignored. Raw filenames and contents
+include participants' names and are public; analysis outputs use IDs (P01–P09) instead.
 
 ## Power analysis
 
@@ -229,6 +235,26 @@ the baseline outputs:
 
 `--participants` is the **total** across both groups, split equally; `--score-sd` is the
 common within-group score SD. The former paired-design `--difference-sd` flag is removed.
+
+## Results analysis
+
+Nine participants completed the quiz, 4 with a fidget toy and 5 without. The fidget group
+averaged 7.00 correct answers and the no-fidget group 8.00. That difference of −1.00
+questions was not statistically significant (95% Welch CI −2.72 to 0.72, p = 0.19).
+Excluding the two research-team members gives a similar result (−1.33, p = 0.17).
+With far fewer participants than the planned 128, power was about 10%, so the results
+are inconclusive pilot data.
+
+See the [full results report](reports/results.md) for both analyses, the figure, quiz item
+difficulty, protocol deviations, and suggested report wording.
+[`scripts/analyze_results.py`](scripts/analyze_results.py) scores each raw CSV against
+the answer key, writes de-identified scores to `data/processed/scores.csv`, and writes
+tables, a summary and the figure to [`results/analysis/`](results/analysis/):
+
+```sh
+.venv/bin/python scripts/analyze_results.py
+.venv/bin/python -m unittest discover -s tests -p 'test_analyze_results.py' -v
+```
 
 ## To-Do's
 
@@ -360,6 +386,6 @@ and their expectations don't skew the results.
 
 ## Status
 
-Idea 2 (fidget toy and learning) is the study we are moving forward with. The prospective
-power analysis is complete. Participant data collection and outcome analysis have not
-started — see the [To-Do's](#to-dos) above for the current plan.
+Idea 2 (fidget toy and learning) is the study we moved forward with. The prospective
+power analysis is complete, data collection is closed with 9 completed quizzes, and the
+outcome analysis is in the [results report](reports/results.md).

@@ -1,6 +1,6 @@
 streamlit==1.66.1
 
-# Power-analysis environment verified with Python 3.12.14.
+# Power and results analysis environment verified with Python 3.12.14.
 numpy==2.5.4
 scipy==1.18.1
 statsmodels==0.15.0

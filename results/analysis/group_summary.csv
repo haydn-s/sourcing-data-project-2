@@ -1,0 +1,5 @@
+analysis,participant_group,condition,n,mean_score,sd_score,median_score,min_score,max_score,mean_total_time_seconds,median_total_time_seconds
+primary_all_participants,1,Fidget toy,4,7.0,1.1547005383792515,7.0,6,8,124.03325,119.52
+primary_all_participants,2,No fidget toy,5,8.0,0.7071067811865476,8.0,7,9,138.8838,124.05
+sensitivity_excluding_research_team,1,Fidget toy,3,6.666666666666667,1.1547005383792515,6.0,6,8,100.09866666666666,102.762
+sensitivity_excluding_research_team,2,No fidget toy,4,8.0,0.816496580927726,8.0,7,9,159.407,145.249
