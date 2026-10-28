@@ -1,0 +1,95 @@
+{
+  "analysis_type": "confirmatory outcome analysis prespecified in reports/power-analysis.md",
+  "design": "one video, one quiz per participant, two independent groups",
+  "outcome": "number of correct answers out of 10",
+  "test": "two-sided Welch independent-samples t-test",
+  "alpha": 0.05,
+  "difference_definition": "mean quiz score in fidget group minus mean in no-fidget group",
+  "effect_size_note": "Cohen's d and Hedges' g use the pooled within-group SD.",
+  "power_note": "Power is for the prespecified planning effects at the achieved group sizes; it is not post hoc power at the observed effect.",
+  "completed_quizzes": 9,
+  "research_team_participants": 2,
+  "session_dates_utc": [
+    "2026-10-22",
+    "2026-10-26"
+  ],
+  "primary_all_participants": {
+    "participants": 9,
+    "fidget": {
+      "n": 4,
+      "mean_score": 7.0,
+      "sd_score": 1.1547005383792515,
+      "median_score": 7.0,
+      "min_score": 6,
+      "max_score": 8,
+      "mean_total_time_seconds": 124.03325,
+      "median_total_time_seconds": 119.52
+    },
+    "no_fidget": {
+      "n": 5,
+      "mean_score": 8.0,
+      "sd_score": 0.7071067811865476,
+      "median_score": 8.0,
+      "min_score": 7,
+      "max_score": 9,
+      "mean_total_time_seconds": 138.8838,
+      "median_total_time_seconds": 124.05
+    },
+    "mean_difference_fidget_minus_no_fidget": -1.0,
+    "welch_t": -1.5191090506254998,
+    "welch_df": 4.749414519906323,
+    "p_value": 0.19222221711613077,
+    "ci_95_low": -2.7193736606518044,
+    "ci_95_high": 0.7193736606518044,
+    "pooled_within_group_score_sd": 0.9258200997725514,
+    "pooled_sd_ci_95_low": 0.6121283164380638,
+    "pooled_sd_ci_95_high": 1.8842958101503844,
+    "cohens_d": -1.0801234497346435,
+    "hedges_g": -0.9601097330974608,
+    "power_at_planning_d_0_5": 0.09935665011317796,
+    "power_at_planning_d_0_8": 0.17881705588622465
+  },
+  "sensitivity_excluding_research_team": {
+    "participants": 7,
+    "fidget": {
+      "n": 3,
+      "mean_score": 6.666666666666667,
+      "sd_score": 1.1547005383792515,
+      "median_score": 6.0,
+      "min_score": 6,
+      "max_score": 8,
+      "mean_total_time_seconds": 100.09866666666666,
+      "median_total_time_seconds": 102.762
+    },
+    "no_fidget": {
+      "n": 4,
+      "mean_score": 8.0,
+      "sd_score": 0.816496580927726,
+      "median_score": 8.0,
+      "min_score": 7,
+      "max_score": 9,
+      "mean_total_time_seconds": 159.407,
+      "median_total_time_seconds": 145.249
+    },
+    "mean_difference_fidget_minus_no_fidget": -1.333333333333333,
+    "welch_t": -1.7056057308448829,
+    "welch_df": 3.4571428571428573,
+    "p_value": 0.17440311982189752,
+    "ci_95_low": -3.645029787720658,
+    "ci_95_high": 0.978363121053992,
+    "pooled_within_group_score_sd": 0.9660917830792959,
+    "pooled_sd_ci_95_low": 0.6030422219147455,
+    "pooled_sd_ci_95_high": 2.369450221401848,
+    "cohens_d": -1.380131118684708,
+    "hedges_g": -1.1622156788923856,
+    "power_at_planning_d_0_5": 0.08385908401732442,
+    "power_at_planning_d_0_8": 0.13786506719513958
+  },
+  "software": {
+    "python": "3.12.14",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "statsmodels": "0.15.0",
+    "matplotlib": "3.11.2"
+  }
+}
