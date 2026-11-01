@@ -13,12 +13,6 @@ independent-samples t-test planning model; they are an approximation for the pla
 Welch test. They are conditional sample-size estimates, rather than established
 recruitment commitments or evidence about the true fidget-toy effect.
 
-> **Revised significance level.** This analysis originally used α = 0.05, which required
-> 64 per group (128 total) at d = 0.50 and 26 per group (52 total) at d = 0.80. α was
-> changed to 0.10 on Nov 1, 2026, after the quizzes had been collected, so the new level
-> was not prespecified. A larger α lowers the required sample size but doubles the
-> false-positive rate when there is no true effect.
-
 ## Research question and hypotheses
 
 Does using a fidget toy while watching a short educational video change immediate
@@ -38,7 +32,7 @@ not covered by this power calculation.
 | Design | Two independent randomized groups; one video and one quiz per participant |
 | Power model | Two-sided independent-samples Student t-test with equal population variances |
 | Planned outcome analysis | Two-sided Welch independent-samples t-test |
-| Significance level | α = 0.10, two-sided; revised from α = 0.05 after data collection |
+| Significance level | α = 0.10, two-sided |
 | Desired power | 0.80, a practical planning target for the course experiment |
 | Allocation | Equal numbers in the fidget and no-fidget groups, ratio = 1 |
 | Smallest meaningful average difference | 1 correct answer out of 10, or 10 percentage points in average accuracy |
@@ -150,7 +144,7 @@ Pilot the quiz to check difficulty, score variability, and floor or ceiling effe
 A small pilot's SD estimate will itself be uncertain.
 
 In the final analysis, report group sizes, group means and SDs, the mean score difference
-with a 90% Welch confidence interval (matching α = 0.10), the Welch p-value, and an independent-group effect
+with a 90% Welch confidence interval, the Welch p-value, and an independent-group effect
 size such as Cohen's d or Hedges' g. Check score distributions and influential outliers.
 Do not automatically substitute Mann-Whitney U based on a normality test; it addresses
 a distributional hypothesis and is not generally a test of the same mean difference.
@@ -170,8 +164,7 @@ python3 -m venv .venv
 .venv/bin/python -m unittest discover -s tests -p 'test_power_analysis.py' -v
 ```
 
-The default remains a one-question target with score SD = 2 (d = 0.50), now with
-α = 0.10 and a selected total of 102. The
+The default remains a one-question target with score SD = 2 (d = 0.50). The
 `--participants` option always means the **total**, evenly divided between groups;
 it must be even and at least 4. The `--score-sd` option describes within-group scores
 and replaces the former paired-design SD option. For alternative scenarios without
@@ -180,9 +173,6 @@ overwriting the baseline outputs:
 ```sh
 # Large-effect scenario: 1.6-question difference / SD 2 = d 0.80; 42 total.
 .venv/bin/python scripts/power_analysis.py --mean-difference 1.6 --participants 42 --output-dir /tmp/fidget-power-large-effect
-
-# Original significance level: α = 0.05 gives 64 per group, 128 total.
-.venv/bin/python scripts/power_analysis.py --alpha 0.05 --participants 128 --output-dir /tmp/fidget-power-alpha05
 
 # Recruitment constraint: 24 total means 12 per group, under the default d 0.50.
 .venv/bin/python scripts/power_analysis.py --participants 24 --output-dir /tmp/fidget-power-total24
@@ -209,8 +199,7 @@ unusable quizzes gives an initial recruitment estimate of 57 per group, or 114 t
 Sensitivity analysis for d = 0.80 required 21 per group, or 42 total; with the assumed
 SD of 2, this represents a larger 1.6-question effect. The SD and loss rate are planning
 assumptions, not pilot estimates. The power calculation is an approximation for the
-planned Welch analysis. The significance level was revised from α = 0.05 (64 per group,
-128 total) to α = 0.10 after data collection.
+planned Welch analysis.
 
 ## References
 

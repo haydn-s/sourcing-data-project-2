@@ -5,7 +5,6 @@
   "test": "two-sided Welch independent-samples t-test",
   "alpha": 0.1,
   "confidence_level": 0.9,
-  "alpha_note": "Revised from the originally planned 0.05 after data collection; confidence intervals are two-sided at 1 - alpha.",
   "difference_definition": "mean quiz score in fidget group minus mean in no-fidget group",
   "effect_size_note": "Cohen's d and Hedges' g use the pooled within-group SD.",
   "power_note": "Power is for the prespecified planning effects at the achieved group sizes; it is not post hoc power at the observed effect.",

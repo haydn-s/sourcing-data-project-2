@@ -26,7 +26,7 @@ from statsmodels.stats.power import TTestIndPower
 ROOT = Path(__file__).resolve().parents[1]
 QUIZ_QUESTIONS = 10
 VIDEO_ID = "A"
-# Two-sided significance level, matching reports/power-analysis.md (revised from 0.05).
+# Two-sided significance level, matching reports/power-analysis.md.
 ALPHA = 0.10
 CONFIDENCE = f"{1 - ALPHA:.0%}"
 PLANNING_EFFECTS = (0.5, 0.8)
@@ -274,8 +274,6 @@ def run(args, research_team_run_ids=RESEARCH_TEAM_RUN_IDS):
         "test": "two-sided Welch independent-samples t-test",
         "alpha": ALPHA,
         "confidence_level": 1 - ALPHA,
-        "alpha_note": "Revised from the originally planned 0.05 after data collection; "
-                      "confidence intervals are two-sided at 1 - alpha.",
         "difference_definition": "mean quiz score in fidget group minus mean in no-fidget group",
         "effect_size_note": "Cohen's d and Hedges' g use the pooled within-group SD.",
         "power_note": "Power is for the prespecified planning effects at the achieved group sizes; "

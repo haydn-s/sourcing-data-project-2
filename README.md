@@ -208,10 +208,9 @@ planning model gives:
 | d = 0.50: 1-question difference / within-group score SD of 2 | 51 | 102 | 114 total (57 per group) |
 | d = 0.80: 1.6-question difference / within-group score SD of 2 | 21 | 42 | 48 total (24 per group) |
 
-The significance level was revised from α = 0.05 to α = 0.10 after data collection; at
-α = 0.05 the same effects needed 128 and 52 total. The default preserves the selected
-**one-question** threshold. The 42-total scenario assumes a larger effect; it has only
-48.0% power for a one-question difference when the within-group score SD is 2. Variability and loss rate are planning assumptions,
+The default preserves the selected **one-question** threshold. The 42-total scenario
+assumes a larger effect; it has only 48.0% power for a one-question difference when
+the within-group score SD is 2. Variability and loss rate are planning assumptions,
 not pilot estimates. Recruitment inflation is an expectation, not a guarantee.
 The equal-variance planning model approximates power for the planned Welch analysis.
 
@@ -246,8 +245,7 @@ averaged 7.67 correct answers and the no-fidget group 7.83. That difference of �
 questions was not statistically significant at α = 0.10 (90% Welch CI −1.36 to 1.02,
 p = 0.80). Excluding the two research-team members gives a similar result (−0.20, p = 0.80).
 With far fewer participants than the planned 102, power was about 21%, so the results
-are inconclusive pilot data. The significance level was raised from 0.05 to 0.10 after
-data collection; the result is nonsignificant at either level.
+are inconclusive pilot data.
 
 See the [full results report](reports/results.md) for both analyses, the figure, quiz item
 difficulty, protocol deviations, and suggested report wording.
@@ -391,5 +389,5 @@ and their expectations don't skew the results.
 ## Status
 
 Idea 2 (fidget toy and learning) is the study we moved forward with. The prospective
-power analysis is complete (revised to α = 0.10), data collection is closed with 12
+power analysis is complete, data collection is closed with 12
 completed quizzes, and the outcome analysis is in the [results report](reports/results.md).

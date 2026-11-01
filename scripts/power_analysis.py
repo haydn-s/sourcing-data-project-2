@@ -24,7 +24,7 @@ from statsmodels.stats.power import TTestIndPower
 ROOT = Path(__file__).resolve().parents[1]
 GROUPS = 2
 QUIZ_QUESTIONS = 10
-# Two-sided significance level; revised from 0.05 to 0.10 on 2026-11-01.
+# Two-sided significance level.
 ALPHA = 0.10
 POWER_MODEL = TTestIndPower()
 

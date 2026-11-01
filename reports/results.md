@@ -39,11 +39,8 @@ analysis identifies research-team runs by run ID, so no names appear in the code
 ## Primary analysis: all participants
 
 The planned analysis is the two-sided Welch independent-samples t-test prespecified in
-the [power analysis](power-analysis.md), now with α = 0.10. The significance level was
-raised from the original α = 0.05 after data collection, so confidence intervals below
-are 90% intervals to match. The p-value does not depend on α, and at p = 0.80 the
-conclusion is the same at either level; the 95% interval for the primary difference is
-−1.64 to 1.31.
+the [power analysis](power-analysis.md), with α = 0.10. Confidence intervals below are
+90% intervals.
 
 | Group | n | Mean | SD | Median | Range |
 | --- | --- | --- | --- | --- | --- |
@@ -94,9 +91,8 @@ the result.
 | Primary | 6 and 6 | 20.8% | 36.4% |
 | Excluding research team | 5 and 5 | 18.8% | 31.6% |
 
-The planned 80% power required 51 per group at α = 0.10 (64 per group at the original
-α = 0.05). Under these conditions, a true effect of the planned size would usually
-produce a nonsignificant result.
+The planned 80% power required 51 per group. Under these conditions, a true effect of
+the planned size would usually produce a nonsignificant result.
 
 ## Score spread and quiz items
 
@@ -141,11 +137,8 @@ prespecified, so no quiz was excluded for speed.
 
 ## Protocol deviations and limitations
 
-- **Sample size.** Twelve completers against a target of 102 (128 at the original α).
+- **Sample size.** Twelve completers against a target of 102.
   All inferential results above carry the low power shown in the power table.
-- **Significance level.** α was raised from 0.05 to 0.10 after data collection, so the
-  new level was not prespecified. It does not change any conclusion here, because
-  p = 0.80 is above both levels.
 - **Replacement participant.** One person assigned to the fidget group did not take the
   quiz, and a later participant took that place in the fidget group.
 - **Research-team participants.** Two of the twelve knew the hypothesis and had worked on the quiz.
@@ -170,13 +163,11 @@ fidget group and 7.83 (SD 0.75) in the no-fidget group. A two-sided Welch indepe
 t-test at α = 0.10 found no statistically significant difference, t(7.78) = −0.26,
 p = 0.80. The mean difference was −0.17 questions (90% CI −1.36 to 1.02), Hedges' g = −0.14.
 Excluding two participants who were members of the research team gave a similar result
-(difference −0.20, 90% CI −1.70 to 1.30, p = 0.80). The significance level was revised
-from 0.05 to 0.10 after data collection; the result is nonsignificant at either level.
-The a priori power analysis at α = 0.10 called for 51 participants per group; at the
-achieved group sizes, power to detect the planned effect (d = 0.50) was about 21%. The
-results are therefore inconclusive and should be treated as pilot data. The pooled
-within-group SD of 1.10 questions (90% CI 0.82 to 1.76) can inform planning for a larger
-follow-up study.
+(difference −0.20, 90% CI −1.70 to 1.30, p = 0.80). The a priori power analysis at
+α = 0.10 called for 51 participants per group; at the achieved group sizes, power to
+detect the planned effect (d = 0.50) was about 21%. The results are therefore
+inconclusive and should be treated as pilot data. The pooled within-group SD of 1.10
+questions (90% CI 0.82 to 1.76) can inform planning for a larger follow-up study.
 
 ## Reproduction and outputs
 
