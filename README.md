@@ -189,10 +189,11 @@ CSVs in the browser; automatic server-side saving is provided by Streamlit.
 - [`data/processed/`](data/processed/): cleaned or combined outputs derived from raw data.
 - [`data/groups.md`](data/groups.md): participant group assignments.
 
-Collection closed with 9 completed quizzes, all now on `main`. The `.gitkeep` files
+Collection closed with 12 completed quizzes, all now on `main`. The last three were saved
+to a `data-collection` output branch on Oct 28–31 and merged into `main` on Nov 1. The `.gitkeep` files
 preserve empty directories after cloning. Assessment CSVs in these directories can be
 committed normally; loose downloads elsewhere are ignored. Raw filenames and contents
-include participants' names and are public; analysis outputs use IDs (P01–P09) instead.
+include participants' names and are public; analysis outputs use IDs (P01–P12) instead.
 
 ## Power analysis
 
@@ -240,12 +241,13 @@ common within-group score SD. The former paired-design `--difference-sd` flag is
 
 ## Results analysis
 
-Nine participants completed the quiz, 4 with a fidget toy and 5 without. The fidget group
-averaged 7.00 correct answers and the no-fidget group 8.00. That difference of −1.00
-questions was not statistically significant (95% Welch CI −2.72 to 0.72, p = 0.19).
-Excluding the two research-team members gives a similar result (−1.33, p = 0.17).
-With far fewer participants than the planned 128, power was about 10%, so the results
-are inconclusive pilot data.
+Twelve participants completed the quiz, 6 with a fidget toy and 6 without. The fidget group
+averaged 7.67 correct answers and the no-fidget group 7.83. That difference of −0.17
+questions was not statistically significant at α = 0.10 (90% Welch CI −1.36 to 1.02,
+p = 0.80). Excluding the two research-team members gives a similar result (−0.20, p = 0.80).
+With far fewer participants than the planned 102, power was about 21%, so the results
+are inconclusive pilot data. The significance level was raised from 0.05 to 0.10 after
+data collection; the result is nonsignificant at either level.
 
 See the [full results report](reports/results.md) for both analyses, the figure, quiz item
 difficulty, protocol deviations, and suggested report wording.
@@ -389,5 +391,5 @@ and their expectations don't skew the results.
 ## Status
 
 Idea 2 (fidget toy and learning) is the study we moved forward with. The prospective
-power analysis is complete, data collection is closed with 9 completed quizzes, and the
-outcome analysis is in the [results report](reports/results.md).
+power analysis is complete (revised to α = 0.10), data collection is closed with 12
+completed quizzes, and the outcome analysis is in the [results report](reports/results.md).

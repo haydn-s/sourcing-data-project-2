@@ -26,7 +26,9 @@ from statsmodels.stats.power import TTestIndPower
 ROOT = Path(__file__).resolve().parents[1]
 QUIZ_QUESTIONS = 10
 VIDEO_ID = "A"
-ALPHA = 0.05
+# Two-sided significance level, matching reports/power-analysis.md (revised from 0.05).
+ALPHA = 0.10
+CONFIDENCE = f"{1 - ALPHA:.0%}"
 PLANNING_EFFECTS = (0.5, 0.8)
 GROUPS = {"1": "Fidget toy", "2": "No fidget toy"}
 GROUP_COLORS = {"1": "#2a78d6", "2": "#eb6834"}
@@ -159,12 +161,12 @@ def compare_groups(participants):
         "welch_t": float(welch.statistic),
         "welch_df": float(welch.df),
         "p_value": float(welch.pvalue),
-        "ci_95_low": float(interval.low),
-        "ci_95_high": float(interval.high),
+        "ci_low": float(interval.low),
+        "ci_high": float(interval.high),
         "pooled_within_group_score_sd": pooled_sd,
         # Chi-square interval for the common SD, assuming normal scores within each group.
-        "pooled_sd_ci_95_low": pooled_sd * math.sqrt(pooled_df / stats.chi2.ppf(1 - ALPHA / 2, pooled_df)),
-        "pooled_sd_ci_95_high": pooled_sd * math.sqrt(pooled_df / stats.chi2.ppf(ALPHA / 2, pooled_df)),
+        "pooled_sd_ci_low": pooled_sd * math.sqrt(pooled_df / stats.chi2.ppf(1 - ALPHA / 2, pooled_df)),
+        "pooled_sd_ci_high": pooled_sd * math.sqrt(pooled_df / stats.chi2.ppf(ALPHA / 2, pooled_df)),
         "cohens_d": cohens_d,
         "hedges_g": hedges_g,
         # Power for the prespecified planning effects at the achieved group sizes, not observed power.
@@ -226,7 +228,7 @@ def plot_scores(participants, primary, output_dir):
         ax.set_yticks(range(0, QUIZ_QUESTIONS + 1, 2))
         ax.set_title("Quiz scores by condition\n"
                      f"Fidget − no fidget: {primary['mean_difference_fidget_minus_no_fidget']:+.2f} questions "
-                     f"(95% CI {primary['ci_95_low']:.2f} to {primary['ci_95_high']:.2f}; "
+                     f"({CONFIDENCE} CI {primary['ci_low']:.2f} to {primary['ci_high']:.2f}; "
                      f"Welch p = {primary['p_value']:.2f})", fontsize=11)
         ax.grid(axis="y", alpha=0.15)
         ax.spines[["top", "right"]].set_visible(False)
@@ -234,7 +236,8 @@ def plot_scores(participants, primary, output_dir):
             Line2D([], [], marker="o", linestyle="", markersize=9, color="#52514e", label="Participant"),
             Line2D([], [], marker="o", linestyle="", markersize=9, markerfacecolor="white",
                    markeredgecolor="#52514e", markeredgewidth=2, label="Research team member"),
-            Line2D([], [], marker="D", color="#0b0b0b", markersize=7, linewidth=2, label="Group mean, 95% CI"),
+            Line2D([], [], marker="D", color="#0b0b0b", markersize=7, linewidth=2,
+                   label=f"Group mean, {CONFIDENCE} CI"),
         ]
         ax.legend(handles=handles, loc="lower right", framealpha=0.95, fontsize=9)
         fig.savefig(output_dir / "score_plot.png", dpi=180, metadata={"Software": "analyze_results.py"})
@@ -270,6 +273,9 @@ def run(args, research_team_run_ids=RESEARCH_TEAM_RUN_IDS):
         "outcome": f"number of correct answers out of {QUIZ_QUESTIONS}",
         "test": "two-sided Welch independent-samples t-test",
         "alpha": ALPHA,
+        "confidence_level": 1 - ALPHA,
+        "alpha_note": "Revised from the originally planned 0.05 after data collection; "
+                      "confidence intervals are two-sided at 1 - alpha.",
         "difference_definition": "mean quiz score in fidget group minus mean in no-fidget group",
         "effect_size_note": "Cohen's d and Hedges' g use the pooled within-group SD.",
         "power_note": "Power is for the prespecified planning effects at the achieved group sizes; "
@@ -303,7 +309,7 @@ def run(args, research_team_run_ids=RESEARCH_TEAM_RUN_IDS):
         print(f"{name}: fidget {result['fidget']['mean_score']:.2f} (n={result['fidget']['n']}) vs "
               f"no fidget {result['no_fidget']['mean_score']:.2f} (n={result['no_fidget']['n']}); "
               f"difference {result['mean_difference_fidget_minus_no_fidget']:+.2f} "
-              f"[{result['ci_95_low']:.2f}, {result['ci_95_high']:.2f}], "
+              f"{CONFIDENCE} CI [{result['ci_low']:.2f}, {result['ci_high']:.2f}], "
               f"Welch t({result['welch_df']:.2f}) = {result['welch_t']:.3f}, p = {result['p_value']:.3f}, "
               f"g = {result['hedges_g']:.2f}")
     print(f"Scores: {processed_dir / 'scores.csv'}")

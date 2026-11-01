@@ -11,7 +11,7 @@ from pathlib import Path
 from scipy import stats
 
 from scripts.analyze_results import (
-    GROUPS, RESEARCH_TEAM_RUN_IDS, ROOT, compare_groups, load_answer_key, load_runs, parse_args, run,
+    ALPHA, GROUPS, RESEARCH_TEAM_RUN_IDS, ROOT, compare_groups, load_answer_key, load_runs, parse_args, run,
     score_runs,
 )
 
@@ -99,12 +99,12 @@ class AnalyzeResultsTests(unittest.TestCase):
         self.assertAlmostEqual(result["welch_t"], expected.statistic)
         self.assertAlmostEqual(result["welch_df"], expected.df)
         self.assertAlmostEqual(result["p_value"], expected.pvalue)
-        self.assertAlmostEqual(result["ci_95_low"], expected.confidence_interval().low)
-        self.assertAlmostEqual(result["ci_95_high"], expected.confidence_interval().high)
+        self.assertAlmostEqual(result["ci_low"], expected.confidence_interval(1 - ALPHA).low)
+        self.assertAlmostEqual(result["ci_high"], expected.confidence_interval(1 - ALPHA).high)
         # Both groups have SD 1, so the pooled SD is 1 and d equals the mean difference.
         self.assertAlmostEqual(result["pooled_within_group_score_sd"], 1.0)
-        self.assertAlmostEqual(result["pooled_sd_ci_95_low"], (4 / stats.chi2.ppf(0.975, 4)) ** 0.5)
-        self.assertAlmostEqual(result["pooled_sd_ci_95_high"], (4 / stats.chi2.ppf(0.025, 4)) ** 0.5)
+        self.assertAlmostEqual(result["pooled_sd_ci_low"], (4 / stats.chi2.ppf(1 - ALPHA / 2, 4)) ** 0.5)
+        self.assertAlmostEqual(result["pooled_sd_ci_high"], (4 / stats.chi2.ppf(ALPHA / 2, 4)) ** 0.5)
         self.assertAlmostEqual(result["cohens_d"], -2.0)
         self.assertAlmostEqual(result["hedges_g"], -2.0 * (1 - 3 / (4 * 4 - 1)))
         self.assertLess(result["power_at_planning_d_0_5"], result["power_at_planning_d_0_8"])

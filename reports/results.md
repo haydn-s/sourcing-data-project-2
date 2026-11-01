@@ -1,13 +1,13 @@
 # Results of the fidget toy learning study
 
-Nine participants completed the quiz: **4 with a fidget toy and 5 without**. The fidget
-group averaged **7.00** correct answers out of 10, and the no-fidget group averaged
-**8.00**. The difference of **−1.00 questions** (fidget minus no fidget) was not
-statistically significant: the 95% Welch confidence interval runs from **−2.72 to 0.72**,
-and **p = 0.19**. Excluding the two research-team members gives a similar result.
+Twelve participants completed the quiz: **6 with a fidget toy and 6 without**. The fidget
+group averaged **7.67** correct answers out of 10, and the no-fidget group averaged
+**7.83**. The difference of **−0.17 questions** (fidget minus no fidget) was not
+statistically significant: the 90% Welch confidence interval runs from **−1.36 to 1.02**,
+and **p = 0.80**. Excluding the two research-team members gives a similar result.
 
-The study fell far short of its planned sample of 128. At these group sizes, it had about
-a **10% chance** of detecting the one-question effect it was planned around. The result
+The study fell far short of its planned sample of 102. At these group sizes, it had about
+a **21% chance** of detecting the one-question effect it was planned around. The result
 therefore cannot show whether a fidget toy helps, hurts, or makes no difference, and
 it should be reported as a small pilot study. A nonsignificant result here is not
 evidence that the effect is absent.
@@ -16,48 +16,57 @@ evidence that the effect is absent.
 
 | Item | Detail |
 | --- | --- |
-| Assigned | 10 people in 5 pairs ([`data/groups.md`](../data/groups.md)) |
-| Completed | 9 quizzes, one per person; one person assigned to the fidget group did not take the quiz |
-| Sessions | 7 on Thursday, Oct 22 and 2 on Monday, Oct 26 (UTC dates of quiz start) |
+| Assigned | 12 people in 6 pairs ([`data/groups.md`](../data/groups.md)) |
+| Completed | 12 quizzes, one per person |
+| Sessions | 7 on Thursday, Oct 22, 2 on Monday, Oct 26, 1 on Wednesday, Oct 28, and 2 on Saturday, Oct 31 (UTC dates of quiz start) |
 | Excluded from the primary analysis | None |
 | Research-team members | 2, one in each group, flagged for the sensitivity analysis |
 
+One person originally assigned to the fidget group did not take the quiz. A later
+participant took that place in the fidget group on Oct 28, and a sixth pair completed
+the quiz on Oct 31, giving 6 per group.
+
 Each raw CSV in [`data/raw/`](../data/raw/) holds one quiz. Before scoring, the analysis
 checks that each quiz has exactly one answer for each of the 10 questions, that the group
-matches the recorded condition, and that no person or run appears twice. All nine files
+matches the recorded condition, and that no person or run appears twice. All twelve files
 passed. Answers are scored against [`videos/answer_key.csv`](../videos/answer_key.csv).
 
 The raw files are named after participants and are publicly visible in this repository.
 The processed scores in [`data/processed/scores.csv`](../data/processed/scores.csv) and
-every output below use IDs instead, numbered P01–P09 in order of quiz start. The
+every output below use IDs instead, numbered P01–P12 in order of quiz start. The
 analysis identifies research-team runs by run ID, so no names appear in the code or outputs.
 
 ## Primary analysis: all participants
 
 The planned analysis is the two-sided Welch independent-samples t-test prespecified in
-the [power analysis](power-analysis.md), with α = 0.05.
+the [power analysis](power-analysis.md), now with α = 0.10. The significance level was
+raised from the original α = 0.05 after data collection, so confidence intervals below
+are 90% intervals to match. The p-value does not depend on α, and at p = 0.80 the
+conclusion is the same at either level; the 95% interval for the primary difference is
+−1.64 to 1.31.
 
 | Group | n | Mean | SD | Median | Range |
 | --- | --- | --- | --- | --- | --- |
-| Fidget toy | 4 | 7.00 | 1.15 | 7 | 6–8 |
-| No fidget toy | 5 | 8.00 | 0.71 | 8 | 7–9 |
+| Fidget toy | 6 | 7.67 | 1.37 | 8 | 6–9 |
+| No fidget toy | 6 | 7.83 | 0.75 | 8 | 7–9 |
 
 | Statistic | Value |
 | --- | --- |
-| Mean difference (fidget − no fidget) | −1.00 questions |
-| 95% Welch confidence interval | −2.72 to 0.72 |
-| Welch t (df) | −1.52 (4.75) |
-| p-value | 0.19 |
-| Hedges' g (Cohen's d) | −0.96 (−1.08) |
-| Pooled within-group SD | 0.93 questions (95% CI 0.61 to 1.88) |
+| Mean difference (fidget − no fidget) | −0.17 questions |
+| 90% Welch confidence interval | −1.36 to 1.02 |
+| Welch t (df) | −0.26 (7.78) |
+| p-value | 0.80 |
+| Hedges' g (Cohen's d) | −0.14 (−0.15) |
+| Pooled within-group SD | 1.10 questions (90% CI 0.82 to 1.76) |
 
 ![Quiz scores by condition](../results/analysis/score_plot.png)
 
-The observed difference equals the one-question threshold the study was designed to
-detect. The confidence interval is wide, though: it includes no difference at all, a
-fidget-group deficit of nearly three questions, and a small fidget-group advantage.
-The effect size looks large only because scores varied little within each group. With
-four or five people per group, the effect size estimate is itself very imprecise.
+The observed difference is a sixth of a question, well below the one-question threshold
+the study was designed to detect. The confidence interval still includes no difference,
+a fidget-group deficit of more than a question, and a fidget-group advantage of about
+one question. The data therefore cannot rule out an effect of the planned size in either
+direction. With the first nine participants the difference was −1.00 questions; three
+more quizzes moved it to −0.17, which shows how unstable estimates are at this sample size.
 
 ## Sensitivity analysis: excluding the research team
 
@@ -67,98 +76,107 @@ than prespecified, so it is reported as a sensitivity analysis.
 
 | Group | n | Mean | SD |
 | --- | --- | --- | --- |
-| Fidget toy | 3 | 6.67 | 1.15 |
-| No fidget toy | 4 | 8.00 | 0.82 |
+| Fidget toy | 5 | 7.60 | 1.52 |
+| No fidget toy | 5 | 7.80 | 0.84 |
 
-The difference is **−1.33 questions** (95% CI −3.65 to 0.98), Welch t(3.46) = −1.71,
-**p = 0.17**, Hedges' g = −1.16. The conclusion is unchanged: the direction matches the
+The difference is **−0.20 questions** (90% CI −1.70 to 1.30), Welch t(6.23) = −0.26,
+**p = 0.80**, Hedges' g = −0.15. The conclusion is unchanged: the direction matches the
 primary analysis, and the interval still includes zero.
 
 ## Power at the achieved sample
 
 The table shows power for the effects prespecified in the power analysis, given the
-group sizes actually achieved. It is not "observed power" calculated from the result.
+group sizes actually achieved and α = 0.10. It is not "observed power" calculated from
+the result.
 
 | Analysis | Group sizes | Power at d = 0.50 | Power at d = 0.80 |
 | --- | --- | --- | --- |
-| Primary | 4 and 5 | 9.9% | 17.9% |
-| Excluding research team | 3 and 4 | 8.4% | 13.8% |
+| Primary | 6 and 6 | 20.8% | 36.4% |
+| Excluding research team | 5 and 5 | 18.8% | 31.6% |
 
-The planned 80% power required 64 per group. Under these conditions, a true effect of
-the planned size would usually produce a nonsignificant result.
+The planned 80% power required 51 per group at α = 0.10 (64 per group at the original
+α = 0.05). Under these conditions, a true effect of the planned size would usually
+produce a nonsignificant result.
 
 ## Score spread and quiz items
 
-Scores ranged from 6 to 9, and the overall mean was 7.56. The pooled within-group SD of
-0.93 questions is about half the planning assumption of 2. Its 95% interval (0.61 to 1.88)
+Scores ranged from 6 to 9, and the overall mean was 7.75. The pooled within-group SD of
+1.10 questions is about half the planning assumption of 2. Its 90% interval (0.82 to 1.76)
 is wide, so it is a rough pilot estimate rather than a replacement value. If the true SD
-were near 1, a follow-up study would need far fewer participants than planned; the
-power analysis's [SD sensitivity table](power-analysis.md#recruitment-and-sensitivity)
-shows 26 per group at an SD of 1.25. An SD near the upper end of the interval would need
-close to the original 64 per group. The easy items noted below may also have narrowed the spread.
+were near 1.1, a follow-up study at α = 0.10 would need about 16 per group instead of 51;
+the power analysis's [SD sensitivity table](power-analysis.md#recruitment-and-sensitivity)
+shows 21 per group at an SD of 1.25. An SD at the upper end of the interval would need
+about 39 per group. The easy items noted below may also have narrowed the spread.
 
 | Question | Correct | Most common answer when wrong | Median time (s) |
 | --- | --- | --- | --- |
-| 1 | 6 of 9 | C (2) | 11.2 |
-| 2 | 9 of 9 | — | 5.9 |
-| 3 | 5 of 9 | B, D (2 each) | 12.2 |
-| 4 | 7 of 9 | A, B (1 each) | 13.6 |
-| 5 | 3 of 9 | A (6) | 8.9 |
-| 6 | 6 of 9 | B (3) | 8.5 |
-| 7 | 7 of 9 | C (2) | 10.6 |
-| 8 | 7 of 9 | A, D (1 each) | 11.6 |
-| 9 | 9 of 9 | — | 7.7 |
-| 10 | 9 of 9 | — | 6.0 |
+| 1 | 8 of 12 | C (3) | 10.5 |
+| 2 | 12 of 12 | — | 6.3 |
+| 3 | 7 of 12 | B (3) | 12.2 |
+| 4 | 10 of 12 | A, B (1 each) | 13.0 |
+| 5 | 6 of 12 | A (6) | 8.9 |
+| 6 | 9 of 12 | B (3) | 8.4 |
+| 7 | 9 of 12 | C (2) | 13.1 |
+| 8 | 10 of 12 | A, D (1 each) | 13.6 |
+| 9 | 11 of 12 | D (1) | 8.9 |
+| 10 | 11 of 12 | B (1) | 5.7 |
 
-- **Questions 2, 9 and 10** were answered correctly by everyone. They do not help
-  distinguish between participants, so the quiz effectively discriminated on seven items.
-- **Question 5** was the hardest: six of nine people chose "Fight or flight" over the
-  keyed answer, "Resting and digesting." When most people pick the same distractor, the
-  item may be ambiguous. Check the question and its key against the video before reusing it.
+- **Question 2** was answered correctly by everyone, and questions 9 and 10 were missed
+  by only one person. These items do little to distinguish between participants.
+- **Question 5** was the hardest: half of the participants chose "Fight or flight" over
+  the keyed answer, "Resting and digesting," and every wrong answer was that same
+  distractor. The item may be ambiguous. Check the question and its key against the
+  video before reusing it.
 
 Per-question results by group are in
-[`results/analysis/item_summary.csv`](../results/analysis/item_summary.csv). With four or
-five people per group, those group differences should not be interpreted.
+[`results/analysis/item_summary.csv`](../results/analysis/item_summary.csv). With six
+people per group, those group differences should not be interpreted.
 
 ## Exploratory: completion time
 
 Completion time was not part of the power analysis and was not tested. The median time
-from **Begin assessment** to submission was 119.5 s in the fidget group and 124.1 s in
+from **Begin assessment** to submission was 119.5 s in the fidget group and 145.2 s in
 the no-fidget group. Individual times ranged from 56.8 to 236.5 s. No minimum time was
 prespecified, so no quiz was excluded for speed.
 
 ## Protocol deviations and limitations
 
-- **Sample size.** Nine completers against a target of 128. All inferential results above
-  carry the low power shown in the power table.
-- **Unequal groups.** One person assigned to the fidget group did not complete the quiz,
-  which breaks the 5 + 5 pairing.
-- **Research-team participants.** Two of the nine knew the hypothesis and had worked on the quiz.
+- **Sample size.** Twelve completers against a target of 102 (128 at the original α).
+  All inferential results above carry the low power shown in the power table.
+- **Significance level.** α was raised from 0.05 to 0.10 after data collection, so the
+  new level was not prespecified. It does not change any conclusion here, because
+  p = 0.80 is above both levels.
+- **Replacement participant.** One person assigned to the fidget group did not take the
+  quiz, and a later participant took that place in the fidget group.
+- **Research-team participants.** Two of the twelve knew the hypothesis and had worked on the quiz.
   Their exclusion was not prespecified; both analyses are reported.
-- **Session conditions.** The two Oct 26 quizzes started 22 seconds apart, so they were
-  not run one at a time on the study laptop as the
-  [session protocol](../videos/README.md#running-a-session) describes. They also fall
-  outside the planned Oct 22–23 sessions.
+- **Session conditions.** Five quizzes (Oct 26–31) fall outside the planned Oct 22–23
+  sessions. The two Oct 26 quizzes started 22 seconds apart, so they were not run one at
+  a time on the study laptop as the
+  [session protocol](../videos/README.md#running-a-session) describes.
 - **Assignment.** The protocol calls for a coin flip within each pair. The team should
-  confirm in the write-up how assignment in [`data/groups.md`](../data/groups.md) was made.
+  confirm in the write-up how assignment in [`data/groups.md`](../data/groups.md) was
+  made, including for the replacement participant.
 - **Sample.** Participants were a convenience sample recruited through the team's own
   contacts, so the results may not generalize.
-- **Quiz.** Three items were at ceiling and one may be ambiguous, which limits how well
-  the score separates people.
+- **Quiz.** One item was at ceiling, two more were nearly so, and one may be ambiguous,
+  which limits how well the score separates people.
 
 ## Suggested report wording
 
-Nine participants completed the study: four watched the video while holding a fidget
-toy, and five watched without one. Quiz scores (out of 10) averaged 7.00 (SD 1.15) in the
-fidget group and 8.00 (SD 0.71) in the no-fidget group. A two-sided Welch independent-samples
-t-test found no statistically significant difference, t(4.75) = −1.52, p = 0.19. The mean
-difference was −1.00 questions (95% CI −2.72 to 0.72), Hedges' g = −0.96. Excluding two
-participants who were members of the research team gave a similar result (difference
-−1.33, 95% CI −3.65 to 0.98, p = 0.17). The a priori power analysis called for 64 participants
-per group; at the achieved group sizes, power to detect the planned effect (d = 0.50) was
-about 10%. The results are therefore inconclusive and should be treated as pilot data. The
-pooled within-group SD of 0.93 questions (95% CI 0.61 to 1.88) can inform planning for a
-larger follow-up study.
+Twelve participants completed the study: six watched the video while holding a fidget
+toy, and six watched without one. Quiz scores (out of 10) averaged 7.67 (SD 1.37) in the
+fidget group and 7.83 (SD 0.75) in the no-fidget group. A two-sided Welch independent-samples
+t-test at α = 0.10 found no statistically significant difference, t(7.78) = −0.26,
+p = 0.80. The mean difference was −0.17 questions (90% CI −1.36 to 1.02), Hedges' g = −0.14.
+Excluding two participants who were members of the research team gave a similar result
+(difference −0.20, 90% CI −1.70 to 1.30, p = 0.80). The significance level was revised
+from 0.05 to 0.10 after data collection; the result is nonsignificant at either level.
+The a priori power analysis at α = 0.10 called for 51 participants per group; at the
+achieved group sizes, power to detect the planned effect (d = 0.50) was about 21%. The
+results are therefore inconclusive and should be treated as pilot data. The pooled
+within-group SD of 1.10 questions (90% CI 0.82 to 1.76) can inform planning for a larger
+follow-up study.
 
 ## Reproduction and outputs
 
