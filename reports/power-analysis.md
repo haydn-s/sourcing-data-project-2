@@ -5,13 +5,19 @@ the [study protocol](../videos/README.md). Each participant is
 randomly assigned to use a squishy toy or no toy while watching the same video, then
 completes the same 10-question quiz once.
 
-With a two-sided significance level of 0.05 and desired power of 80%, the planning
-calculation gives **64 completers per group, 128 total**, for a one-question mean
+With a two-sided significance level of 0.10 and desired power of 80%, the planning
+calculation gives **51 completers per group, 102 total**, for a one-question mean
 difference and an assumed within-group score SD of 2 (Cohen's d = 0.50). A larger effect
-of **d = 0.80 needs 26 per group, 52 total**. Both estimates use an equal-variance
+of **d = 0.80 needs 21 per group, 42 total**. Both estimates use an equal-variance
 independent-samples t-test planning model; they are an approximation for the planned
 Welch test. They are conditional sample-size estimates, rather than established
 recruitment commitments or evidence about the true fidget-toy effect.
+
+> **Revised significance level.** This analysis originally used α = 0.05, which required
+> 64 per group (128 total) at d = 0.50 and 26 per group (52 total) at d = 0.80. α was
+> changed to 0.10 on Nov 1, 2026, after the quizzes had been collected, so the new level
+> was not prespecified. A larger α lowers the required sample size but doubles the
+> false-positive rate when there is no true effect.
 
 ## Research question and hypotheses
 
@@ -32,7 +38,7 @@ not covered by this power calculation.
 | Design | Two independent randomized groups; one video and one quiz per participant |
 | Power model | Two-sided independent-samples Student t-test with equal population variances |
 | Planned outcome analysis | Two-sided Welch independent-samples t-test |
-| Significance level | α = 0.05, specified before outcome analysis |
+| Significance level | α = 0.10, two-sided; revised from α = 0.05 after data collection |
 | Desired power | 0.80, a practical planning target for the course experiment |
 | Allocation | Equal numbers in the fidget and no-fidget groups, ratio = 1 |
 | Smallest meaningful average difference | 1 correct answer out of 10, or 10 percentage points in average accuracy |
@@ -63,23 +69,23 @@ both rejection tails beyond the α/2 critical values.
 from statsmodels.stats.power import TTestIndPower
 
 model = TTestIndPower()
-model.solve_power(effect_size=0.50, alpha=0.05, power=0.80,
+model.solve_power(effect_size=0.50, alpha=0.10, power=0.80,
                   ratio=1.0, alternative="two-sided")
-# 63.7656 participants PER GROUP -> 64 per group -> 128 total
+# 50.1482 participants PER GROUP -> 51 per group -> 102 total
 
-model.solve_power(effect_size=0.80, alpha=0.05, power=0.80,
+model.solve_power(effect_size=0.80, alpha=0.10, power=0.80,
                   ratio=1.0, alternative="two-sided")
-# 25.5246 participants PER GROUP -> 26 per group -> 52 total
+# 20.0318 participants PER GROUP -> 21 per group -> 42 total
 ```
 
-At d = 0.50, power is 79.5% with 63 participants per group and **80.1% with 64 per
-group**, confirming the minimum integer group size. At d = 0.80, 26 per group gives
-**80.7% power**. Each participant completes one quiz, so 128 completers means 128 quiz
-administrations. Individual question responses are not independent participants.
+At d = 0.50, power is 79.9% with 50 participants per group and **80.6% with 51 per
+group**, confirming the minimum integer group size. At d = 0.80, 20 per group gives
+79.9% power and **21 per group gives 81.7%**. Each participant completes one quiz, so
+102 completers means 102 quiz administrations. Individual question responses are not independent participants.
 
 The d = 0.80 scenario corresponds to a **1.6-question** difference if σ = 2. It could
 also represent the original one-question target if σ = 1.25. It does not provide 80%
-power for a one-question difference when σ = 2: **52 total has only 42.4% power** for
+power for a one-question difference when σ = 2: **42 total has only 48.0% power** for
 that target. The larger effect is a sensitivity scenario, not an evidence-based
 expectation or a replacement for the selected one-question threshold.
 
@@ -89,8 +95,8 @@ Applying an assumed 10% loss rate within each group gives:
 
 | Effect scenario | Completers per group | Total completers | Initial recruits per group | Total initial recruits |
 | --- | --- | --- | --- | --- |
-| d = 0.50 | 64 | 128 | ceil(64 / 0.90) = 72 | 144 |
-| d = 0.80 | 26 | 52 | ceil(26 / 0.90) = 29 | 58 |
+| d = 0.50 | 51 | 102 | ceil(51 / 0.90) = 57 | 114 |
+| d = 0.80 | 21 | 42 | ceil(21 / 0.90) = 24 | 48 |
 
 Recruitment inflation gives the desired number in expectation, not a guarantee of
 adequate usable scores in each group. Before inspecting outcomes, fix the recruitment
@@ -102,11 +108,12 @@ For the fixed one-question threshold, required sample size changes with the scor
 
 | Assumed within-group score SD | Cohen's d | Completers per group | Total completers |
 | --- | --- | --- | --- |
-| 1.25 questions | 0.800 | 26 | 52 |
-| 1.5 questions | 0.667 | 37 | 74 |
-| 2.0 questions | 0.500 | 64 | 128 |
-| 2.5 questions | 0.400 | 100 | 200 |
-| 3.0 questions | 0.333 | 143 | 286 |
+| 1.0 questions | 1.000 | 14 | 28 |
+| 1.25 questions | 0.800 | 21 | 42 |
+| 1.5 questions | 0.667 | 29 | 58 |
+| 2.0 questions | 0.500 | 51 | 102 |
+| 2.5 questions | 0.400 | 78 | 156 |
+| 3.0 questions | 0.333 | 112 | 224 |
 
 If recruitment is constrained, report the power for the actual sample under prespecified
 assumptions. Do not describe a smaller study as having 80% power simply by selecting a
@@ -114,12 +121,12 @@ larger effect after seeing results. The following totals are divided equally:
 
 | Total participants | Per group | Power at d = 0.50 | Power at d = 0.80 |
 | --- | --- | --- | --- |
-| 20 | 10 | 18.5% | 39.5% |
-| 24 | 12 | 21.6% | 46.6% |
-| 36 | 18 | 30.8% | 64.5% |
-| 40 | 20 | 33.8% | 69.3% |
-| 52 | 26 | 42.4% | 80.7% |
-| 128 | 64 | 80.1% | 99.4% |
+| 20 | 10 | 28.8% | 53.1% |
+| 24 | 12 | 32.6% | 60.0% |
+| 36 | 18 | 43.2% | 76.0% |
+| 40 | 20 | 46.4% | 79.9% |
+| 42 | 21 | 48.0% | 81.7% |
+| 102 | 51 | 80.6% | 99.1% |
 
 ![Power by total sample size and assumed independent-group effect](../results/power/power_curve.png)
 
@@ -143,7 +150,7 @@ Pilot the quiz to check difficulty, score variability, and floor or ceiling effe
 A small pilot's SD estimate will itself be uncertain.
 
 In the final analysis, report group sizes, group means and SDs, the mean score difference
-with a 95% Welch confidence interval, the Welch p-value, and an independent-group effect
+with a 90% Welch confidence interval (matching α = 0.10), the Welch p-value, and an independent-group effect
 size such as Cohen's d or Hedges' g. Check score distributions and influential outliers.
 Do not automatically substitute Mann-Whitney U based on a normality test; it addresses
 a distributional hypothesis and is not generally a test of the same mean difference.
@@ -163,15 +170,19 @@ python3 -m venv .venv
 .venv/bin/python -m unittest discover -s tests -p 'test_power_analysis.py' -v
 ```
 
-The default remains a one-question target with score SD = 2 (d = 0.50). The
+The default remains a one-question target with score SD = 2 (d = 0.50), now with
+α = 0.10 and a selected total of 102. The
 `--participants` option always means the **total**, evenly divided between groups;
 it must be even and at least 4. The `--score-sd` option describes within-group scores
 and replaces the former paired-design SD option. For alternative scenarios without
 overwriting the baseline outputs:
 
 ```sh
-# Large-effect scenario: 1.6-question difference / SD 2 = d 0.80; 52 total.
-.venv/bin/python scripts/power_analysis.py --mean-difference 1.6 --participants 52 --output-dir /tmp/fidget-power-large-effect
+# Large-effect scenario: 1.6-question difference / SD 2 = d 0.80; 42 total.
+.venv/bin/python scripts/power_analysis.py --mean-difference 1.6 --participants 42 --output-dir /tmp/fidget-power-large-effect
+
+# Original significance level: α = 0.05 gives 64 per group, 128 total.
+.venv/bin/python scripts/power_analysis.py --alpha 0.05 --participants 128 --output-dir /tmp/fidget-power-alpha05
 
 # Recruitment constraint: 24 total means 12 per group, under the default d 0.50.
 .venv/bin/python scripts/power_analysis.py --participants 24 --output-dir /tmp/fidget-power-total24
@@ -191,13 +202,15 @@ comparing quiz scores between randomized fidget-toy and no-fidget groups. Each p
 watches the same video and completes one 10-question quiz. We defined a one-question
 mean difference as the smallest meaningful effect and assumed a common within-group
 score standard deviation of 2 questions, corresponding to Cohen's d = 0.50. With
-α = 0.05, 80% desired power, and equal allocation, Python statsmodels TTestIndPower
-required 64 complete participants per group, or 128 total, yielding approximately
-80.1% power under the equal-variance planning model. Allowing for 10% unusable quizzes
-gives an initial recruitment estimate of 72 per group, or 144 total. Sensitivity analysis
-for d = 0.80 required 26 per group, or 52 total; with the assumed SD of 2, this represents
-a larger 1.6-question effect. The SD and loss rate are planning assumptions, not pilot
-estimates. The power calculation is an approximation for the planned Welch analysis.
+α = 0.10 (two-sided), 80% desired power, and equal allocation, Python statsmodels
+TTestIndPower required 51 complete participants per group, or 102 total, yielding
+approximately 80.6% power under the equal-variance planning model. Allowing for 10%
+unusable quizzes gives an initial recruitment estimate of 57 per group, or 114 total.
+Sensitivity analysis for d = 0.80 required 21 per group, or 42 total; with the assumed
+SD of 2, this represents a larger 1.6-question effect. The SD and loss rate are planning
+assumptions, not pilot estimates. The power calculation is an approximation for the
+planned Welch analysis. The significance level was revised from α = 0.05 (64 per group,
+128 total) to α = 0.10 after data collection.
 
 ## References
 

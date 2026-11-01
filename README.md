@@ -198,17 +198,19 @@ include participants' names and are public; analysis outputs use IDs (P01–P09)
 
 The power analysis follows the **one-video, two-independent-group design** in
 the [study protocol](videos/README.md). Each participant
-watches the same video and completes the same 10-question quiz once. With α = 0.05,
-80% desired power, and equal group sizes, the independent-samples t-test planning model gives:
+watches the same video and completes the same 10-question quiz once. With α = 0.10
+(two-sided), 80% desired power, and equal group sizes, the independent-samples t-test
+planning model gives:
 
 | Assumed effect | Completers per group | Total completers | Initial recruits at 10% assumed loss |
 | --- | --- | --- | --- |
-| d = 0.50: 1-question difference / within-group score SD of 2 | 64 | 128 | 144 total (72 per group) |
-| d = 0.80: 1.6-question difference / within-group score SD of 2 | 26 | 52 | 58 total (29 per group) |
+| d = 0.50: 1-question difference / within-group score SD of 2 | 51 | 102 | 114 total (57 per group) |
+| d = 0.80: 1.6-question difference / within-group score SD of 2 | 21 | 42 | 48 total (24 per group) |
 
-The default preserves the selected **one-question** threshold. The 52-total scenario
-assumes a larger effect; it has only 42.4% power for a one-question difference when
-the within-group score SD is 2. Variability and loss rate are planning assumptions,
+The significance level was revised from α = 0.05 to α = 0.10 after data collection; at
+α = 0.05 the same effects needed 128 and 52 total. The default preserves the selected
+**one-question** threshold. The 42-total scenario assumes a larger effect; it has only
+48.0% power for a one-question difference when the within-group score SD is 2. Variability and loss rate are planning assumptions,
 not pilot estimates. Recruitment inflation is an expectation, not a guarantee.
 The equal-variance planning model approximates power for the planned Welch analysis.
 
@@ -230,7 +232,7 @@ Use `--help` to see adjustable assumptions. To explore another scenario without 
 the baseline outputs:
 
 ```sh
-.venv/bin/python scripts/power_analysis.py --mean-difference 1.6 --participants 52 --output-dir /tmp/fidget-power-large-effect
+.venv/bin/python scripts/power_analysis.py --mean-difference 1.6 --participants 42 --output-dir /tmp/fidget-power-large-effect
 ```
 
 `--participants` is the **total** across both groups, split equally; `--score-sd` is the
@@ -349,8 +351,8 @@ and some studies suggest they may actually hurt learning.
 an equal-variance independent-samples t-test approximation. Any Mann-Whitney U sensitivity
 analysis must state its assumptions and the different hypothesis it addresses.
 
-**Sample size:** For α = 0.05 and 80% power, d = 0.50 requires 64 per group (128 total);
-d = 0.80 requires 26 per group (52 total). See [Power analysis](#power-analysis) for
+**Sample size:** For α = 0.10 and 80% power, d = 0.50 requires 51 per group (102 total);
+d = 0.80 requires 21 per group (42 total). See [Power analysis](#power-analysis) for
 the raw score assumptions, recruitment estimates, and sensitivity at smaller sample sizes.
 
 ### Side-by-Side Comparison
@@ -362,7 +364,7 @@ the raw score assumptions, recruitment estimates, and sensitivity at smaller sam
 | Design | Within-subjects, randomized order | Between-subjects, two randomized groups |
 | Session length | Practice + 2 conditions + 5 min rest | 1 video (4.5 min) + 1 quiz |
 | Statistical test | Paired t-test / Wilcoxon signed-rank | Welch independent-samples t-test |
-| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | 128 total at d = 0.50; 52 total at d = 0.80 (α = 0.05, power ≥ 0.80) |
+| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | 102 total at d = 0.50; 42 total at d = 0.80 (α = 0.10, power ≥ 0.80) |
 
 ## Recruitment Flyer
 
