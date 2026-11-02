@@ -24,10 +24,12 @@ from statsmodels.stats.power import TTestIndPower
 ROOT = Path(__file__).resolve().parents[1]
 GROUPS = 2
 QUIZ_QUESTIONS = 10
+# Two-sided significance level.
+ALPHA = 0.10
 POWER_MODEL = TTestIndPower()
 
 
-def independent_power(effect_size, participants_per_group, alpha=0.05):
+def independent_power(effect_size, participants_per_group, alpha=ALPHA):
     """Equal allocation; Cohen's d = |mean(F) - mean(C)| / common score SD.
 
     This is the equal-variance Student t planning model, not exact Welch power.
@@ -39,7 +41,7 @@ def independent_power(effect_size, participants_per_group, alpha=0.05):
     ))
 
 
-def required_per_group(effect_size, alpha=0.05, target_power=0.80):
+def required_per_group(effect_size, alpha=ALPHA, target_power=0.80):
     """Return the continuous solution and minimum integer n >= 2 IN EACH GROUP."""
     if independent_power(effect_size, 2, alpha) >= target_power:
         return 2.0, 2
@@ -121,9 +123,10 @@ def parse_args(argv=None):
                         help="Smallest meaningful absolute mean difference in correct answers (default: 1).")
     parser.add_argument("--score-sd", type=float, default=2.0,
                         help="Assumed common within-group SD of individual quiz scores (default: 2).")
-    parser.add_argument("--participants", type=int, default=128,
-                        help="TOTAL complete participants, evenly divided between groups (default: 128).")
-    parser.add_argument("--alpha", type=float, default=0.05)
+    parser.add_argument("--participants", type=int, default=102,
+                        help="TOTAL complete participants, evenly divided between groups (default: 102).")
+    parser.add_argument("--alpha", type=float, default=ALPHA,
+                        help=f"Two-sided significance level (default: {ALPHA:g}).")
     parser.add_argument("--power", type=float, default=0.80)
     parser.add_argument("--loss-rate", type=float, default=0.10,
                         help="Assumed fraction without a usable quiz, applied within each group (default: 0.10).")
@@ -205,7 +208,7 @@ def run(args):
                       "detectable_d": float(POWER_MODEL.solve_power(
                           effect_size=None, nobs1=n // GROUPS, alpha=args.alpha, power=args.power,
                           ratio=1.0, alternative="two-sided")),
-                      } for n in sorted({16, 20, 24, 28, 32, 36, 40, 48, 52, 60, 80, 100, 128, args.participants})]
+                      } for n in sorted({16, 20, 24, 28, 32, 36, 40, 42, 48, 52, 60, 80, 100, 128, args.participants})]
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")

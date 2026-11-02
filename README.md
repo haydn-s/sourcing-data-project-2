@@ -189,25 +189,27 @@ CSVs in the browser; automatic server-side saving is provided by Streamlit.
 - [`data/processed/`](data/processed/): cleaned or combined outputs derived from raw data.
 - [`data/groups.md`](data/groups.md): participant group assignments.
 
-Collection closed with 9 completed quizzes, all now on `main`. The `.gitkeep` files
+Collection closed with 12 completed quizzes, all now on `main`. The last three were saved
+to a `data-collection` output branch on Oct 28–31 and merged into `main` on Nov 1. The `.gitkeep` files
 preserve empty directories after cloning. Assessment CSVs in these directories can be
 committed normally; loose downloads elsewhere are ignored. Raw filenames and contents
-include participants' names and are public; analysis outputs use IDs (P01–P09) instead.
+include participants' names and are public; analysis outputs use IDs (P01–P12) instead.
 
 ## Power analysis
 
 The power analysis follows the **one-video, two-independent-group design** in
 the [study protocol](videos/README.md). Each participant
-watches the same video and completes the same 10-question quiz once. With α = 0.05,
-80% desired power, and equal group sizes, the independent-samples t-test planning model gives:
+watches the same video and completes the same 10-question quiz once. With α = 0.10
+(two-sided), 80% desired power, and equal group sizes, the independent-samples t-test
+planning model gives:
 
 | Assumed effect | Completers per group | Total completers | Initial recruits at 10% assumed loss |
 | --- | --- | --- | --- |
-| d = 0.50: 1-question difference / within-group score SD of 2 | 64 | 128 | 144 total (72 per group) |
-| d = 0.80: 1.6-question difference / within-group score SD of 2 | 26 | 52 | 58 total (29 per group) |
+| d = 0.50: 1-question difference / within-group score SD of 2 | 51 | 102 | 114 total (57 per group) |
+| d = 0.80: 1.6-question difference / within-group score SD of 2 | 21 | 42 | 48 total (24 per group) |
 
-The default preserves the selected **one-question** threshold. The 52-total scenario
-assumes a larger effect; it has only 42.4% power for a one-question difference when
+The default preserves the selected **one-question** threshold. The 42-total scenario
+assumes a larger effect; it has only 48.0% power for a one-question difference when
 the within-group score SD is 2. Variability and loss rate are planning assumptions,
 not pilot estimates. Recruitment inflation is an expectation, not a guarantee.
 The equal-variance planning model approximates power for the planned Welch analysis.
@@ -230,7 +232,7 @@ Use `--help` to see adjustable assumptions. To explore another scenario without 
 the baseline outputs:
 
 ```sh
-.venv/bin/python scripts/power_analysis.py --mean-difference 1.6 --participants 52 --output-dir /tmp/fidget-power-large-effect
+.venv/bin/python scripts/power_analysis.py --mean-difference 1.6 --participants 42 --output-dir /tmp/fidget-power-large-effect
 ```
 
 `--participants` is the **total** across both groups, split equally; `--score-sd` is the
@@ -238,11 +240,11 @@ common within-group score SD. The former paired-design `--difference-sd` flag is
 
 ## Results analysis
 
-Nine participants completed the quiz, 4 with a fidget toy and 5 without. The fidget group
-averaged 7.00 correct answers and the no-fidget group 8.00. That difference of −1.00
-questions was not statistically significant (95% Welch CI −2.72 to 0.72, p = 0.19).
-Excluding the two research-team members gives a similar result (−1.33, p = 0.17).
-With far fewer participants than the planned 128, power was about 10%, so the results
+Twelve participants completed the quiz, 6 with a fidget toy and 6 without. The fidget group
+averaged 7.67 correct answers and the no-fidget group 7.83. That difference of −0.17
+questions was not statistically significant at α = 0.10 (90% Welch CI −1.36 to 1.02,
+p = 0.80). Excluding the two research-team members gives a similar result (−0.20, p = 0.80).
+With far fewer participants than the planned 102, power was about 21%, so the results
 are inconclusive pilot data.
 
 See the [full results report](reports/results.md) for both analyses, the figure, quiz item
@@ -349,8 +351,8 @@ and some studies suggest they may actually hurt learning.
 an equal-variance independent-samples t-test approximation. Any Mann-Whitney U sensitivity
 analysis must state its assumptions and the different hypothesis it addresses.
 
-**Sample size:** For α = 0.05 and 80% power, d = 0.50 requires 64 per group (128 total);
-d = 0.80 requires 26 per group (52 total). See [Power analysis](#power-analysis) for
+**Sample size:** For α = 0.10 and 80% power, d = 0.50 requires 51 per group (102 total);
+d = 0.80 requires 21 per group (42 total). See [Power analysis](#power-analysis) for
 the raw score assumptions, recruitment estimates, and sensitivity at smaller sample sizes.
 
 ### Side-by-Side Comparison
@@ -362,7 +364,7 @@ the raw score assumptions, recruitment estimates, and sensitivity at smaller sam
 | Design | Within-subjects, randomized order | Between-subjects, two randomized groups |
 | Session length | Practice + 2 conditions + 5 min rest | 1 video (4.5 min) + 1 quiz |
 | Statistical test | Paired t-test / Wilcoxon signed-rank | Welch independent-samples t-test |
-| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | 128 total at d = 0.50; 52 total at d = 0.80 (α = 0.05, power ≥ 0.80) |
+| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | 102 total at d = 0.50; 42 total at d = 0.80 (α = 0.10, power ≥ 0.80) |
 
 ## Recruitment Flyer
 
@@ -387,5 +389,5 @@ and their expectations don't skew the results.
 ## Status
 
 Idea 2 (fidget toy and learning) is the study we moved forward with. The prospective
-power analysis is complete, data collection is closed with 9 completed quizzes, and the
-outcome analysis is in the [results report](reports/results.md).
+power analysis is complete, data collection is closed with 12
+completed quizzes, and the outcome analysis is in the [results report](reports/results.md).
