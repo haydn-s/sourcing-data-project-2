@@ -349,7 +349,7 @@ The team's original task list for the study, kept as a record.
 
 - [x] **Sabrina:** Pick the video(s) for the study (see [`study/protocol.md`](study/protocol.md))
 - [x] **Sabrina:** Create the recruitment flyer to send to friends
-- [ ] **Sabrina:** Create the Google form for participant intake
+- [x] **Sabrina:** Create the Google form for participant intake
 - [x] **Haydn:** Build the HTML quiz form, leaving the questions blank so we can fill them in once the videos are picked
 
 ### GitHub branches and PRs
@@ -363,12 +363,12 @@ The team's original task list for the study, kept as a record.
 ### Next week (Oct 19–23)
 
 - [x] Run the power analysis to figure out how many participants we need (see [Power analysis](#power-analysis))
-- [ ] Send the flyer out to friends throughout the week to recruit participants
-- [ ] Decide on the final details of the experiment
+- [x] Send the flyer out to friends throughout the week to recruit participants
+- [x] Decide on the final details of the experiment
 
 ### Running the experiment
 
-- [ ] Thursday, Oct 22 and Friday, Oct 23
+- [x] Thursday, Oct 22 and Friday, Oct 23 (sessions ran Oct 22–31; see the [results report](reports/results_analysis.md#data))
 
 ## Status
 

@@ -40,7 +40,7 @@ We used a between-subjects design with two groups. Group assignment was not rand
 
 **Procedure.** Every session followed the same steps, run by a member of the research team:
 
-1. The researcher entered the participant’s ID and group in our Streamlit quiz app and confirmed the condition on screen.
+1. The researcher entered the participant’s name (the protocol called for an ID such as P01) and group in our Streamlit quiz app and confirmed the condition on screen.
 2. Fidget group only: the researcher handed over the squishy and told the participant they could squeeze it while watching.
 3. The participant watched the full video in the app’s embedded player at a fixed volume.
 4. The researcher took the squishy back. The participant pressed Begin assessment, which hid the video and started the quiz timer.
@@ -82,7 +82,7 @@ Twelve participants completed the quiz between October 22 and October 31, 2026: 
 
 **Sessions.** Every session was run in person by a member of the research team. Seven quizzes were taken on October 22, two on October 26, one on October 28 and two on October 31. One person assigned to the fidget group did not take the quiz, and a later participant took that place, giving 6 per group. Two participants were members of the research team, one in each group.
 
-**Data capture.** The Streamlit app saved one CSV per quiz to [`data/raw/`](../data/raw/) in the GitHub repository. Each file records the participant ID, group, condition, every answer and the time spent on each question.
+**Data capture.** The Streamlit app saved one CSV per quiz to [`data/raw/`](../data/raw/) in the GitHub repository. Each file records the participant’s name, group, condition, every answer and the time spent on each question.
 
 **Cleaning.** The script [`scripts/results_analysis.py`](../scripts/results_analysis.py) checks each raw file before scoring:
 
@@ -150,7 +150,7 @@ The main limitation is sample size: 12 completers against the 102 the power anal
 - **No ADHD screening.** ADHD motivated the study, but participants were not screened for it. The results cannot speak to people with ADHD, the group fidget toys are often marketed to.
 - **Research-team participants.** Two of the 12 participants knew the hypothesis and helped write the quiz. Excluding them was decided after data collection; both analyses are reported and agree.
 - **Convenience sample.** Participants were friends and classmates of the research team, so results may not generalize to other students or ages.
-- **Protocol deviations.** One no-show in the fidget group was replaced by a later participant. Five quizzes were taken after the planned October 22–23 sessions, and two on October 26 started 22 seconds apart rather than one at a time.
+- **Protocol deviations.** One no-show in the fidget group was replaced by a later participant. Five quizzes were taken after the planned October 22–23 sessions. Three pairs of quizzes overlapped in time rather than running one at a time: two pairs on October 22, one of them the two research-team members, and one pair on October 26 that started 22 seconds apart. Participants’ names were entered in the app instead of the planned IDs (P01, P02, …), so IDs were assigned during cleaning.
 - **Quiz quality.** One question was at ceiling, two more were nearly so, and one may have been misleading, which limits how well scores separate people.
 - **Short-term recall only.** The quiz measured recall immediately after one 4.5-minute video. Effects on longer lectures, delayed recall or other kinds of learning were not tested.
 

@@ -144,9 +144,12 @@ prespecified, so no quiz was excluded for speed.
 - **Research-team participants.** Two of the twelve knew the hypothesis and had worked on the quiz.
   Their exclusion was not prespecified; both analyses are reported.
 - **Session conditions.** Five quizzes (Oct 26–31) fall outside the planned Oct 22–23
-  sessions. The two Oct 26 quizzes started 22 seconds apart, so they were not run one at
-  a time on the study laptop as the
+  sessions. Three pairs of quizzes overlapped in time: P02 and P03 on Oct 22, the two
+  research-team members (P05 and P06) on Oct 22, and P08 and P09 on Oct 26, which started
+  22 seconds apart. These were not run one at a time on the study laptop as the
   [session protocol](../study/protocol.md#running-a-session) describes.
+- **Participant IDs.** Participants' names were entered in the app instead of the planned
+  IDs (P01, P02, …), so the raw files identify them. The analysis assigns the IDs.
 - **Assignment.** Participants were assigned in pairs, one to each group
   ([`data/groups.md`](../data/groups.md)). The team chose which member of each pair went
   to which group, so assignment was not random. Pairing kept the groups the same size,
