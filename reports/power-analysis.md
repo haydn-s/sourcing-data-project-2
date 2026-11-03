@@ -1,9 +1,9 @@
 # Power analysis for the fidget toy learning study
 
 The study uses **one video and two independent groups**, as described in
-the [study protocol](../videos/README.md). Each participant is
-randomly assigned to use a squishy toy or no toy while watching the same video, then
-completes the same 10-question quiz once.
+the [study protocol](../videos/README.md). Participants are assigned in pairs, one to
+each group: one uses a squishy toy and the other no toy while watching the same video.
+Each then completes the same 10-question quiz once.
 
 With a two-sided significance level of 0.10 and desired power of 80%, the planning
 calculation gives **51 completers per group, 102 total**, for a one-question mean
@@ -18,7 +18,7 @@ recruitment commitments or evidence about the true fidget-toy effect.
 Does using a fidget toy while watching a short educational video change immediate
 recall, measured by a 10-question quiz, compared with watching without a fidget toy?
 
-The independent variable is randomized fidget-toy assignment. The primary dependent
+The independent variable is the fidget-toy condition (toy or no toy). The primary dependent
 variable is the number of correct quiz answers, from 0 to 10. Let μF and μC denote
 population mean scores in the fidget and no-fidget conditions. The hypotheses are
 `H₀: μF − μC = 0` and `H₁: μF − μC ≠ 0`. The test is two-sided because the toy could
@@ -29,7 +29,7 @@ not covered by this power calculation.
 
 | Input | Value and rationale |
 | --- | --- |
-| Design | Two independent randomized groups; one video and one quiz per participant |
+| Design | Two independent groups; one video and one quiz per participant |
 | Power model | Two-sided independent-samples Student t-test with equal population variances |
 | Planned outcome analysis | Two-sided Welch independent-samples t-test |
 | Significance level | α = 0.10, two-sided |
@@ -127,8 +127,8 @@ larger effect after seeing results. The following totals are divided equally:
 ## Design considerations and limits
 
 Use the same video, 10-question quiz, laptop, volume, and session instructions for both
-groups. Randomize allocation in shuffled blocks of two, as specified in the
-[study protocol](../videos/README.md#groups). These allocation blocks do not make the
+groups. Assign participants in pairs, one to each group, as specified in the
+[study protocol](../videos/README.md#groups). These pairs do not make the
 outcome observations paired: each participant belongs
 to one independent group. In the Streamlit app, select Group 1 for fidget participants
 and Group 2 for controls. Both groups watch the embedded Video A and complete Quiz A
@@ -188,7 +188,7 @@ boundary, reproduce both reference sample sizes, and verify total versus per-gro
 ## Suggested report wording
 
 An a priori power analysis was conducted for a two-sided independent-samples t-test
-comparing quiz scores between randomized fidget-toy and no-fidget groups. Each participant
+comparing quiz scores between fidget-toy and no-fidget groups. Each participant
 watches the same video and completes one 10-question quiz. We defined a one-question
 mean difference as the smallest meaningful effect and assumed a common within-group
 score standard deviation of 2 questions, corresponding to Cohen's d = 0.50. With

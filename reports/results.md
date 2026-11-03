@@ -147,9 +147,10 @@ prespecified, so no quiz was excluded for speed.
   sessions. The two Oct 26 quizzes started 22 seconds apart, so they were not run one at
   a time on the study laptop as the
   [session protocol](../videos/README.md#running-a-session) describes.
-- **Assignment.** The protocol calls for a coin flip within each pair. The team should
-  confirm in the write-up how assignment in [`data/groups.md`](../data/groups.md) was
-  made, including for the replacement participant.
+- **Assignment.** Participants were assigned in pairs, one to each group
+  ([`data/groups.md`](../data/groups.md)). The team chose which member of each pair went
+  to which group, so assignment was not random. Pairing kept the groups the same size,
+  but group differences could reflect who was placed in each group rather than the toy.
 - **Sample.** Participants were a convenience sample recruited through the team's own
   contacts, so the results may not generalize.
 - **Quiz.** One item was at ceiling, two more were nearly so, and one may be ambiguous,
