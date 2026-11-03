@@ -6,8 +6,8 @@ from unittest.mock import patch
 
 from streamlit.testing.v1 import AppTest
 
-from assessment import ROOT
-from response_storage import LocalStorage, StorageError
+from quiz.assessment import ROOT
+from quiz.response_storage import LocalStorage, StorageError
 
 
 class StreamlitAppTests(unittest.TestCase):
@@ -15,7 +15,7 @@ class StreamlitAppTests(unittest.TestCase):
         self.directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.directory.cleanup)
         self.storage = LocalStorage(self.directory.name)
-        self.patch = patch("response_storage.build_storage", return_value=self.storage)
+        self.patch = patch("quiz.response_storage.build_storage", return_value=self.storage)
         self.patch.start()
         self.addCleanup(self.patch.stop)
 
@@ -117,7 +117,7 @@ class StreamlitAppTests(unittest.TestCase):
         self.assertEqual(len({row["run_id"] for row in rows}), 2)
 
     def test_unconfigured_storage_blocks_collection(self):
-        with patch("response_storage.build_storage", side_effect=StorageError("missing token")):
+        with patch("quiz.response_storage.build_storage", side_effect=StorageError("missing token")):
             app = AppTest.from_file(str(ROOT / "streamlit_app.py")).run()
             app.selectbox(key="group").select(1).run()
         self.assertFalse(app.exception)

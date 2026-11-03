@@ -1,7 +1,7 @@
 # Power analysis for the fidget toy learning study
 
 The study uses **one video and two independent groups**, as described in
-the [study protocol](../videos/README.md). Participants are assigned in pairs, one to
+the [study protocol](../study/protocol.md). Participants are assigned in pairs, one to
 each group: one uses a squishy toy and the other no toy while watching the same video.
 Each then completes the same 10-question quiz once.
 
@@ -122,17 +122,17 @@ larger effect after seeing results. The following totals are divided equally:
 | 42 | 21 | 48.0% | 81.7% |
 | 102 | 51 | 80.6% | 99.1% |
 
-![Power by total sample size and assumed independent-group effect](../results/power/power_curve.png)
+![Power by total sample size and assumed independent-group effect](../outputs/power_analysis/power_curve.png)
 
 ## Design considerations and limits
 
 Use the same video, 10-question quiz, laptop, volume, and session instructions for both
 groups. Assign participants in pairs, one to each group, as specified in the
-[study protocol](../videos/README.md#groups). These pairs do not make the
+[study protocol](../study/protocol.md#groups). These pairs do not make the
 outcome observations paired: each participant belongs
 to one independent group. In the Streamlit app, select Group 1 for fidget participants
 and Group 2 for controls. Both groups watch the embedded Video A and complete Quiz A
-once, following the [session protocol](../videos/README.md#running-a-session).
+once, following the [session protocol](../study/protocol.md#running-a-session).
 
 The noncentral t calculation is exact for the equal-variance Student t-test under
 independent normal scores. Bounded integer quiz scores are not exactly normal. The
@@ -178,7 +178,7 @@ overwriting the baseline outputs:
 .venv/bin/python scripts/power_analysis.py --participants 24 --output-dir /tmp/fidget-power-total24
 ```
 
-The saved outputs under [`results/power/`](../results/power/) include `summary.json`,
+The saved outputs under [`outputs/power_analysis/`](../outputs/power_analysis/) include `summary.json`,
 `effect_size_sensitivity.csv`, `score_sd_sensitivity.csv`, `sample_size_sensitivity.csv`,
 and the PNG and SVG power curve. They contain planning values, with no participant data.
 The baseline uses Python 3.12.14, statsmodels 0.15.0, SciPy 1.18.1, NumPy 2.5.4, and

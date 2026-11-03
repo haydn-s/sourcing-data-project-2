@@ -26,7 +26,7 @@ from statsmodels.stats.power import TTestIndPower
 ROOT = Path(__file__).resolve().parents[1]
 QUIZ_QUESTIONS = 10
 VIDEO_ID = "A"
-# Two-sided significance level, matching reports/power-analysis.md.
+# Two-sided significance level, matching reports/power_analysis.md.
 ALPHA = 0.10
 CONFIDENCE = f"{1 - ALPHA:.0%}"
 PLANNING_EFFECTS = (0.5, 0.8)
@@ -240,7 +240,7 @@ def plot_scores(participants, primary, output_dir):
                    label=f"Group mean, {CONFIDENCE} CI"),
         ]
         ax.legend(handles=handles, loc="lower right", framealpha=0.95, fontsize=9)
-        fig.savefig(output_dir / "score_plot.png", dpi=180, metadata={"Software": "analyze_results.py"})
+        fig.savefig(output_dir / "score_plot.png", dpi=180, metadata={"Software": "results_analysis.py"})
         svg_path = output_dir / "score_plot.svg"
         fig.savefig(svg_path, metadata={"Date": None})
         # Keep generated text portable and avoid whitespace-only Git diff errors.
@@ -252,10 +252,10 @@ def plot_scores(participants, primary, output_dir):
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--raw-dir", type=Path, default=ROOT / "data" / "raw")
-    parser.add_argument("--answer-key", type=Path, default=ROOT / "videos" / "answer_key.csv")
+    parser.add_argument("--answer-key", type=Path, default=ROOT / "study" / "answer_key.csv")
     parser.add_argument("--processed-dir", type=Path, default=ROOT / "data" / "processed",
                         help="Where to write the de-identified participant scores.")
-    parser.add_argument("--output-dir", type=Path, default=ROOT / "results" / "analysis")
+    parser.add_argument("--output-dir", type=Path, default=ROOT / "outputs" / "results_analysis")
     return parser.parse_args(argv)
 
 
@@ -268,7 +268,7 @@ def run(args, research_team_run_ids=RESEARCH_TEAM_RUN_IDS):
             [p for p in participants if not p["research_team"]]),
     }
     summary = {
-        "analysis_type": "confirmatory outcome analysis prespecified in reports/power-analysis.md",
+        "analysis_type": "confirmatory outcome analysis prespecified in reports/power_analysis.md",
         "design": "one video, one quiz per participant, two independent groups",
         "outcome": f"number of correct answers out of {QUIZ_QUESTIONS}",
         "test": "two-sided Welch independent-samples t-test",

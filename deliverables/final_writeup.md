@@ -84,13 +84,13 @@ Twelve participants completed the quiz between October 22 and October 31, 2026: 
 
 **Data capture.** The Streamlit app saved one CSV per quiz to [`data/raw/`](../data/raw/) in the GitHub repository. Each file records the participant ID, group, condition, every answer and the time spent on each question.
 
-**Cleaning.** The script [`scripts/analyze_results.py`](../scripts/analyze_results.py) checks each raw file before scoring:
+**Cleaning.** The script [`scripts/results_analysis.py`](../scripts/results_analysis.py) checks each raw file before scoring:
 
 - exactly one answer for each of the 10 questions
 - the recorded group matches the recorded condition
 - no person or run appears twice
 
-All 12 files passed, so no quiz was excluded. The script then scores each quiz against [`videos/answer_key.csv`](../videos/answer_key.csv) and writes [`data/processed/scores.csv`](../data/processed/scores.csv), which uses de-identified IDs P01–P12 in order of quiz start and flags the two research-team participants. Rerunning the script reproduces the outputs byte for byte.
+All 12 files passed, so no quiz was excluded. The script then scores each quiz against [`study/answer_key.csv`](../study/answer_key.csv) and writes [`data/processed/scores.csv`](../data/processed/scores.csv), which uses de-identified IDs P01–P12 in order of quiz start and flags the two research-team participants. Rerunning the script reproduces the outputs byte for byte.
 
 **Sensitive data.** The raw CSV file names and contents include participants’ names. All processed data, results and figures use IDs only.
 

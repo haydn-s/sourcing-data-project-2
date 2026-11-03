@@ -5,8 +5,8 @@ import logging
 import streamlit as st
 from streamlit.errors import StreamlitAPIException, StreamlitSecretNotFoundError
 
-from assessment import LETTERS, Session, assignment_for, load_videos, video_ready
-from response_storage import StorageError, build_storage
+from quiz.assessment import LETTERS, Session, assignment_for, load_videos, video_ready
+from quiz.response_storage import StorageError, build_storage
 
 
 logger = logging.getLogger(__name__)

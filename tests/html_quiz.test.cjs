@@ -1,10 +1,10 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
-const { Session, validateQuestions, validateVideos, assignmentFor, filenameFor } = require("../assessment.js");
+const { Session, validateQuestions, validateVideos, assignmentFor, filenameFor } = require("../html_quiz/assessment.js");
 
 function blankVideos() {
-  return JSON.parse(fs.readFileSync(require.resolve("../questions.json"), "utf8"));
+  return JSON.parse(fs.readFileSync(require.resolve("../study/questions.json"), "utf8"));
 }
 
 function setup({ name = "Test Participant", group = 1 } = {}, videos = blankVideos()) {

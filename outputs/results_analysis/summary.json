@@ -1,5 +1,5 @@
 {
-  "analysis_type": "confirmatory outcome analysis prespecified in reports/power-analysis.md",
+  "analysis_type": "confirmatory outcome analysis prespecified in reports/power_analysis.md",
   "design": "one video, one quiz per participant, two independent groups",
   "outcome": "number of correct answers out of 10",
   "test": "two-sided Welch independent-samples t-test",

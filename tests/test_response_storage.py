@@ -6,7 +6,7 @@ import unittest
 from unittest.mock import patch
 from urllib.error import URLError
 
-from response_storage import GitHubConnectionError, GitHubStorage, LocalStorage, StorageError, build_storage
+from quiz.response_storage import GitHubConnectionError, GitHubStorage, LocalStorage, StorageError, build_storage
 
 
 class StorageTests(unittest.TestCase):
@@ -29,7 +29,7 @@ class StorageTests(unittest.TestCase):
     def test_local_failure_does_not_publish_partial_response(self):
         with tempfile.TemporaryDirectory() as directory:
             storage = LocalStorage(directory)
-            with patch("response_storage.os.link", side_effect=PermissionError):
+            with patch("quiz.response_storage.os.link", side_effect=PermissionError):
                 with self.assertRaises(StorageError):
                     storage.save(self.filename, self.content)
             self.assertEqual(list(storage.directory.iterdir()), [])
@@ -54,7 +54,7 @@ class StorageTests(unittest.TestCase):
         existing = {"content": base64.b64encode(self.content).decode()}
         with patch.object(storage, "_request", side_effect=[
             (404, {}), GitHubConnectionError("timeout"), (200, existing),
-        ]) as request, patch("response_storage.time.sleep"):
+        ]) as request, patch("quiz.response_storage.time.sleep"):
             storage.save(self.filename, self.content)
         self.assertEqual([call.args[0] for call in request.call_args_list], ["GET", "PUT", "GET"])
 
@@ -62,7 +62,7 @@ class StorageTests(unittest.TestCase):
         storage = self.github()
         with patch.object(storage, "_request", side_effect=[
             (503, {}), (404, {}), (409, {}), (404, {}), (201, {}),
-        ]), patch("response_storage.time.sleep"):
+        ]), patch("quiz.response_storage.time.sleep"):
             storage.save(self.filename, self.content)
 
     def test_github_rejects_overwrites_and_denied_writes(self):
@@ -77,7 +77,7 @@ class StorageTests(unittest.TestCase):
 
     def test_request_uses_server_side_token_and_a_timeout(self):
         storage = self.github()
-        with patch("response_storage.urlopen", side_effect=URLError("offline")) as request:
+        with patch("quiz.response_storage.urlopen", side_effect=URLError("offline")) as request:
             with self.assertRaises(GitHubConnectionError):
                 storage._request("GET", "https://api.github.com/repos/owner/repo/contents/data/raw")
         self.assertEqual(request.call_args.kwargs["timeout"], 10)

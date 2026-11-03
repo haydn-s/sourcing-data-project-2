@@ -11,7 +11,7 @@ import time
 from uuid import uuid4
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 LETTERS = "ABCD"
 GROUPS = {
     1: "Fidget toy",
@@ -29,7 +29,7 @@ def utc_timestamp():
     return datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
-def load_videos(path=ROOT / "questions.json"):
+def load_videos(path=ROOT / "study" / "questions.json"):
     videos = json.loads(Path(path).read_text(encoding="utf-8"))
     if not isinstance(videos, list) or len(videos) != 1:
         raise ValueError("The question bank must contain only Quiz A.")

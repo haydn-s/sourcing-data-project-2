@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from assessment import CSV_COLUMNS, Session, assignment_for, load_videos
+from quiz.assessment import CSV_COLUMNS, Session, assignment_for, load_videos
 
 
 class AssessmentTests(unittest.TestCase):
