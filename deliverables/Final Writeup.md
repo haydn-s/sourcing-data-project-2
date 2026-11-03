@@ -10,7 +10,7 @@ Fidget toys are widely marketed as focus aids, especially for people with ADHD, 
 
 Fidget toys such as squishies, spinners, and poppers are sold as tools to help people focus, and they are often recommended for people with ADHD. ADHD is common: an estimated 15.5 million U.S. adults (6.0%) had a current ADHD diagnosis in 2023 (Staley et al., 2024). If fidget toys actually pull attention away from learning, that matters for the many students who rely on them.
 
-The evidence so far points the other way from the marketing. In 60 young children with ADHD, fidget spinners increased inattention during class (Graziano et al., 2020). College students who used a fidget spinner during a video lecture remembered less of it than students who did not (Soares & Storm, 2019).
+The evidence so far points the other way from the marketing. In 60 young children with ADHD, fidget spinners increased inattention during class (Graziano et al., 2020). College students who used a fidget spinner during a video lecture remembered less of it than students who did not (Soares & Storm, 2020).
 
 Both studies used spinners, which are visual and make noise. Squishies are quiet and can be used without looking at them, so it is an open question whether they also interfere with learning. Our study tests that question with a short educational video and an immediate recall quiz.
 
@@ -175,7 +175,7 @@ Holding a squishy while watching a short video made no detectable difference to 
 
 - Graziano, P. A., Garcia, A. M., & Landis, T. D. (2020). To fidget or not to fidget, that is the question: A systematic classroom evaluation of fidget spinners among young children with ADHD. *Journal of Attention Disorders, 24*(1), 163–171. Summary: Learning and the Brain
 - Lee, E. C., Whitehead, A. L., Jacques, R. M., & Julious, S. A. (2014). The statistical interpretation of pilot trials: Should significance thresholds be reconsidered? *BMC Medical Research Methodology, 14*, 41. [doi:10.1186/1471-2288-14-41](https://doi.org/10.1186/1471-2288-14-41)
-- Soares, J. S., & Storm, B. C. (2019). Putting a negative spin on it: Using a fidget spinner can impair memory for a video lecture. *Applied Cognitive Psychology*. Summary: PsyPost
+- Soares, J. S., & Storm, B. C. (2020). Putting a negative spin on it: Using a fidget spinner can impair memory for a video lecture. *Applied Cognitive Psychology*. Summary: PsyPost
 - Staley, B. S., et al. (2024). Attention-deficit/hyperactivity disorder diagnosis, treatment, and telehealth use in adults — National Center for Health Statistics Rapid Surveys System, United States, October–November 2023. *Morbidity and Mortality Weekly Report, 73*(40). Summary: HealthDay
 - Thys, T. (n.d.). *The surprising reasons animals play dead* [Video]. TED-Ed. [ted.com](https://www.ted.com/talks/tierney_thys_the_surprising_reasons_animals_play_dead)
 
