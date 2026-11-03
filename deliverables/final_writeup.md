@@ -143,7 +143,7 @@ We fail to reject H₀; our data show no detectable difference in recall between
 
 ## Limitations
 
-The main limitation is sample size; 12 completers against the 102 the power analysis requires, which leaves every result underpowered.
+The main limitation is sample size: 12 completers against the 102 the power analysis requires, which leaves every result underpowered.
 
 - **Sample size and power.** Running every session in person, with a researcher present, kept conditions controlled but limited recruitment to 12 people in about 10 days. Power to detect the planned effect was about 21%.
 - **Groups not randomized.** We assigned participants in pairs to keep the groups equal, but the research team chose which member of each pair joined which group rather than using chance. The groups could therefore differ in ways other than the toy, such as prior knowledge or attention (selection bias).
