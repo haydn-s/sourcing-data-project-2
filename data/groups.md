@@ -1,4 +1,4 @@
-# Participant Groups
+# Participant groups
 
 | Group 1 | Group 2 |
 | --- | --- |

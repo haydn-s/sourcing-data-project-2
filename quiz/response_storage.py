@@ -11,7 +11,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlencode
 from urllib.request import Request, urlopen
 
-from assessment import ROOT
+from .assessment import ROOT
 
 
 RAW_DIRECTORY = "data/raw"

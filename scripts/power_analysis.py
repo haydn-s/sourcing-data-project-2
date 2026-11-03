@@ -130,7 +130,7 @@ def parse_args(argv=None):
     parser.add_argument("--power", type=float, default=0.80)
     parser.add_argument("--loss-rate", type=float, default=0.10,
                         help="Assumed fraction without a usable quiz, applied within each group (default: 0.10).")
-    parser.add_argument("--output-dir", type=Path, default=ROOT / "results" / "power")
+    parser.add_argument("--output-dir", type=Path, default=ROOT / "outputs" / "power_analysis")
     args = parser.parse_args(argv)
     for field in ("mean_difference", "score_sd", "alpha", "power", "loss_rate"):
         if not math.isfinite(getattr(args, field)):

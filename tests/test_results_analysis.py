@@ -10,12 +10,12 @@ from pathlib import Path
 
 from scipy import stats
 
-from scripts.analyze_results import (
+from scripts.results_analysis import (
     ALPHA, GROUPS, RESEARCH_TEAM_RUN_IDS, ROOT, compare_groups, load_answer_key, load_runs, parse_args, run,
     score_runs,
 )
 
-KEY = load_answer_key(ROOT / "videos" / "answer_key.csv")
+KEY = load_answer_key(ROOT / "study" / "answer_key.csv")
 COLUMNS = ("run_id", "taker_name", "participant_group", "quiz_number", "video_id", "condition",
            "started_at", "total_time_seconds", "question_number", "answer_letter", "question_time_seconds")
 

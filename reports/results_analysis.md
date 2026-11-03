@@ -29,7 +29,7 @@ the quiz on Oct 31, giving 6 per group.
 Each raw CSV in [`data/raw/`](../data/raw/) holds one quiz. Before scoring, the analysis
 checks that each quiz has exactly one answer for each of the 10 questions, that the group
 matches the recorded condition, and that no person or run appears twice. All twelve files
-passed. Answers are scored against [`videos/answer_key.csv`](../videos/answer_key.csv).
+passed. Answers are scored against [`study/answer_key.csv`](../study/answer_key.csv).
 
 The raw files are named after participants and are publicly visible in this repository.
 The processed scores in [`data/processed/scores.csv`](../data/processed/scores.csv) and
@@ -39,7 +39,7 @@ analysis identifies research-team runs by run ID, so no names appear in the code
 ## Primary analysis: all participants
 
 The planned analysis is the two-sided Welch independent-samples t-test prespecified in
-the [power analysis](power-analysis.md), with α = 0.10. Confidence intervals below are
+the [power analysis](power_analysis.md), with α = 0.10. Confidence intervals below are
 90% intervals.
 
 | Group | n | Mean | SD | Median | Range |
@@ -56,7 +56,7 @@ the [power analysis](power-analysis.md), with α = 0.10. Confidence intervals be
 | Hedges' g (Cohen's d) | −0.14 (−0.15) |
 | Pooled within-group SD | 1.10 questions (90% CI 0.82 to 1.76) |
 
-![Quiz scores by condition](../results/analysis/score_plot.png)
+![Quiz scores by condition](../outputs/results_analysis/score_plot.png)
 
 The observed difference is a sixth of a question, well below the one-question threshold
 the study was designed to detect. The confidence interval still includes no difference,
@@ -100,7 +100,7 @@ Scores ranged from 6 to 9, and the overall mean was 7.75. The pooled within-grou
 1.10 questions is about half the planning assumption of 2. Its 90% interval (0.82 to 1.76)
 is wide, so it is a rough pilot estimate rather than a replacement value. If the true SD
 were near 1.1, a follow-up study at α = 0.10 would need about 16 per group instead of 51;
-the power analysis's [SD sensitivity table](power-analysis.md#recruitment-and-sensitivity)
+the power analysis's [SD sensitivity table](power_analysis.md#recruitment-and-sensitivity)
 shows 21 per group at an SD of 1.25. An SD at the upper end of the interval would need
 about 39 per group. The easy items noted below may also have narrowed the spread.
 
@@ -125,7 +125,7 @@ about 39 per group. The easy items noted below may also have narrowed the spread
   video before reusing it.
 
 Per-question results by group are in
-[`results/analysis/item_summary.csv`](../results/analysis/item_summary.csv). With six
+[`outputs/results_analysis/item_summary.csv`](../outputs/results_analysis/item_summary.csv). With six
 people per group, those group differences should not be interpreted.
 
 ## Exploratory: completion time
@@ -146,7 +146,7 @@ prespecified, so no quiz was excluded for speed.
 - **Session conditions.** Five quizzes (Oct 26–31) fall outside the planned Oct 22–23
   sessions. The two Oct 26 quizzes started 22 seconds apart, so they were not run one at
   a time on the study laptop as the
-  [session protocol](../videos/README.md#running-a-session) describes.
+  [session protocol](../study/protocol.md#running-a-session) describes.
 - **Assignment.** Participants were assigned in pairs, one to each group
   ([`data/groups.md`](../data/groups.md)). The team chose which member of each pair went
   to which group, so assignment was not random. Pairing kept the groups the same size,
@@ -177,8 +177,8 @@ From the repository root, with Python 3.12 or newer:
 ```sh
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python scripts/analyze_results.py
-.venv/bin/python -m unittest discover -s tests -p 'test_analyze_results.py' -v
+.venv/bin/python scripts/results_analysis.py
+.venv/bin/python -m unittest discover -s tests -p 'test_results_analysis.py' -v
 ```
 
 The script reads [`data/raw/`](../data/raw/) without changing it and writes:
@@ -186,11 +186,11 @@ The script reads [`data/raw/`](../data/raw/) without changing it and writes:
 - [`data/processed/scores.csv`](../data/processed/scores.csv): one row per participant
   with ID, session date, group, research-team flag, score, total time, and per-question
   correctness.
-- [`results/analysis/summary.json`](../results/analysis/summary.json): both analyses,
+- [`outputs/results_analysis/summary.json`](../outputs/results_analysis/summary.json): both analyses,
   power at the achieved sample, and software versions.
-- [`results/analysis/group_summary.csv`](../results/analysis/group_summary.csv) and
-  [`item_summary.csv`](../results/analysis/item_summary.csv): group and per-question tables.
-- [`results/analysis/score_plot.png`](../results/analysis/score_plot.png) and `.svg`:
+- [`outputs/results_analysis/group_summary.csv`](../outputs/results_analysis/group_summary.csv) and
+  [`item_summary.csv`](../outputs/results_analysis/item_summary.csv): group and per-question tables.
+- [`outputs/results_analysis/score_plot.png`](../outputs/results_analysis/score_plot.png) and `.svg`:
   the figure above.
 
 Outputs were generated with Python 3.12.14, NumPy 2.5.4, SciPy 1.18.1, statsmodels 0.15.0,

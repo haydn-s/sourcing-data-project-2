@@ -3,7 +3,7 @@
 !/data/raw/**/*_Assessment.csv
 !/data/processed/**/*_Assessment.csv
 
-# Local development artifacts.
+# Local development artifacts and Office lock files.
 .DS_Store
 node_modules/
 __pycache__/
@@ -12,3 +12,4 @@ playwright-report/
 test-results/
 .streamlit/secrets.toml
 .pytest_cache/
+~$*

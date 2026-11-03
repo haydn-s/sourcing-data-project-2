@@ -1,10 +1,10 @@
-# Study Video and Quiz Questions
+# Study protocol
 
 Every participant watches the same video. Participants are split into two groups: one group uses
 a fidget toy (a squishy) while watching, and the other doesn't. Everyone then takes the same quiz,
 so any difference in quiz scores between the groups comes from the fidget toy.
 
-## The Video
+## The video
 
 | | |
 | --- | --- |
@@ -30,13 +30,13 @@ has only Groups 1 and 2; there is no second video or quiz selection.
 Assign participants in pairs, one to each group. This keeps the groups the same size and stops
 the condition from lining up with time of day.
 
-## Running a Session
+## Running a session
 
 Total time is about 10 minutes per participant.
 
 1. Give the participant an ID (P01, P02, …) and note their group in the session log.
 2. Open the deployed Streamlit app on the study laptop (or run it locally as described in
-   [`../README.md`](../README.md)). Enter the participant ID, choose **Group 1** (fidget) or
+   the [README](../README.md#run-locally)). Enter the participant ID, choose **Group 1** (fidget) or
    **Group 2** (no fidget), then press **Continue to video**. Confirm the condition on screen.
 3. Fidget group only: hand them the squishy and tell them they can squeeze it while watching.
 4. Play the video in the embedded player at a fixed volume. It stays inside the app window;
@@ -51,10 +51,10 @@ Total time is about 10 minutes per participant.
 Use the same laptop, volume and setup for every session. Check beforehand that no ads play
 before the video.
 
-## Quiz Questions
+## Quiz questions
 
 10 multiple-choice questions, written from the video's content and spread across the whole video.
-The quiz form reads them from [`../questions.json`](../questions.json) (video `A`); keep that file and
+The quiz form reads them from [`questions.json`](questions.json) (video `A`); keep that file and
 this table in step. The correct answers are also in [`answer_key.csv`](answer_key.csv) for scoring.
 
 | # | Question | A | B | C | D | Correct |
