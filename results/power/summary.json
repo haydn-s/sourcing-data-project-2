@@ -1,6 +1,6 @@
 {
   "analysis_type": "prospective planning; no observed participant data",
-  "design": "one video, one quiz per participant, two independent randomized groups",
+  "design": "one video, one quiz per participant, two independent groups",
   "planning_test": "two-sided independent-samples Student t-test, equal variances",
   "planned_outcome_test": "two-sided Welch independent-samples t-test",
   "power_model_note": "Equal-variance planning benchmark; not exact power for Welch's test.",

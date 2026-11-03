@@ -27,9 +27,8 @@ window. An internet connection is required; the video file is not stored in this
 Both groups watch Video A in the app and take the same 10-question Quiz A. The form
 has only Groups 1 and 2; there is no second video or quiz selection.
 
-Assign participants to the two groups in random order, in shuffled pairs: for each pair of
-participants, flip a coin to decide who goes in which group. This keeps the groups the same size
-and stops the condition from lining up with time of day.
+Assign participants in pairs, one to each group. This keeps the groups the same size and stops
+the condition from lining up with time of day.
 
 ## Running a Session
 

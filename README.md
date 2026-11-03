@@ -340,7 +340,7 @@ and some studies suggest they may actually hurt learning.
 
 **How we'll test it**
 
-- Two independent groups: randomly assign each participant to fidget toy or no fidget toy
+- Two independent groups: assign participants in pairs, one to fidget toy and one to no fidget toy
 - Everyone watches *The surprising reasons animals play dead* and takes the same
   10-question quiz once; see the [study protocol and questions](videos/README.md)
 - Fidget participants hold a squishy while watching; controls have no toy
@@ -361,7 +361,7 @@ the raw score assumptions, recruitment estimates, and sensitivity at smaller sam
 | --- | --- | --- |
 | Independent variable | Sitting vs. 2 min jumping jacks | No fidget toy vs. fidget toy |
 | Dependent variable | Stroop reaction time & accuracy | Quiz score |
-| Design | Within-subjects, randomized order | Between-subjects, two randomized groups |
+| Design | Within-subjects, randomized order | Between-subjects, two independent groups |
 | Session length | Practice + 2 conditions + 5 min rest | 1 video (4.5 min) + 1 quiz |
 | Statistical test | Paired t-test / Wilcoxon signed-rank | Welch independent-samples t-test |
 | Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | 102 total at d = 0.50; 42 total at d = 0.80 (α = 0.10, power ≥ 0.80) |

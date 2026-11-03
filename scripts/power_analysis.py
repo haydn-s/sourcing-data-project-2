@@ -160,7 +160,7 @@ def run(args):
     ))
     summary = {
         "analysis_type": "prospective planning; no observed participant data",
-        "design": "one video, one quiz per participant, two independent randomized groups",
+        "design": "one video, one quiz per participant, two independent groups",
         "planning_test": "two-sided independent-samples Student t-test, equal variances",
         "planned_outcome_test": "two-sided Welch independent-samples t-test",
         "power_model_note": "Equal-variance planning benchmark; not exact power for Welch's test.",
@@ -208,7 +208,7 @@ def run(args):
                       "detectable_d": float(POWER_MODEL.solve_power(
                           effect_size=None, nobs1=n // GROUPS, alpha=args.alpha, power=args.power,
                           ratio=1.0, alternative="two-sided")),
-                      } for n in sorted({16, 20, 24, 28, 32, 36, 40, 42, 48, 52, 60, 80, 100, 128, args.participants})]
+                      } for n in sorted({16, 20, 24, 28, 32, 36, 40, 42, 48, 60, 80, 100, args.participants})]
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
