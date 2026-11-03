@@ -260,7 +260,7 @@ tables, a summary and the figure to [`results/analysis/`](results/analysis/):
 
 ## To-Do's
 
-Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-help-or-hurt-learning), below).
+Project plan for the fidget toy study ([Study Design](#study-design-does-using-a-fidget-toy-help-or-hurt-learning), below).
 
 ### By Friday (Oct 16), before class
 
@@ -287,40 +287,7 @@ Project plan for the fidget toy study ([Idea 2](#idea-2-does-using-a-fidget-toy-
 
 - [ ] Thursday, Oct 22 and Friday, Oct 23
 
-## Project Ideas Under Consideration
-
-We considered two experiments built around attention and learning measures that are cheap
-to collect in person. The selected fidget-toy study now uses two independent groups.
-
-### Idea 1: Does a Short Burst of Exercise Improve Attention?
-
-**Research question:** Does doing 2 minutes of jumping jacks before an attention task change
-performance compared to sitting for 2 minutes?
-
-**Why it's interesting:** Exercise is widely studied as a way to improve attention, especially in
-ADHD research. We want to know if even a tiny 2-minute burst makes a difference.
-
-**Hypotheses**
-
-- **H₀:** There is no difference in attention task performance after exercise vs. after sitting.
-- **H₁:** There is a difference in attention task performance after exercise vs. after sitting.
-
-**Variables**
-
-- **Independent variable:** sitting vs. jumping jacks (2 minutes)
-- **Dependent variable:** Stroop test reaction time and accuracy
-
-**How we'll test it**
-
-- One control group
-- Order is randomized (half sit first, half exercise first)
-- Practice round first, then condition → Stroop test → 5-minute rest → other condition → Stroop test
-
-**Statistical test:** Paired t-test (Wilcoxon signed-rank if data isn't normal)
-
-**Sample size:** About 34 participants (d = 0.5, α = 0.05, power = 0.80)
-
-### Idea 2: Does Using a Fidget Toy Help or Hurt Learning?
+## Study Design: Does Using a Fidget Toy Help or Hurt Learning?
 
 **Research question:** Does using a fidget toy while watching a short video change how much a
 person remembers?
@@ -355,17 +322,6 @@ analysis must state its assumptions and the different hypothesis it addresses.
 d = 0.80 requires 21 per group (42 total). See [Power analysis](#power-analysis) for
 the raw score assumptions, recruitment estimates, and sensitivity at smaller sample sizes.
 
-### Side-by-Side Comparison
-
-| | Idea 1: Exercise & Attention | Idea 2: Fidget Toy & Learning |
-| --- | --- | --- |
-| Independent variable | Sitting vs. 2 min jumping jacks | No fidget toy vs. fidget toy |
-| Dependent variable | Stroop reaction time & accuracy | Quiz score |
-| Design | Within-subjects, randomized order | Between-subjects, two independent groups |
-| Session length | Practice + 2 conditions + 5 min rest | 1 video (4.5 min) + 1 quiz |
-| Statistical test | Paired t-test / Wilcoxon signed-rank | Welch independent-samples t-test |
-| Target sample | ~34 (d = 0.5, α = 0.05, power = 0.80) | 102 total at d = 0.50; 42 total at d = 0.80 (α = 0.10, power ≥ 0.80) |
-
 ## Recruitment Flyer
 
 The recruitment flyer is in [`flyer/`](flyer/):
@@ -388,6 +344,5 @@ and their expectations don't skew the results.
 
 ## Status
 
-Idea 2 (fidget toy and learning) is the study we moved forward with. The prospective
-power analysis is complete, data collection is closed with 12
+The prospective power analysis is complete, data collection is closed with 12
 completed quizzes, and the outcome analysis is in the [results report](reports/results.md).
